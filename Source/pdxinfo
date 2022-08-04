@@ -1,8 +1,6 @@
-name=Level 1-1
-author=Panic Inc.
-description=A simple "Level 1-1" demo, using sprite and collision libraries.
-bundleID=com.panic.smbc
+name=Bobby
+author=Yannick A.
+description=Bobby.
+bundleID=playdate.bobby.yannicka.fr
 version=0.1
-buildNumber=123
-imagePath=SystemAssets/
-launchSoundPath=sfx/jump
+imagePath=SystemAssets/card.png
