@@ -11,7 +11,7 @@ class('Player').extends(playdate.graphics.sprite)
 function Player:init()
 	Player.super.init(self)
 
-    self.position = {0, 0}
+    self.position = {4, 4}
     self.canMove = true
     self.timer = playdate.timer.new(0)
 
