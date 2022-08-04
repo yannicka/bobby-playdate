@@ -47,7 +47,7 @@ local function splitLines(str)
     return result
 end
 
-local player = nil
+local player = Player()
 
 function parseStringLevel(level)
     -- Retire les espaces au début de chaque ligne
@@ -115,8 +115,6 @@ function myGameSetUp()
             end
         end
     end
-
-    player = Player()
 end
 
 myGameSetUp()
@@ -124,34 +122,19 @@ myGameSetUp()
 function playdate.update()
     if player.canMove then
         if playdate.buttonIsPressed(playdate.kButtonUp) then
-            -- playerSprite:moveBy(0, -2)
+            player:move('up')
         end
 
         if playdate.buttonIsPressed(playdate.kButtonRight) then
-            player.canMove = false
-            player.timer = playdate.timer.new(200, 0, 200, playdate.easingFunctions.linear)
-
-            player.timer.updateCallback = function(timer)
-                local realPlayerPosition = {
-                    (player.position[1] * CELL_SIZE) + (timer.value / 200 * CELL_SIZE),
-                    player.position[2] * CELL_SIZE
-                }
-
-                player:moveTo(realPlayerPosition[1], realPlayerPosition[2])
-            end
-
-            player.timer.timerEndedCallback = function()
-                player.position[1] += 1
-                player.canMove = true
-            end
+            player:move('right')
         end
 
         if playdate.buttonIsPressed(playdate.kButtonDown) then
-            -- playerSprite:moveBy(0, 2)
+            player:move('down')
         end
 
         if playdate.buttonIsPressed(playdate.kButtonLeft) then
-            -- playerSprite:moveBy(-2, 0)
+            player:move('left')
         end
     end
 
