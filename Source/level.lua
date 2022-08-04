@@ -73,7 +73,7 @@ end
 class('Level').extends(Object)
 
 function Level:init()
-	Level.super.init(self)
+    Level.super.init(self)
 
     local grid = parseStringLevel(level)
 

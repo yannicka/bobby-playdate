@@ -9,7 +9,7 @@ local CELL_SIZE <const> = 20
 class('Player').extends(playdate.graphics.sprite)
 
 function Player:init()
-	Player.super.init(self)
+    Player.super.init(self)
 
     self.position = {4, 4}
     self.canMove = true
