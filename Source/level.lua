@@ -78,17 +78,25 @@ function Level:init()
 
     local grid = parseStringLevel(level)
 
+    self.grid = {}
+
     for y,v in ipairs(grid) do
+        self.grid[y] = {}
+
         for x,v2 in ipairs(v) do
+            local cell = nil
+
             if v2 ~= '.' then
                 if v2 == '#' then
-                    local cell = Stone({x, y})
+                    cell = Stone({x, y})
                 elseif v2 == '$' then
-                    local cell = Coin({x, y})
+                    cell = Coin({x, y})
                 elseif v2 == 'B' then
-                    local cell = Button({x, y})
+                    cell = Button({x, y})
                 end
             end
+
+            self.grid[y][x] = cell
         end
     end
 end

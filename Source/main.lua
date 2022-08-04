@@ -4,6 +4,7 @@ import 'CoreLibs/sprites'
 import 'CoreLibs/timer'
 import 'player'
 import 'level'
+import 'cell'
 
 local gfx <const> = playdate.graphics
 
@@ -24,8 +25,8 @@ function myGameSetUp()
 
     local levelWidth = 9
     local levelHeight = 9
-    local xOffset = (playdate.display.getWidth() / 2) - ((levelWidth * CELL_SIZE) / 2)
-    local yOffset = (playdate.display.getHeight() / 2) - ((levelHeight * CELL_SIZE) / 2)
+    local xOffset = (playdate.display.getWidth() / 2) - ((levelWidth * CELL_SIZE) / 2) - CELL_SIZE
+    local yOffset = (playdate.display.getHeight() / 2) - ((levelHeight * CELL_SIZE) / 2) - CELL_SIZE
 
     playdate.graphics.setDrawOffset(xOffset, yOffset)
 end
@@ -49,6 +50,14 @@ function playdate.update()
         if playdate.buttonIsPressed(playdate.kButtonLeft) then
             player:move('left')
         end
+    end
+
+    local cellAtPosition = level.grid[player.position[2]][player.position[1]]
+    
+    if cellAtPosition ~= nil and cellAtPosition:isa(Coin) then
+        cellAtPosition:remove()
+
+        level.grid[player.position[2]][player.position[1]] = nil
     end
 
     playdate.graphics.sprite.redrawBackground()
