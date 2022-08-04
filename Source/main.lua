@@ -12,8 +12,8 @@ local CELL_SIZE <const> = 20
 
 local playerSprite = nil
 
-local player = Player()
 local level = Level()
+local player = Player(level)
 
 function myGameSetUp()
     local backgroundImage = gfx.image.new('img/background')
@@ -34,30 +34,20 @@ end
 myGameSetUp()
 
 function playdate.update()
-    if player.canMove then
-        if playdate.buttonIsPressed(playdate.kButtonUp) then
-            player:move('up')
-        end
-
-        if playdate.buttonIsPressed(playdate.kButtonRight) then
-            player:move('right')
-        end
-
-        if playdate.buttonIsPressed(playdate.kButtonDown) then
-            player:move('down')
-        end
-
-        if playdate.buttonIsPressed(playdate.kButtonLeft) then
-            player:move('left')
-        end
+    if playdate.buttonIsPressed(playdate.kButtonUp) then
+        player:move('up')
     end
 
-    local cellAtPosition = level.grid[player.position[2]][player.position[1]]
-    
-    if cellAtPosition ~= nil and cellAtPosition:isa(Coin) then
-        cellAtPosition:remove()
+    if playdate.buttonIsPressed(playdate.kButtonRight) then
+        player:move('right')
+    end
 
-        level.grid[player.position[2]][player.position[1]] = nil
+    if playdate.buttonIsPressed(playdate.kButtonDown) then
+        player:move('down')
+    end
+
+    if playdate.buttonIsPressed(playdate.kButtonLeft) then
+        player:move('left')
     end
 
     playdate.graphics.sprite.redrawBackground()

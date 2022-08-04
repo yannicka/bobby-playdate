@@ -8,12 +8,14 @@ local CELL_SIZE <const> = 20
 
 class('Player').extends(playdate.graphics.sprite)
 
-function Player:init()
+function Player:init(level)
     Player.super.init(self)
 
-    self.position = {4, 4}
+    self.level = level
+
+    self.position = {5, 5}
     self.canMove = true
-    self.timer = playdate.timer.new(0)
+    self.timer = nil
 
     local playerImage = gfx.imagetable.new('img/player')
     assert(playerImage)
@@ -26,8 +28,52 @@ function Player:init()
 end
 
 function Player:move(dir)
+    if not self.canMove then
+        return
+    end
+
+    local nextPosition = {self.position[1], self.position[2]}
+
+    if dir == 'right' then
+        nextPosition[1] += 1
+    elseif dir == 'left' then
+        nextPosition[1] -= 1
+    elseif dir == 'up' then
+        nextPosition[2] -= 1
+    elseif dir == 'down' then
+        nextPosition[2] += 1
+    end
+
+    local cellBefore = self.level.grid[self.position[2]][self.position[1]]
+    local cellAtPosition = self.level.grid[nextPosition[2]][nextPosition[1]]
+
+    if cellAtPosition ~= nil then
+        if not cellAtPosition:canEnter(player) then
+            return
+        end
+    end
+
     self.canMove = false
     self.timer = playdate.timer.new(150, 0, 150, playdate.easingFunctions.linear)
+
+    self.timer.timerEndedCallback = function()
+        self.position = nextPosition
+        self.canMove = true
+
+        self:moveTo(nextPosition[1] * CELL_SIZE, nextPosition[2] * CELL_SIZE)
+
+        if cellBefore then
+            cellBefore:onAfterPlayerOut()
+        end
+
+        if cellAtPosition then
+            cellAtPosition:onAfterPlayerIn(self)
+
+            if cellAtPosition:isa(Coin) then
+                self.level.grid[self.position[2]][self.position[1]] = nil
+            end
+        end
+    end
 
     if dir == 'right' then
         self.timer.updateCallback = function(timer)
@@ -38,11 +84,6 @@ function Player:move(dir)
 
             self:moveTo(realPlayerPosition[1], realPlayerPosition[2])
         end
-
-        self.timer.timerEndedCallback = function()
-            self.position[1] += 1
-            self.canMove = true
-        end
     elseif dir == 'left' then
         self.timer.updateCallback = function(timer)
             local realPlayerPosition = {
@@ -51,11 +92,6 @@ function Player:move(dir)
             }
 
             self:moveTo(realPlayerPosition[1], realPlayerPosition[2])
-        end
-
-        self.timer.timerEndedCallback = function()
-            self.position[1] -= 1
-            self.canMove = true
         end
     elseif dir == 'up' then
         self.timer.updateCallback = function(timer)
@@ -66,11 +102,6 @@ function Player:move(dir)
 
             self:moveTo(realPlayerPosition[1], realPlayerPosition[2])
         end
-
-        self.timer.timerEndedCallback = function()
-            self.position[2] -= 1
-            self.canMove = true
-        end
     elseif dir == 'down' then
         self.timer.updateCallback = function(timer)
             local realPlayerPosition = {
@@ -79,11 +110,6 @@ function Player:move(dir)
             }
 
             self:moveTo(realPlayerPosition[1], realPlayerPosition[2])
-        end
-
-        self.timer.timerEndedCallback = function()
-            self.position[2] += 1
-            self.canMove = true
         end
     end
 end

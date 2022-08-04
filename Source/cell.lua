@@ -55,12 +55,12 @@ end
 
 -- Est-ce qu'on peut rentrer sur la case ?
 function Cell:canEnter(_direction)
-    return false
+    return true
 end
 
 -- Est-ce qu'on peut sortir de la case ?
 function Cell:canLeave(_direction)
-    return false
+    return true
 end
 
 function Cell:getPosition()
@@ -80,6 +80,10 @@ function Coin:init(position)
     self:setImage(tilesImage[11])
 end
 
+function Coin:onAfterPlayerIn(_player)
+    self:remove()
+end
+
 -- Rocher
 class('Stone').extends(Cell)
 
@@ -90,7 +94,7 @@ function Stone:init(position)
 end
 
 function Stone:canEnter()
-    return true
+    return false
 end
 
 -- Bouton
@@ -101,13 +105,15 @@ function Button:init(position, value)
 
     self:setImage(tilesImage[82])
 
-    self.value = value
+    self.value = value or 1
 end
 
 function Button:onAfterPlayerOut()
     self.value -= 1
+
+    self:setImage(tilesImage[81])
 end
 
 function Button:canEnter(_direction)
-    return self.value == 0
+    return self.value ~= 0
 end
