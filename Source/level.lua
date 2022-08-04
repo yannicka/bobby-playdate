@@ -1,6 +1,7 @@
 import 'CoreLibs/object'
 import 'CoreLibs/graphics'
 import 'CoreLibs/sprites'
+import 'cell'
 
 local gfx <const> = playdate.graphics
 
@@ -77,23 +78,14 @@ function Level:init()
 
     local grid = parseStringLevel(level)
 
-    local tilesImage = gfx.imagetable.new('img/tiles')
-    assert(tilesImage)
-
     for y,v in ipairs(grid) do
         for x,v2 in ipairs(v) do
-            print(v2)
             if v2 ~= '.' then
-                local tile = gfx.sprite.new()
-                tile:setCenter(0, 0)
                 if v2 == '#' then
-                    tile:setImage(tilesImage[1])
+                    local cell = Cell({x, y})
+                elseif v2 == '$' then
+                    local cell = Coin({x, y})
                 end
-                if v2 == '$' then
-                    tile:setImage(tilesImage[11])
-                end
-                tile:moveTo((x-1)*CELL_SIZE, (y-1)*CELL_SIZE) 
-                tile:add()
             end
         end
     end
