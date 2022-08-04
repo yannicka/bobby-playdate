@@ -2,6 +2,7 @@ import 'CoreLibs/object'
 import 'CoreLibs/graphics'
 import 'CoreLibs/sprites'
 import 'CoreLibs/timer'
+import 'player'
 
 local gfx <const> = playdate.graphics
 
@@ -46,10 +47,7 @@ local function splitLines(str)
     return result
 end
 
-local currentPlayerPosition = {0, 0}
-local nextPlayerPosition = {0, 0}
-local playerCanMove = true
-local playerTimer = playdate.timer.new(0)
+local player = nil
 
 function parseStringLevel(level)
     -- Retire les espaces au début de chaque ligne
@@ -79,8 +77,6 @@ function parseStringLevel(level)
 end
 
 function myGameSetUp()
-    currentPlayerPosition = nextPlayerPosition
-
     local grid = parseStringLevel(level)
 
     -- playdate.display.setScale(2)
@@ -120,42 +116,33 @@ function myGameSetUp()
         end
     end
 
-    local playerImage = gfx.imagetable.new('img/player')
-    assert(playerImage)
-
-    playdate.graphics.setDrawOffset(xOffset, yOffset)
-
-    playerSprite = gfx.sprite.new()
-    playerSprite:setCenter(0, 0)
-    playerSprite:setImage(playerImage[1])
-    playerSprite:moveTo(currentPlayerPosition[1]*CELL_SIZE, currentPlayerPosition[2]*CELL_SIZE)
-    playerSprite:add()
+    player = Player()
 end
 
 myGameSetUp()
 
 function playdate.update()
-    if playerCanMove then
+    if player.canMove then
         if playdate.buttonIsPressed(playdate.kButtonUp) then
             -- playerSprite:moveBy(0, -2)
         end
 
         if playdate.buttonIsPressed(playdate.kButtonRight) then
-            playerCanMove = false
-            playerTimer = playdate.timer.new(200, 0, 200, playdate.easingFunctions.linear)
+            player.canMove = false
+            player.timer = playdate.timer.new(200, 0, 200, playdate.easingFunctions.linear)
 
-            playerTimer.updateCallback = function(timer)
+            player.timer.updateCallback = function(timer)
                 local realPlayerPosition = {
-                    (currentPlayerPosition[1]*CELL_SIZE) + ((timer.value)/200*CELL_SIZE),
-                    currentPlayerPosition[2]*CELL_SIZE
+                    (player.position[1] * CELL_SIZE) + (timer.value / 200 * CELL_SIZE),
+                    player.position[2] * CELL_SIZE
                 }
 
-                playerSprite:moveTo(realPlayerPosition[1], realPlayerPosition[2])
+                player:moveTo(realPlayerPosition[1], realPlayerPosition[2])
             end
 
-            playerTimer.timerEndedCallback = function()
-                currentPlayerPosition[1] += 1
-                playerCanMove = true
+            player.timer.timerEndedCallback = function()
+                player.position[1] += 1
+                player.canMove = true
             end
         end
 
@@ -167,10 +154,6 @@ function playdate.update()
             -- playerSprite:moveBy(-2, 0)
         end
     end
-
-    -- local realPlayerPosition = {currentPlayerPosition[1]*CELL_SIZE, currentPlayerPosition[2]*CELL_SIZE}
-
-    -- playerSprite:moveTo(realPlayerPosition[1], realPlayerPosition[2])
 
     playdate.graphics.sprite.redrawBackground()
     gfx.sprite.update()
