@@ -26,7 +26,7 @@ local level = [[
     # # # # # # # # #
     # # # . E . # # #
     # # . . . . . # #
-    # $ . . . . . $ #
+    # $ . . B . . $ #
     # $ . . . . . $ #
     # $ . . . . . $ #
     # # . . S . . # #
@@ -82,9 +82,11 @@ function Level:init()
         for x,v2 in ipairs(v) do
             if v2 ~= '.' then
                 if v2 == '#' then
-                    local cell = Cell({x, y})
+                    local cell = Stone({x, y})
                 elseif v2 == '$' then
                     local cell = Coin({x, y})
+                elseif v2 == 'B' then
+                    local cell = Button({x, y})
                 end
             end
         end

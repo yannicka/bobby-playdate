@@ -71,10 +71,43 @@ function Cell:getAnimationManager()
     return self.animationManager
 end
 
+-- Pièce
 class('Coin').extends(Cell)
 
 function Coin:init(position)
     Coin.super.init(self, position)
 
     self:setImage(tilesImage[11])
+end
+
+-- Rocher
+class('Stone').extends(Cell)
+
+function Stone:init(position)
+    Stone.super.init(self, position)
+
+    self:setImage(tilesImage[1])
+end
+
+function Stone:canEnter()
+    return true
+end
+
+-- Bouton
+class('Button').extends(Cell)
+
+function Button:init(position, value)
+    Button.super.init(self, position)
+
+    self:setImage(tilesImage[82])
+
+    self.value = value
+end
+
+function Button:onAfterPlayerOut()
+    self.value -= 1
+end
+
+function Button:canEnter(_direction)
+    return self.value == 0
 end
