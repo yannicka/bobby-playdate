@@ -82,6 +82,22 @@ function Player:move(direction)
                 self.level:setCellAt(self.position, nil)
             end
         end
+
+        if self.position[1] > self.level.width then
+            self.position[1] = 0
+            self:move('right')
+        elseif self.position[1] < 1 then
+            self.position[1] = self.level.width + 1
+            self:move('left')
+        end
+
+        if self.position[2] > self.level.height then
+            self.position[2] = 0
+            self:move('down')
+        elseif self.position[2] < 1 then
+            self.position[2] = self.level.height + 1
+            self:move('up')
+        end
     end
 
     if direction == 'right' then
