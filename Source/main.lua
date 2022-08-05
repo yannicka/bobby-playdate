@@ -5,6 +5,7 @@ import 'CoreLibs/timer'
 import 'player'
 import 'level'
 import 'cell'
+import 'button'
 
 function math.clamp(x, min, max)
     return math.max(math.min(x, max), min)
@@ -12,12 +13,17 @@ end
 
 local gfx <const> = playdate.graphics
 
+local font = gfx.font.new('img/fonts/whiteglove-stroked')
+
 local CELL_SIZE <const> = 20
 
 local playerSprite = nil
 
 local level = Level()
 local player = Player(level)
+
+local kGameState = {home, options, help, game, endgame, credits, chooselevel}
+local currentState = 'home'
 
 function updateCamera()
     local xOffset = -player.x + (playdate.display.getWidth() / 2)
@@ -53,31 +59,52 @@ function myGameSetUp()
     end)
 
     updateCamera()
+
+    gfx.setFont(font)
 end
 
 myGameSetUp()
 
 function playdate.update()
-    if playdate.buttonIsPressed(playdate.kButtonUp) then
-        player:move('up')
+    if currentState == 'home' then
+        local playButton = Button('Play', 20, 20, 10)
+        playButton.selected = true
+        playButton:render()
+
+        local helpButton = Button('Instructions', 20, 70, 10)
+        helpButton:render()
+
+        local creditsButton = Button('Credits', 20, 120, 10)
+        creditsButton:render()
+
+        local optionsButton = Button('Options', 20, 170, 10)
+        optionsButton:render()
+
+        if playdate.buttonIsPressed(playdate.kButtonA) then
+            currentState = 'game'
+        end
+    elseif currentState == 'game' then
+        if playdate.buttonIsPressed(playdate.kButtonUp) then
+            player:move('up')
+        end
+    
+        if playdate.buttonIsPressed(playdate.kButtonRight) then
+            player:move('right')
+        end
+    
+        if playdate.buttonIsPressed(playdate.kButtonDown) then
+            player:move('down')
+        end
+    
+        if playdate.buttonIsPressed(playdate.kButtonLeft) then
+            player:move('left')
+        end
+    
+        level:update()
+    
+        playdate.graphics.sprite.redrawBackground()
+        gfx.sprite.update()
+        playdate.timer.updateTimers()
+        updateCamera()
     end
-
-    if playdate.buttonIsPressed(playdate.kButtonRight) then
-        player:move('right')
-    end
-
-    if playdate.buttonIsPressed(playdate.kButtonDown) then
-        player:move('down')
-    end
-
-    if playdate.buttonIsPressed(playdate.kButtonLeft) then
-        player:move('left')
-    end
-
-    level:update()
-
-    playdate.graphics.sprite.redrawBackground()
-    gfx.sprite.update()
-    playdate.timer.updateTimers()
-    updateCamera()
 end
