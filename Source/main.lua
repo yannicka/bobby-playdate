@@ -1,5 +1,8 @@
 import 'CoreLibs/sprites'
 import 'CoreLibs/timer'
+import 'CoreLibs/graphics'
+import 'CoreLibs/ui'
+import 'CoreLibs/crank'
 import 'utils'
 import 'player'
 import 'level'
@@ -16,7 +19,7 @@ local player = nil
 
 local currentLevelName = nil
 
-local currentState = 'home'
+local currentState = 'levelselector'
 
 local finishedLevels = playdate.datastore.read()
 
@@ -91,32 +94,59 @@ end
 
 myGameSetUp()
 
-local searchLastFinishedLevel = true
-local currentSelected = 1
-local buttons = {}
-local rowNumber = 1
-local colNumber = 1
+local gridviewSprite = playdate.graphics.sprite.new()
+gridviewSprite:setCenter(0, 0)
+gridviewSprite:moveTo(0, 0)
+gridviewSprite:add()
 
-for i = 1,50 do
-    local button = ScreenButton(i, colNumber * 36, rowNumber * 36, 6)
+local gridview = playdate.ui.gridview.new(30, 30)
 
-    local levelName = levelsOrder[i]
+gridview:setNumberOfColumns(10)
+gridview:setNumberOfRows(5)
+gridview:setCellPadding(4, 4, 4, 4)
+gridview:setContentInset(9, 0, 12, 0)
+gridview:setSectionHeaderHeight(24)
 
-    button.finished = table.contains(finishedLevels, levelName)
+function gridview:drawSectionHeader(section, x, y, width, height)
+    local fontHeight = playdate.graphics.getSystemFont():getHeight()
+    playdate.graphics.drawTextAligned('Choix du niveau', x, y, kTextAlignment.left)
+end
 
-    if button.finished == false and searchLastFinishedLevel then
-        searchLastFinishedLevel = false
-        currentSelected = i
-        button.selected = true
+function gridview:drawCell(section, row, column, selected, x, y, width, height)
+    playdate.graphics.setLineWidth(1)
+    playdate.graphics.setColor(playdate.graphics.kColorBlack)
+
+    local levelIndex = tonumber((row - 1) * 10) + tonumber(column)
+    local levelName = levelsOrder[levelIndex]
+    local finished = table.contains(finishedLevels, levelName)
+
+    if finished then
+        playdate.graphics.fillRoundRect(x, y, width, height, 8)
+    else
+        playdate.graphics.drawRoundRect(x, y, width, height, 8)
     end
 
-    table.insert(buttons, button)
+    if selected then
+        playdate.graphics.setLineWidth(2)
+        playdate.graphics.drawRoundRect(x - 2, y - 2, width + 4, height + 4, 10)
+    end
 
-    colNumber += 1
+    local fontHeight = playdate.graphics.getSystemFont():getHeight()
 
-    if i % 10 == 0 then
-        rowNumber += 1
-        colNumber = 1
+    playdate.graphics.drawTextInRect(tostring(levelIndex), x, y + (height / 2 - fontHeight / 2) + 3, width, height, nil, nil, kTextAlignment.center)
+end
+
+for i = 1,50 do
+    local levelName = levelsOrder[i]
+    local finished = table.contains(finishedLevels, levelName)
+
+    if not finished then
+        local row = math.ceil(i / 10)
+        local column = i % 10
+
+        gridview:setSelection(1, row, column)
+        
+        break
     end
 end
 
@@ -182,34 +212,48 @@ function playdate.update()
     elseif currentState == 'levelselector' then
         playdate.graphics.setDrawOffset(0, 0)
 
-        for i,button in ipairs(buttons) do
-            button:render()
+        if playdate.buttonJustPressed(playdate.kButtonUp) then
+            gridview:selectPreviousRow(true)
+        elseif playdate.buttonJustPressed(playdate.kButtonDown) then
+            gridview:selectNextRow(true)
+        elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
+            gridview:selectPreviousColumn(false)
+        elseif playdate.buttonJustPressed(playdate.kButtonRight) then
+            gridview:selectNextColumn(false)
         end
 
-        if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonRight) then
-            if currentSelected < 50 then
-                buttons[currentSelected].selected = false
-                buttons[currentSelected+1].selected = true
-                currentSelected += 1
-            end
+        local crankTicks = playdate.getCrankTicks(2)
+
+        if crankTicks == 1 then
+            gridview:selectNextRow(true)
+        elseif crankTicks == -1 then
+            gridview:selectPreviousRow(true)
         end
 
-        if playdate.buttonJustPressed(playdate.kButtonDown) or playdate.buttonJustPressed(playdate.kButtonLeft) then
-            if currentSelected > 1 then
-                buttons[currentSelected].selected = false
-                buttons[currentSelected-1].selected = true
-                currentSelected -= 1
-            end
+        if gridview.needsDisplay then
+            local gridviewImage = playdate.graphics.image.new(playdate.display.getWidth(), playdate.display.getHeight())
+            playdate.graphics.pushContext(gridviewImage)
+            gridview:drawInRect(0, 0, playdate.display.getWidth(), playdate.display.getHeight())
+            playdate.graphics.popContext()
+            gridviewSprite:setImage(gridviewImage)
         end
     
         if playdate.buttonJustPressed(playdate.kButtonA) then
-            local levelName = levelsOrder[currentSelected]
+            local section, row, column = gridview:getSelection()
+            local levelIndex = tonumber((row - 1) * 10) + tonumber(column)
+
+            gridviewSprite:remove()
+
+            local levelName = levelsOrder[levelIndex]
             loadLevel(levelName)
         end
 
         if playdate.buttonJustPressed(playdate.kButtonB) then
             currentState = 'home'
         end
+
+        playdate.graphics.sprite.update()
+        playdate.timer.updateTimers()
     elseif currentState == 'game' then
         if playdate.buttonIsPressed(playdate.kButtonUp) then
             player:move('up')
