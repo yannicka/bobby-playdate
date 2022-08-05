@@ -26,7 +26,7 @@ local level = [[
     # # # # # # # # #
     # # # . E . # # #
     # # . . . . . # #
-    # $ . . B . . $ #
+    # $ . . B ^ . $ #
     # $ . . . . . $ #
     # $ . . . . . $ #
     # # . . S . . # #
@@ -92,7 +92,9 @@ function Level:init()
                 elseif v2 == '$' then
                     cell = Coin({x, y})
                 elseif v2 == 'B' then
-                    cell = Button({x, y})
+                    cell = Button({x, y}, 1)
+                elseif v2 == '^' then
+                    cell = Conveyor({x, y}, 'up')
                 end
             end
 
