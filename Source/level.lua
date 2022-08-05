@@ -8,18 +8,18 @@ local gfx <const> = playdate.graphics
 local CELL_SIZE <const> = 20
 
 local level = [[
-    # # # # # # # # # # # # # # # # # # # #
+    # # # # # # # # . # # # # # # # # # # #
     # # # . E . # # . . . . . . . . . . . #
     # # . . . . . # . F . T . . . . 8 . . #
     # $ . . . . . $ . . . . . . . 4 . 6 . #
     # $ . . . . . $ . L . J . . . . 2 . . #
-    # $ . . . . . $ . . . . . B3 . . . . . #
+    . $ . . . . . $ . . . . . B3 . . . . . .
     # # . . S . . . . . . . . . . . . . . #
     # # # . . . . . . . = . H . . > . v . #
     # # # . . . . . . . . . . . . ^ . v . #
     # # # . . . # # . ! ! ! . . . ^ < < . #
     # # # . . . # # . ! ! . . B2 . . . . . #
-    # # # # # # # # # # # # # # # # # # # #
+    # # # # # # # # . # # # # # # # # # # #
 ]]
 
 local level2 = [[
@@ -79,9 +79,12 @@ function Level:init()
     local grid = parseStringLevel(level)
 
     self.grid = {}
+    self.width = 0
+    self.height = 0
 
     for y,v in ipairs(grid) do
         self.grid[y] = {}
+        self.height += 1
 
         for x,v2 in ipairs(v) do
             local cell = nil
@@ -135,6 +138,30 @@ function Level:init()
             end
 
             self.grid[y][x] = cell
+
+            if self.height == 1 then
+                self.width += 1
+            end
         end
     end
+end
+
+function Level:getCellAt(position)
+    local row = self.grid[position[2]]
+
+    if row then
+        return row[position[1]]
+    end
+
+    return nil
+end
+
+function Level:setCellAt(position, newCell)
+    local row = self.grid[position[2]]
+
+    if row then
+        row[position[1]] = newCell
+    end
+
+    return nil
 end

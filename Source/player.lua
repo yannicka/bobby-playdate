@@ -33,7 +33,7 @@ function Player:move(direction)
         return
     end
 
-    local cellBefore = self.level.grid[self.position[2]][self.position[1]]
+    local cellBefore = self.level:getCellAt(self.position)
 
     if cellBefore ~= nil then
         if not cellBefore:canLeave(direction) then
@@ -53,7 +53,7 @@ function Player:move(direction)
         nextPosition[2] += 1
     end
 
-    local cellAtPosition = self.level.grid[nextPosition[2]][nextPosition[1]]
+    local cellAtPosition = self.level:getCellAt(nextPosition)
 
     if cellAtPosition ~= nil then
         if not cellAtPosition:canEnter(direction) then
@@ -79,7 +79,7 @@ function Player:move(direction)
             cellAtPosition:onAfterPlayerIn(self)
 
             if cellAtPosition:isa(Coin) then
-                self.level.grid[self.position[2]][self.position[1]] = nil
+                self.level:setCellAt(self.position, nil)
             end
         end
     end
