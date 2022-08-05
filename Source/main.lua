@@ -6,6 +6,10 @@ import 'player'
 import 'level'
 import 'cell'
 
+function math.clamp(x, min, max)
+    return math.max(math.min(x, max), min)
+end
+
 local gfx <const> = playdate.graphics
 
 local CELL_SIZE <const> = 20
@@ -15,6 +19,16 @@ local playerSprite = nil
 local level = Level()
 local player = Player(level)
 
+function updateCamera()
+    local xOffset = -player.x + (playdate.display.getWidth() / 2)
+    local yOffset = -player.y + (playdate.display.getHeight() / 2)
+
+    xOffset = math.clamp(xOffset, -level.width * CELL_SIZE + playdate.display.getWidth() - CELL_SIZE, -CELL_SIZE)
+    yOffset = math.clamp(yOffset, -level.height * CELL_SIZE + playdate.display.getHeight() - CELL_SIZE, -CELL_SIZE)
+
+    playdate.graphics.setDrawOffset(xOffset, yOffset)
+end
+
 function myGameSetUp()
     local backgroundImage = gfx.image.new('img/background')
     assert(backgroundImage)
@@ -23,12 +37,7 @@ function myGameSetUp()
         backgroundImage:drawTiled(x, y, width, height)
     end)
 
-    local levelWidth = 20
-    local levelHeight = 12
-    local xOffset = (playdate.display.getWidth() / 2) - ((levelWidth * CELL_SIZE) / 2) - CELL_SIZE
-    local yOffset = (playdate.display.getHeight() / 2) - ((levelHeight * CELL_SIZE) / 2) - CELL_SIZE
-
-    playdate.graphics.setDrawOffset(xOffset, yOffset)
+    updateCamera()
 end
 
 myGameSetUp()
@@ -53,4 +62,5 @@ function playdate.update()
     playdate.graphics.sprite.redrawBackground()
     gfx.sprite.update()
     playdate.timer.updateTimers()
+    updateCamera()
 end
