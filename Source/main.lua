@@ -23,8 +23,8 @@ function myGameSetUp()
         backgroundImage:drawTiled(x, y, width, height)
     end)
 
-    local levelWidth = 9
-    local levelHeight = 9
+    local levelWidth = 20
+    local levelHeight = 12
     local xOffset = (playdate.display.getWidth() / 2) - ((levelWidth * CELL_SIZE) / 2) - CELL_SIZE
     local yOffset = (playdate.display.getHeight() / 2) - ((levelHeight * CELL_SIZE) / 2) - CELL_SIZE
 

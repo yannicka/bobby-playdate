@@ -1,6 +1,7 @@
 import 'CoreLibs/object'
 import 'CoreLibs/graphics'
 import 'CoreLibs/sprites'
+import 'CoreLibs/animation'
 
 local gfx <const> = playdate.graphics
 
@@ -24,6 +25,7 @@ function Cell:init(position)
 end
 
 function Cell:update(dt)
+    Cell.super.update(self)
     -- self.animationManager.update(dt)
 end
 
@@ -124,7 +126,15 @@ class('Conveyor').extends(Cell)
 function Conveyor:init(position, direction)
     Conveyor.super.init(self, position)
 
-    self:setImage(tilesImage[31])
+    if direction == 'up' then
+        self:setImage(tilesImage[31])
+    elseif direction == 'down' then
+        self:setImage(tilesImage[51])
+    elseif direction == 'right' then
+        self:setImage(tilesImage[41])
+    elseif direction == 'left' then
+        self:setImage(tilesImage[61])
+    end
 
     self.direction = direction
 end
@@ -135,42 +145,156 @@ function Conveyor:onAfterPlayerIn(player, _game)
     return self
 end
 
+-- Tourniquet
+class('Turnstile').extends(Cell)
+
+function Turnstile:init(position, angle)
+    Conveyor.super.init(self, position)
+
+    self.angle = angle
+
+    self:updateImage()
+end
+
+function Turnstile:updateImage()
+    if self.angle == 'up-left' then
+        self:setImage(tilesImage[71])
+    elseif self.angle == 'up-right' then
+        self:setImage(tilesImage[72])
+    elseif self.angle == 'down-right' then
+        self:setImage(tilesImage[73])
+    elseif self.angle == 'down-left'then
+        self:setImage(tilesImage[74])
+    elseif self.angle == 'horizontal' then
+        self:setImage(tilesImage[75])
+    elseif self.angle == 'vertical' then
+        self:setImage(tilesImage[76])
+    elseif self.angle == 'up' then
+        self:setImage(tilesImage[77])
+    elseif self.angle == 'right' then
+        self:setImage(tilesImage[78])
+    elseif self.angle == 'down' then
+        self:setImage(tilesImage[79])
+    elseif self.angle == 'left' then
+        self:setImage(tilesImage[80])
+    end
+end
+
+function Turnstile:onAfterPlayerOut()
+    if self.angle == 'up-left' then
+        self.angle = 'up-right'
+    elseif self.angle == 'up-right' then
+        self.angle = 'down-right'
+    elseif self.angle == 'down-right' then
+        self.angle = 'down-left'
+    elseif self.angle == 'down-left'then
+        self.angle = 'horizontal'
+    elseif self.angle == 'horizontal' then
+        self.angle = 'up-left'
+    elseif self.angle == 'vertical' then
+        self.angle = 'vertical'
+    elseif self.angle == 'up' then
+        self.angle = 'right'
+    elseif self.angle == 'right' then
+        self.angle = 'down'
+    elseif self.angle == 'down' then
+        self.angle = 'left'
+    elseif self.angle == 'left' then
+        self.angle = 'up'
+    end
+
+    self:updateImage()
+end
+
+function Turnstile:canEnter(direction)
+    if self.angle == 'up-left' and (direction == 'down' or direction == 'right') then
+        return true
+    end
+
+    if self.angle == 'up-right' and (direction == 'down' or direction == 'left') then
+        return true
+    end
+
+    if self.angle == 'down-right' and (direction == 'up' or direction == 'left') then
+        return true
+    end
+
+    if self.angle == 'down-left' and (direction == 'up' or direction == 'right') then
+        return true
+    end
+
+    if self.angle == 'horizontal' and (direction == 'up' or direction == 'down') then
+        return true
+    end
+
+    if self.angle == 'vertical' and (direction == 'right' or direction == 'left') then
+        return true
+    end
+
+    if self.angle == 'up' and direction == 'down' then
+        return true
+    end
+
+    if self.angle == 'right' and direction == 'left' then
+        return true
+    end
+
+    if self.angle == 'down' and direction == 'up' then
+        return true
+    end
+
+    if self.angle == 'left' and direction == 'right' then
+        return true
+    end
+
+    return false
+end
+
+function Turnstile:canLeave(direction)
+    if self.angle == 'up-left' and (direction == 'up' or direction == 'left') then
+        return true
+    end
+
+    if self.angle == 'up-right' and (direction == 'up' or direction == 'right') then
+        return true
+    end
+
+    if self.angle == 'down-right' and (direction == 'down' or direction == 'right') then
+        return true
+    end
+
+    if self.angle == 'down-left' and (direction == 'down' or direction == 'left') then
+        return true
+    end
+
+    if self.angle == 'horizontal' and (direction == 'up' or direction == 'down') then
+        return true
+    end
+
+    if self.angle == 'vertical' and (direction == 'right' or direction == 'left') then
+        return true
+    end
+
+    if self.angle == 'up' and direction == 'up' then
+        return true
+    end
+
+    if self.angle == 'right' and direction == 'right' then
+        return true
+    end
+
+    if self.angle == 'down' and direction == 'down' then
+        return true
+    end
+
+    if self.angle == 'left' and direction == 'left' then
+        return true
+    end
+
+    return false
+end
+
 local a = [[
-
-// Tapis roulant
-export class Conveyor extends Cell {
-  private readonly direction: Direction
-
-  public constructor(position: Point, direction: Direction) {
-    super(position)
-
-    this.direction = direction
-
-    this.getAnimationManager().addAnimation(Direction.Up.toString(), [ 30, 31, 32, 33 ], {
-      frameDuration: 0.08,
-    })
-
-    this.getAnimationManager().addAnimation(Direction.Right.toString(), [ 40, 41, 42, 43 ], {
-      frameDuration: 0.08,
-    })
-
-    this.getAnimationManager().addAnimation(Direction.Down.toString(), [ 50, 51, 52, 53 ], {
-      frameDuration: 0.08,
-    })
-
-    this.getAnimationManager().addAnimation(Direction.Left.toString(), [ 60, 61, 62, 63 ], {
-      frameDuration: 0.08,
-    })
-
-    this.getAnimationManager().play(direction.toString())
-  }
-
-  public onAfterPlayerIn(player: Player, _game: Game): this | null {
-    player.move(this.direction, 'idle')
-
-    return this
-  }
-}
 
 // Tourniquet
 export class Turnstile extends Cell {

@@ -10,24 +10,24 @@ local CELL_SIZE <const> = 20
 local level = [[
     # # # # # # # # # # # # # # # # # # # #
     # # # . E . # # . . . . . . . . . . . #
-    # # . . . . . # . . . . . . . . . . . #
+    # # . . . . . # . F . T . . . . 8 . . #
+    # $ . . . . . $ . . . . . . . 4 . 6 . #
+    # $ . . . . . $ . L . J . . . . 2 . . #
     # $ . . . . . $ . . . . . . . . . . . #
-    # $ . . . . . $ . . . . . . . . . . . #
-    # $ . . . . . $ . . . . . . . . . . . #
-    # # . . S . . # . . . . . . . . . . . #
-    # # # . . . # # . . . . . . . . . . . #
-    # # # . . . # # . . . . . . . . . . . #
+    # # . . S . . . . . . . . . . . . . . #
+    # # # . . . . . . . = . H . . . > v . #
+    # # # . . . . . . . . . . . . . ^ < . #
     # # # . . . # # . . . . . . . . . . . #
     # # # . . . # # . . . . . . . . . . . #
     # # # # # # # # # # # # # # # # # # # #
 ]]
 
-local level = [[
+local level2 = [[
     # # # # # # # # #
     # # # . E . # # #
     # # . . . . . # #
-    # $ . . B ^ . $ #
-    # $ . . . . . $ #
+    # $ . . B > v $ #
+    # $ . . . ^ < $ #
     # $ . . . . . $ #
     # # . . S . . # #
     # # # . . . # # #
@@ -95,6 +95,32 @@ function Level:init()
                     cell = Button({x, y}, 1)
                 elseif v2 == '^' then
                     cell = Conveyor({x, y}, 'up')
+                elseif v2 == 'v' then
+                    cell = Conveyor({x, y}, 'down')
+                elseif v2 == '<' then
+                    cell = Conveyor({x, y}, 'left')
+                elseif v2 == '>' then
+                    cell = Conveyor({x, y}, 'right')
+                elseif v2 == 'T' then
+                    cell = Turnstile({x, y}, 'up-right')
+                elseif v2 == 'F' then
+                    cell = Turnstile({x, y}, 'up-left')
+                elseif v2 == 'J' then
+                    cell = Turnstile({x, y}, 'down-right')
+                elseif v2 == 'L' then
+                    cell = Turnstile({x, y}, 'down-left')
+                elseif v2 == '=' then
+                    cell = Turnstile({x, y}, 'horizontal')
+                elseif v2 == 'H' then
+                    cell = Turnstile({x, y}, 'vertical')
+                elseif v2 == '8' then
+                    cell = Turnstile({x, y}, 'up')
+                elseif v2 == '6' then
+                    cell = Turnstile({x, y}, 'right')
+                elseif v2 == '2' then
+                    cell = Turnstile({x, y}, 'down')
+                elseif v2 == '4' then
+                    cell = Turnstile({x, y}, 'left')
                 end
             end
 
