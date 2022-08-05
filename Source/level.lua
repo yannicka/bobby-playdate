@@ -19,11 +19,17 @@ local function parseStringLevel(level)
     local lines = splitLines(levelWithoutSpace)
   
     -- Retire les lignes vides
-    -- lines = lines.filter((el: string) => el.length > 0)
+    local finalLines = {}
+
+    for i,line in ipairs(lines) do
+        if string.trim(line) ~= '' then
+            table.insert(finalLines, line)
+        end
+    end
   
     local map = {}
 
-    for i,line in ipairs(lines) do
+    for i,line in ipairs(finalLines) do
         local t = {}
 
         for w in line:gmatch('%S+') do
