@@ -44,8 +44,6 @@ function Cell:onBeforePlayerIn(_player)
 end
 
 -- Évènement : lorsque le joueur est entièrement dans la case
---
--- @return `this` si la case est inchangée ou `null` pour la supprimer
 function Cell:onAfterPlayerIn(_player, _game)
     return this
 end
@@ -140,8 +138,6 @@ end
 
 function Conveyor:onAfterPlayerIn(player, _game)
     player:move(self.direction)
-
-    return self
 end
 
 -- Tourniquet
@@ -342,5 +338,5 @@ function Ice:init(position)
 end
 
 function Ice:onAfterPlayerIn(player)
-    player:move('left')
+    player:move(player.direction)
 end

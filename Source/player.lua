@@ -16,6 +16,7 @@ function Player:init(level)
     self.position = {5, 5}
     self.canMove = true
     self.timer = nil
+    self.direction = 'down'
 
     local playerImage = gfx.imagetable.new('img/player')
     assert(playerImage)
@@ -60,6 +61,7 @@ function Player:move(direction)
         end
     end
 
+    self.direction = direction
     self.canMove = false
     self.timer = playdate.timer.new(150, 0, 150, playdate.easingFunctions.linear)
 
