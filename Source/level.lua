@@ -13,12 +13,12 @@ local level = [[
     # # . . . . . # . F . T . . . . 8 . . #
     # $ . . . . . $ . . . . . . . 4 . 6 . #
     # $ . . . . . $ . L . J . . . . 2 . . #
-    # $ . . . . . $ . . . . . . . . . . . #
+    # $ . . . . . $ . . . . . B3 . . . . . #
     # # . . S . . . . . . . . . . . . . . #
     # # # . . . . . . . = . H . . > . v . #
     # # # . . . . . . . . . . . . ^ . v . #
-    # # # . . . # # . . . . . . . ^ < < . #
-    # # # . . . # # . . . . . . . . . . . #
+    # # # . . . # # . ! ! ! . . . ^ < < . #
+    # # # . . . # # . ! ! . . B2 . . . . . #
     # # # # # # # # # # # # # # # # # # # #
 ]]
 
@@ -89,10 +89,12 @@ function Level:init()
             if v2 ~= '.' then
                 if v2 == '#' then
                     cell = Stone({x, y})
+                elseif v2 == 'S' then
+                    cell = Start({x, y})
+                elseif v2 == 'E' then
+                    cell = End({x, y})
                 elseif v2 == '$' then
                     cell = Coin({x, y})
-                elseif v2 == 'B' then
-                    cell = Button({x, y}, 1)
                 elseif v2 == '^' then
                     cell = Conveyor({x, y}, 'up')
                 elseif v2 == 'v' then
@@ -121,6 +123,14 @@ function Level:init()
                     cell = Turnstile({x, y}, 'down')
                 elseif v2 == '4' then
                     cell = Turnstile({x, y}, 'left')
+                elseif v2 == 'B' then
+                    cell = Button({x, y}, 1)
+                elseif v2 == 'B2' then
+                    cell = Button({x, y}, 2)
+                elseif v2 == 'B3' then
+                    cell = Button({x, y}, 3)
+                elseif v2 == '!' then
+                    cell = Ice({x, y})
                 end
             end
 

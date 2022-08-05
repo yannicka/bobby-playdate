@@ -73,19 +73,6 @@ function Cell:getAnimationManager()
     return self.animationManager
 end
 
--- Pièce
-class('Coin').extends(Cell)
-
-function Coin:init(position)
-    Coin.super.init(self, position)
-
-    self:setImage(tilesImage[11])
-end
-
-function Coin:onAfterPlayerIn(_player)
-    self:remove()
-end
-
 -- Rocher
 class('Stone').extends(Cell)
 
@@ -105,15 +92,27 @@ class('Button').extends(Cell)
 function Button:init(position, value)
     Button.super.init(self, position)
 
-    self:setImage(tilesImage[82])
+    self.value = value
 
-    self.value = value or 1
+    self:updateImage()
+end
+
+function Button:updateImage()
+    if self.value == 0 then
+        self:setImage(tilesImage[81])
+    elseif self.value == 1 then
+        self:setImage(tilesImage[82])
+    elseif self.value == 2 then
+        self:setImage(tilesImage[83])
+    elseif self.value == 3 then
+        self:setImage(tilesImage[84])
+    end
 end
 
 function Button:onAfterPlayerOut()
     self.value -= 1
 
-    self:setImage(tilesImage[81])
+    self:updateImage()
 end
 
 function Button:canEnter(_direction)
@@ -294,120 +293,54 @@ function Turnstile:canLeave(direction)
     return false
 end
 
-local a = [[
+-- Balise de début de niveau
+class('Start').extends(Cell)
 
-// Balise de début de niveau
-export class Start extends Cell {
-  public constructor(position: Point) {
-    super(position)
-  }
+function Start:init(position)
+    Start.super.init(self, position)
+end
 
-  public render(_ctx: CanvasRenderingContext2D): void {
-    // Pas de rendu
-  }
-}
+-- Balise de fin de niveau
+class('End').extends(Cell)
 
-// Balise de fin de niveau
-export class End extends Cell {
-  private active: boolean
+function End:init(position)
+    Start.super.init(self, position)
 
-  public constructor(position: Point) {
-    super(position)
+    self.active = false
+end
 
-    this.active = false
+function End:onAfterPlayerIn(player, game)
+    if self.active then
+        -- Changer de niveau
+    end
+end
 
-    this.getAnimationManager().addAnimation('inactive', [ 20 ])
+function End:activate(player, game)
+    self.active = tru
+end
 
-    this.getAnimationManager().addAnimation('active', [ 21, 22, 23, 24, 23, 22 ], {
-      frameDuration: 0.1,
-    })
+-- Pièce
+class('Coin').extends(Cell)
 
-    this.getAnimationManager().play('inactive')
-  }
+function Coin:init(position)
+    Coin.super.init(self, position)
 
-  public onAfterPlayerIn(player: Player, game: Game): this | null {
-    if (this.isActive()) {
-      player.setImmobility(true)
-      player.getAnimationManager().play('turn')
+    self:setImage(tilesImage[11])
+end
 
-      setTimeout(() => {
-        game.nextLevel()
-      }, 480)
-    }
+function Coin:onAfterPlayerIn(_player)
+    self:remove()
+end
 
-    return this
-  }
+-- Glace
+class('Ice').extends(Cell)
 
-  public activate(): void {
-    this.active = true
+function Ice:init(position)
+    Ice.super.init(self, position)
 
-    this.getAnimationManager().play('active')
-  }
+    self:setImage(tilesImage[3])
+end
 
-  public isActive(): boolean {
-    return this.active
-  }
-}
-
-// Pièce
-export class Coin extends Cell {
-  public constructor(position: Point) {
-    super(position)
-
-    this.getAnimationManager().addAnimation('idle', [ 10 ])
-
-    this.getAnimationManager().play('idle')
-  }
-
-  public onAfterPlayerIn(_player: Player, _game: Game): this | null {
-    return null
-  }
-}
-
-// Glace
-export class Ice extends Cell {
-  public constructor(position: Point) {
-    super(position)
-
-    this.getAnimationManager().addAnimation('idle', [ 2 ])
-
-    this.getAnimationManager().play('idle')
-  }
-
-  public onAfterPlayerIn(player: Player, _game: Game): this | null {
-    player.move(player.getDirection(), 'idle')
-
-    return this
-  }
-}
-
-// Élévation de terrain / Motte de terre
-export class Elevation extends Cell {
-  public constructor(position: Point) {
-    super(position)
-
-    this.getAnimationManager().addAnimation('idle', [ 1 ])
-
-    this.getAnimationManager().play('idle')
-  }
-
-  public onBeforePlayerIn(player: Player): void {
-    player.getAnimationManager().play(`jump-${Direction.Down.toString()}`, true)
-  }
-
-  public onAfterPlayerIn(player: Player, _game: Game): this | null {
-    player.move(player.getDirection(), null)
-
-    return this
-  }
-
-  public canEnter(direction: Direction): boolean {
-    if (direction === Direction.Down) {
-      return false
-    }
-
-    return true
-  }
-}
-
-]]
+function Ice:onAfterPlayerIn(player)
+    player:move('left')
+end
