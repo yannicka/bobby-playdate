@@ -83,15 +83,28 @@ myGameSetUp()
 
 local currentSelected = 1
 local buttons = {}
+local rowNumber = 1
+local colNumber = 1
 
 for i = 1,50 do
-    local button = ScreenButton(i, i * 30, 20, 8)
+    local button = ScreenButton(i, colNumber * 36, rowNumber * 36, 6)
 
     if i == 1 then
         button.selected = true
     end
 
+    if i < 14 then
+        button.finished = true
+    end
+
     table.insert(buttons, button)
+
+    colNumber += 1
+
+    if i % 10 == 0 then
+        rowNumber += 1
+        colNumber = 1
+    end
 end
 
 function playdate.update()
@@ -161,15 +174,19 @@ function playdate.update()
         end
 
         if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonRight) then
-            buttons[currentSelected].selected = false
-            buttons[currentSelected+1].selected = true
-            currentSelected += 1
+            if currentSelected < 50 then
+                buttons[currentSelected].selected = false
+                buttons[currentSelected+1].selected = true
+                currentSelected += 1
+            end
         end
 
         if playdate.buttonJustPressed(playdate.kButtonDown) or playdate.buttonJustPressed(playdate.kButtonLeft) then
-            buttons[currentSelected].selected = false
-            buttons[currentSelected-1].selected = true
-            currentSelected -= 1
+            if currentSelected > 1 then
+                buttons[currentSelected].selected = false
+                buttons[currentSelected-1].selected = true
+                currentSelected -= 1
+            end
         end
     
         if playdate.buttonJustPressed(playdate.kButtonA) then
