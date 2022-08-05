@@ -27,28 +27,35 @@ function Player:init(level)
     self:add()
 end
 
-function Player:move(dir)
+function Player:move(direction)
     if not self.canMove then
         return
     end
 
+    local cellBefore = self.level.grid[self.position[2]][self.position[1]]
+
+    if cellBefore ~= nil then
+        if not cellBefore:canLeave(direction) then
+            return
+        end
+    end
+
     local nextPosition = {self.position[1], self.position[2]}
 
-    if dir == 'right' then
+    if direction == 'right' then
         nextPosition[1] += 1
-    elseif dir == 'left' then
+    elseif direction == 'left' then
         nextPosition[1] -= 1
-    elseif dir == 'up' then
+    elseif direction == 'up' then
         nextPosition[2] -= 1
-    elseif dir == 'down' then
+    elseif direction == 'down' then
         nextPosition[2] += 1
     end
 
-    local cellBefore = self.level.grid[self.position[2]][self.position[1]]
     local cellAtPosition = self.level.grid[nextPosition[2]][nextPosition[1]]
 
     if cellAtPosition ~= nil then
-        if not cellAtPosition:canEnter(player) then
+        if not cellAtPosition:canEnter(direction) then
             return
         end
     end
@@ -75,7 +82,7 @@ function Player:move(dir)
         end
     end
 
-    if dir == 'right' then
+    if direction == 'right' then
         self.timer.updateCallback = function(timer)
             local realPlayerPosition = {
                 (self.position[1] * CELL_SIZE) + (timer.value / 150 * CELL_SIZE),
@@ -84,7 +91,7 @@ function Player:move(dir)
 
             self:moveTo(realPlayerPosition[1], realPlayerPosition[2])
         end
-    elseif dir == 'left' then
+    elseif direction == 'left' then
         self.timer.updateCallback = function(timer)
             local realPlayerPosition = {
                 (self.position[1] * CELL_SIZE) - (timer.value / 150 * CELL_SIZE),
@@ -93,7 +100,7 @@ function Player:move(dir)
 
             self:moveTo(realPlayerPosition[1], realPlayerPosition[2])
         end
-    elseif dir == 'up' then
+    elseif direction == 'up' then
         self.timer.updateCallback = function(timer)
             local realPlayerPosition = {
                 (self.position[1] * CELL_SIZE),
@@ -102,7 +109,7 @@ function Player:move(dir)
 
             self:moveTo(realPlayerPosition[1], realPlayerPosition[2])
         end
-    elseif dir == 'down' then
+    elseif direction == 'down' then
         self.timer.updateCallback = function(timer)
             local realPlayerPosition = {
                 (self.position[1] * CELL_SIZE),

@@ -188,11 +188,11 @@ function Turnstile:onAfterPlayerOut()
     elseif self.angle == 'down-right' then
         self.angle = 'down-left'
     elseif self.angle == 'down-left'then
-        self.angle = 'horizontal'
-    elseif self.angle == 'horizontal' then
         self.angle = 'up-left'
-    elseif self.angle == 'vertical' then
+    elseif self.angle == 'horizontal' then
         self.angle = 'vertical'
+    elseif self.angle == 'vertical' then
+        self.angle = 'horizontal'
     elseif self.angle == 'up' then
         self.angle = 'right'
     elseif self.angle == 'right' then
@@ -207,50 +207,6 @@ function Turnstile:onAfterPlayerOut()
 end
 
 function Turnstile:canEnter(direction)
-    if self.angle == 'up-left' and (direction == 'down' or direction == 'right') then
-        return true
-    end
-
-    if self.angle == 'up-right' and (direction == 'down' or direction == 'left') then
-        return true
-    end
-
-    if self.angle == 'down-right' and (direction == 'up' or direction == 'left') then
-        return true
-    end
-
-    if self.angle == 'down-left' and (direction == 'up' or direction == 'right') then
-        return true
-    end
-
-    if self.angle == 'horizontal' and (direction == 'up' or direction == 'down') then
-        return true
-    end
-
-    if self.angle == 'vertical' and (direction == 'right' or direction == 'left') then
-        return true
-    end
-
-    if self.angle == 'up' and direction == 'down' then
-        return true
-    end
-
-    if self.angle == 'right' and direction == 'left' then
-        return true
-    end
-
-    if self.angle == 'down' and direction == 'up' then
-        return true
-    end
-
-    if self.angle == 'left' and direction == 'right' then
-        return true
-    end
-
-    return false
-end
-
-function Turnstile:canLeave(direction)
     if self.angle == 'up-left' and (direction == 'up' or direction == 'left') then
         return true
     end
@@ -267,27 +223,71 @@ function Turnstile:canLeave(direction)
         return true
     end
 
-    if self.angle == 'horizontal' and (direction == 'up' or direction == 'down') then
+    if self.angle == 'horizontal' and (direction == 'right' or direction == 'left') then
         return true
     end
 
-    if self.angle == 'vertical' and (direction == 'right' or direction == 'left') then
+    if self.angle == 'vertical' and (direction == 'up' or direction == 'down') then
         return true
     end
 
-    if self.angle == 'up' and direction == 'up' then
+    if self.angle == 'up' and direction ~= 'down' then
         return true
     end
 
-    if self.angle == 'right' and direction == 'right' then
+    if self.angle == 'right' and direction ~= 'left' then
         return true
     end
 
-    if self.angle == 'down' and direction == 'down' then
+    if self.angle == 'down' and direction ~= 'up' then
         return true
     end
 
-    if self.angle == 'left' and direction == 'left' then
+    if self.angle == 'left' and direction ~= 'right' then
+        return true
+    end
+
+    return false
+end
+
+function Turnstile:canLeave(direction)
+    if self.angle == 'up-left' and (direction == 'down' or direction == 'right') then
+        return true
+    end
+
+    if self.angle == 'up-right' and (direction == 'down' or direction == 'left') then
+        return true
+    end
+
+    if self.angle == 'down-right' and (direction == 'up' or direction == 'left') then
+        return true
+    end
+
+    if self.angle == 'down-left' and (direction == 'up' or direction == 'right') then
+        return true
+    end
+
+    if self.angle == 'horizontal' and (direction == 'right' or direction == 'left') then
+        return true
+    end
+
+    if self.angle == 'vertical' and (direction == 'up' or direction == 'down') then
+        return true
+    end
+
+    if self.angle == 'up' and direction ~= 'up' then
+        return true
+    end
+
+    if self.angle == 'right' and direction ~= 'right' then
+        return true
+    end
+
+    if self.angle == 'down' and direction ~= 'down' then
+        return true
+    end
+
+    if self.angle == 'left' and direction ~= 'left' then
         return true
     end
 
@@ -295,146 +295,6 @@ function Turnstile:canLeave(direction)
 end
 
 local a = [[
-
-// Tourniquet
-export class Turnstile extends Cell {
-  private angle: Rotation
-
-  public constructor(position: Point, angle: Rotation) {
-    super(position)
-
-    this.angle = angle
-
-    this.getAnimationManager().addAnimation(Rotation.UpLeft.toString(), [ 70 ])
-    this.getAnimationManager().addAnimation(Rotation.UpRight.toString(), [ 71 ])
-    this.getAnimationManager().addAnimation(Rotation.DownRight.toString(), [ 72 ])
-    this.getAnimationManager().addAnimation(Rotation.DownLeft.toString(), [ 73 ])
-
-    this.getAnimationManager().addAnimation(Rotation.Horizontal.toString(), [ 74 ])
-    this.getAnimationManager().addAnimation(Rotation.Vertical.toString(), [ 75 ])
-
-    this.getAnimationManager().addAnimation(Rotation.Up.toString(), [ 76 ])
-    this.getAnimationManager().addAnimation(Rotation.Right.toString(), [ 77 ])
-    this.getAnimationManager().addAnimation(Rotation.Down.toString(), [ 78 ])
-    this.getAnimationManager().addAnimation(Rotation.Left.toString(), [ 79 ])
-
-    this.getAnimationManager().play(angle.toString())
-  }
-
-  public onAfterPlayerOut(): void {
-    switch (this.angle) {
-      case Rotation.UpRight:
-        this.angle = Rotation.DownRight
-        break
-
-      case Rotation.UpLeft:
-        this.angle = Rotation.UpRight
-        break
-
-      case Rotation.DownRight:
-        this.angle = Rotation.DownLeft
-        break
-
-      case Rotation.DownLeft:
-        this.angle = Rotation.UpLeft
-        break
-
-      case Rotation.Vertical:
-        this.angle = Rotation.Horizontal
-        break
-
-      case Rotation.Horizontal:
-        this.angle = Rotation.Vertical
-        break
-
-      case Rotation.Up:
-        this.angle = Rotation.Right
-        break
-
-      case Rotation.Right:
-        this.angle = Rotation.Down
-        break
-
-      case Rotation.Down:
-        this.angle = Rotation.Left
-        break
-
-      case Rotation.Left:
-        this.angle = Rotation.Up
-        break
-    }
-
-    this.getAnimationManager().play(this.angle.toString())
-  }
-
-  public canEnter(direction: Direction): boolean {
-    switch (this.angle) {
-      case Rotation.UpRight:
-        return [ Direction.Down, Direction.Left ].includes(direction)
-
-      case Rotation.UpLeft:
-        return [ Direction.Down, Direction.Right ].includes(direction)
-
-      case Rotation.DownRight:
-        return [ Direction.Up, Direction.Left ].includes(direction)
-
-      case Rotation.DownLeft:
-        return [ Direction.Up, Direction.Right ].includes(direction)
-
-      case Rotation.Vertical:
-        return [ Direction.Right, Direction.Left ].includes(direction)
-
-      case Rotation.Horizontal:
-        return [ Direction.Up, Direction.Down ].includes(direction)
-
-      case Rotation.Up:
-        return direction === Direction.Down
-
-      case Rotation.Right:
-        return direction === Direction.Left
-
-      case Rotation.Down:
-        return direction === Direction.Up
-
-      case Rotation.Left:
-        return direction === Direction.Right
-    }
-  }
-
-  public canLeave(direction: Direction): boolean {
-    switch (this.angle) {
-      case Rotation.UpRight:
-        return [ Direction.Up, Direction.Right ].includes(direction)
-
-      case Rotation.UpLeft:
-        return [ Direction.Up, Direction.Left ].includes(direction)
-
-      case Rotation.DownRight:
-        return [ Direction.Down, Direction.Right ].includes(direction)
-
-      case Rotation.DownLeft:
-        return [ Direction.Down, Direction.Left ].includes(direction)
-
-      case Rotation.Vertical:
-        return [ Direction.Right, Direction.Left ].includes(direction)
-
-      case Rotation.Horizontal:
-        return [ Direction.Up, Direction.Down ].includes(direction)
-
-      case Rotation.Up:
-        return direction === Direction.Up
-
-      case Rotation.Right:
-        return direction === Direction.Right
-
-      case Rotation.Down:
-        return direction === Direction.Down
-
-      case Rotation.Left:
-        return direction === Direction.Left
-    }
-  }
-}
 
 // Balise de début de niveau
 export class Start extends Cell {
