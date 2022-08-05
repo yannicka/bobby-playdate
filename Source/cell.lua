@@ -15,9 +15,9 @@ function Cell:init(position)
     self:add()
 end
 
--- Évènement : lorsque le joueur est entièrement dans la case
+-- Évènement : lorsque le joueur est entré dans la case
 function Cell:onAfterPlayerIn(player)
-    return this
+    -- À surcharger
 end
 
 -- Évènement : lorsque le joueur a quitté la case
@@ -87,6 +87,8 @@ class('Conveyor').extends(Cell)
 function Conveyor:init(position, direction)
     Conveyor.super.init(self, position)
 
+    self.direction = direction
+
     if direction == 'up' then
         self:setImage(tilesImage[31])
     elseif direction == 'down' then
@@ -96,8 +98,6 @@ function Conveyor:init(position, direction)
     elseif direction == 'left' then
         self:setImage(tilesImage[61])
     end
-
-    self.direction = direction
 end
 
 function Conveyor:onAfterPlayerIn(player)
@@ -273,11 +273,12 @@ end
 
 function End:onAfterPlayerIn(player)
     if self.active then
+        -- @todo Changer de niveau
         loadLevel('Halley')
     end
 end
 
-function End:activate(player, game)
+function End:activate()
     self.active = true
 
     self:setImage(tilesImage[22])
