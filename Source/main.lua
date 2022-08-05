@@ -38,6 +38,13 @@ function updateCamera()
 end
 
 function myGameSetUp()
+    local startPosition = level:getStartPosition()
+
+    if startPosition then
+        player.position = {startPosition[1], startPosition[2]}
+        player:moveTo(player.position[1] * CELL_SIZE, player.position[2] * CELL_SIZE)
+    end
+
     local backgroundImage = gfx.image.new('img/background')
     assert(backgroundImage)
 

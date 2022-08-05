@@ -13,7 +13,7 @@ function Player:init(level)
 
     self.level = level
 
-    self.position = {5, 5}
+    self.position = {1, 1}
     self.canMove = true
     self.timer = nil
     self.direction = 'down'

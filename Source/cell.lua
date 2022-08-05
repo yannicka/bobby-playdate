@@ -300,7 +300,7 @@ end
 class('End').extends(Cell)
 
 function End:init(position)
-    Start.super.init(self, position)
+    End.super.init(self, position)
 
     self.active = false
 end

@@ -13,7 +13,7 @@ local level = [[
     # # . . . . . # . F . T . . . . 8 . . #
     # $ . . . . . $ . . . . . . . 4 . 6 . #
     # $ . . . . . $ . L . J . . . . 2 . . #
-    . $ . . . . . $ . . . . . B3 . . . . . .
+    . $ . . . . . $ . . . . . B3 . . . . . ..
     # # . . S . . . . . . . . . . . . . . #
     # # # . . . . . . . = . H . . > . v . #
     # # # . . . . . . . . . . . . ^ . v . #
@@ -87,7 +87,7 @@ function Level:init()
         self.height += 1
 
         for x,v2 in ipairs(v) do
-            local cell = nil
+            local cell = 0
 
             if v2 ~= '.' then
                 if v2 == '#' then
@@ -150,7 +150,9 @@ function Level:getCellAt(position)
     local row = self.grid[position[2]]
 
     if row then
-        return row[position[1]]
+        if row[position[1]] ~= 0 then
+            return row[position[1]]
+        end
     end
 
     return nil
@@ -162,6 +164,14 @@ function Level:setCellAt(position, newCell)
     if row then
         row[position[1]] = newCell
     end
+end
 
-    return nil
+function Level:getStartPosition()
+    for y,row in ipairs(self.grid) do
+        for x,cell in ipairs(row) do
+            if cell ~= 0 and cell:isa(Start) then
+                return {x, y}
+            end
+        end
+    end
 end
