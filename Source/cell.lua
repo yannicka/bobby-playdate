@@ -11,7 +11,7 @@ function Cell:init(position)
     self:setZIndex(100)
     self:setCenter(0, 0)
     self:setImage(tilesImage[1])
-    self:moveTo(position[1] * CELL_SIZE, position[2] * CELL_SIZE)
+    self:moveTo(position.x * CELL_SIZE, position.y * CELL_SIZE)
     self:add()
 end
 

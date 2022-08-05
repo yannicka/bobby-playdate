@@ -5,7 +5,7 @@ function Player:init(level)
 
     self.level = level
 
-    self.position = {1, 1}
+    self.position = playdate.geometry.point.new(1, 1)
     self.canMove = true
     self.timer = nil
     self.direction = 'down'
@@ -16,7 +16,7 @@ function Player:init(level)
     self:setZIndex(200)
     self:setCenter(0, 0)
     self:setImage(playerImage[1])
-    self:moveTo(self.position[1] * CELL_SIZE, self.position[2] * CELL_SIZE)
+    self:moveTo(self.position.x * CELL_SIZE, self.position.y * CELL_SIZE)
     self:add()
 end
 
@@ -33,16 +33,16 @@ function Player:move(direction)
         end
     end
 
-    local nextPosition = {self.position[1], self.position[2]}
+    local nextPosition = self.position:copy()
 
     if direction == 'right' then
-        nextPosition[1] += 1
+        nextPosition.x += 1
     elseif direction == 'left' then
-        nextPosition[1] -= 1
+        nextPosition.x -= 1
     elseif direction == 'up' then
-        nextPosition[2] -= 1
+        nextPosition.y -= 1
     elseif direction == 'down' then
-        nextPosition[2] += 1
+        nextPosition.y += 1
     end
 
     local cellAtPosition = self.level:getCellAt(nextPosition)
@@ -61,7 +61,7 @@ function Player:move(direction)
         self.position = nextPosition
         self.canMove = true
 
-        self:moveTo(nextPosition[1] * CELL_SIZE, nextPosition[2] * CELL_SIZE)
+        self:moveTo(nextPosition.x * CELL_SIZE, nextPosition.y * CELL_SIZE)
 
         if cellBefore then
             cellBefore:onAfterPlayerOut()
@@ -76,58 +76,58 @@ function Player:move(direction)
             end
         end
 
-        if self.position[1] > self.level.width then
-            self.position[1] = 0
+        if self.position.x > self.level.width then
+            self.position.x = 0
             self:move('right')
-        elseif self.position[1] < 1 then
-            self.position[1] = self.level.width + 1
+        elseif self.position.x < 1 then
+            self.position.x = self.level.width + 1
             self:move('left')
         end
 
-        if self.position[2] > self.level.height then
-            self.position[2] = 0
+        if self.position.y > self.level.height then
+            self.position.y = 0
             self:move('down')
-        elseif self.position[2] < 1 then
-            self.position[2] = self.level.height + 1
+        elseif self.position.y < 1 then
+            self.position.y = self.level.height + 1
             self:move('up')
         end
     end
 
     if direction == 'right' then
         self.timer.updateCallback = function(timer)
-            local realPlayerPosition = {
-                (self.position[1] * CELL_SIZE) + (timer.value / 150 * CELL_SIZE),
-                self.position[2] * CELL_SIZE
-            }
+            local realPlayerPosition = playdate.geometry.point.new(
+                (self.position.x * CELL_SIZE) + (timer.value / 150 * CELL_SIZE),
+                self.position.y * CELL_SIZE
+            )
 
-            self:moveTo(realPlayerPosition[1], realPlayerPosition[2])
+            self:moveTo(realPlayerPosition.x, realPlayerPosition.y)
         end
     elseif direction == 'left' then
         self.timer.updateCallback = function(timer)
-            local realPlayerPosition = {
-                (self.position[1] * CELL_SIZE) - (timer.value / 150 * CELL_SIZE),
-                self.position[2] * CELL_SIZE
-            }
+            local realPlayerPosition = playdate.geometry.point.new(
+                (self.position.x * CELL_SIZE) - (timer.value / 150 * CELL_SIZE),
+                self.position.y * CELL_SIZE
+            )
 
-            self:moveTo(realPlayerPosition[1], realPlayerPosition[2])
+            self:moveTo(realPlayerPosition.x, realPlayerPosition.y)
         end
     elseif direction == 'up' then
         self.timer.updateCallback = function(timer)
-            local realPlayerPosition = {
-                (self.position[1] * CELL_SIZE),
-                self.position[2] * CELL_SIZE - (timer.value / 150 * CELL_SIZE)
-            }
+            local realPlayerPosition = playdate.geometry.point.new(
+                (self.position.x * CELL_SIZE),
+                self.position.y * CELL_SIZE - (timer.value / 150 * CELL_SIZE)
+            )
 
-            self:moveTo(realPlayerPosition[1], realPlayerPosition[2])
+            self:moveTo(realPlayerPosition.x, realPlayerPosition.y)
         end
     elseif direction == 'down' then
         self.timer.updateCallback = function(timer)
-            local realPlayerPosition = {
-                (self.position[1] * CELL_SIZE),
-                self.position[2] * CELL_SIZE + (timer.value / 150 * CELL_SIZE)
-            }
+            local realPlayerPosition = playdate.geometry.point.new(
+                (self.position.x * CELL_SIZE),
+                self.position.y * CELL_SIZE + (timer.value / 150 * CELL_SIZE)
+            )
 
-            self:moveTo(realPlayerPosition[1], realPlayerPosition[2])
+            self:moveTo(realPlayerPosition.x, realPlayerPosition.y)
         end
     end
 end

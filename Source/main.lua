@@ -49,8 +49,8 @@ local function myGameSetUp()
     local startPosition = level:getStartPosition()
 
     if startPosition then
-        player.position = {startPosition[1], startPosition[2]}
-        player:moveTo(player.position[1] * CELL_SIZE, player.position[2] * CELL_SIZE)
+        player.position = startPosition:copy()
+        player:moveTo(player.position.x * CELL_SIZE, player.position.y * CELL_SIZE)
     end
 
     local backgroundImage = playdate.graphics.image.new('img/background')

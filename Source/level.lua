@@ -55,54 +55,55 @@ function Level:init(name)
 
         for x,v2 in ipairs(v) do
             local cell = 0
+            local position = playdate.geometry.point.new(x, y)
 
             if v2 ~= '.' then
                 if v2 == '#' then
-                    cell = Stone({x, y})
+                    cell = Stone(position)
                 elseif v2 == 'S' then
-                    cell = Start({x, y})
+                    cell = Start(position)
                 elseif v2 == 'E' then
-                    cell = End({x, y})
+                    cell = End(position)
                 elseif v2 == '$' then
-                    cell = Coin({x, y})
+                    cell = Coin(position)
 
                     self.nbCoins += 1
                 elseif v2 == '^' then
-                    cell = Conveyor({x, y}, 'up')
+                    cell = Conveyor(position, 'up')
                 elseif v2 == 'v' then
-                    cell = Conveyor({x, y}, 'down')
+                    cell = Conveyor(position, 'down')
                 elseif v2 == '<' then
-                    cell = Conveyor({x, y}, 'left')
+                    cell = Conveyor(position, 'left')
                 elseif v2 == '>' then
-                    cell = Conveyor({x, y}, 'right')
+                    cell = Conveyor(position, 'right')
                 elseif v2 == 'T' then
-                    cell = Turnstile({x, y}, 'up-right')
+                    cell = Turnstile(position, 'up-right')
                 elseif v2 == 'F' then
-                    cell = Turnstile({x, y}, 'up-left')
+                    cell = Turnstile(position, 'up-left')
                 elseif v2 == 'J' then
-                    cell = Turnstile({x, y}, 'down-right')
+                    cell = Turnstile(position, 'down-right')
                 elseif v2 == 'L' then
-                    cell = Turnstile({x, y}, 'down-left')
+                    cell = Turnstile(position, 'down-left')
                 elseif v2 == '=' then
-                    cell = Turnstile({x, y}, 'horizontal')
+                    cell = Turnstile(position, 'horizontal')
                 elseif v2 == 'H' then
-                    cell = Turnstile({x, y}, 'vertical')
+                    cell = Turnstile(position, 'vertical')
                 elseif v2 == '8' then
-                    cell = Turnstile({x, y}, 'up')
+                    cell = Turnstile(position, 'up')
                 elseif v2 == '6' then
-                    cell = Turnstile({x, y}, 'right')
+                    cell = Turnstile(position, 'right')
                 elseif v2 == '2' then
-                    cell = Turnstile({x, y}, 'down')
+                    cell = Turnstile(position, 'down')
                 elseif v2 == '4' then
-                    cell = Turnstile({x, y}, 'left')
+                    cell = Turnstile(position, 'left')
                 elseif v2 == 'B' then
-                    cell = Button({x, y}, 1)
+                    cell = Button(position, 1)
                 elseif v2 == 'B2' then
-                    cell = Button({x, y}, 2)
+                    cell = Button(position, 2)
                 elseif v2 == 'B3' then
-                    cell = Button({x, y}, 3)
+                    cell = Button(position, 3)
                 elseif v2 == '!' then
-                    cell = Ice({x, y})
+                    cell = Ice(position)
                 end
             end
 
@@ -124,11 +125,11 @@ function Level:update()
 end
 
 function Level:getCellAt(position)
-    local row = self.grid[position[2]]
+    local row = self.grid[position.y]
 
     if row then
-        if row[position[1]] ~= 0 then
-            return row[position[1]]
+        if row[position.x] ~= 0 then
+            return row[position.x]
         end
     end
 
@@ -136,10 +137,10 @@ function Level:getCellAt(position)
 end
 
 function Level:setCellAt(position, newCell)
-    local row = self.grid[position[2]]
+    local row = self.grid[position.y]
 
     if row then
-        row[position[1]] = newCell
+        row[position.x] = newCell
     end
 end
 
@@ -147,7 +148,7 @@ function Level:getStartPosition()
     for y,row in ipairs(self.grid) do
         for x,cell in ipairs(row) do
             if cell ~= 0 and cell:isa(Start) then
-                return {x, y}
+                return playdate.geometry.point.new(x, y)
             end
         end
     end
