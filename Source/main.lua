@@ -2,35 +2,39 @@ import 'CoreLibs/object'
 import 'CoreLibs/graphics'
 import 'CoreLibs/sprites'
 import 'CoreLibs/timer'
+import 'utils'
 import 'player'
 import 'level'
 import 'cell'
 import 'button'
-
-function math.clamp(x, min, max)
-    return math.max(math.min(x, max), min)
-end
+import 'levels'
 
 local gfx <const> = playdate.graphics
 
 local font = gfx.font.new('img/fonts/whiteglove-stroked')
 
-local CELL_SIZE <const> = 20
-
 local playerSprite = nil
 
-local level = Level()
-local player = Player(level)
+local level = nil
+local player = nil
+
+function loadLevel(name)
+    player = nil
+    level = nil
+
+    level = Level(name)
+    player = Player(level)
+end
 
 local kGameState = {home, options, help, game, endgame, credits, chooselevel}
-local currentState = 'levelselector'
+local currentState = 'game'
 
 function updateCamera()
     local xOffset = -player.x + (playdate.display.getWidth() / 2)
     local yOffset = -player.y + (playdate.display.getHeight() / 2)
 
     xOffset = math.clamp(xOffset, -level.width * CELL_SIZE + playdate.display.getWidth() - CELL_SIZE, -CELL_SIZE)
-    yOffset = math.clamp(yOffset, -level.height * CELL_SIZE + playdate.display.getHeight() - CELL_SIZE, -CELL_SIZE)
+    yOffset = math.clamp(yOffset, -level.height * CELL_SIZE + playdate.display.getHeight(), -CELL_SIZE)
 
     if level.width * CELL_SIZE < playdate.display.getWidth() then
         xOffset = (playdate.display.getWidth() / 2) - ((level.width * CELL_SIZE) / 2) - CELL_SIZE
@@ -44,6 +48,8 @@ function updateCamera()
 end
 
 function myGameSetUp()
+    loadLevel('Test')
+
     local startPosition = level:getStartPosition()
 
     if startPosition then

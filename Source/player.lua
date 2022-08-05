@@ -1,11 +1,3 @@
-import 'CoreLibs/object'
-import 'CoreLibs/graphics'
-import 'CoreLibs/sprites'
-
-local gfx <const> = playdate.graphics
-
-local CELL_SIZE <const> = 20
-
 class('Player').extends(playdate.graphics.sprite)
 
 function Player:init(level)
@@ -18,7 +10,7 @@ function Player:init(level)
     self.timer = nil
     self.direction = 'down'
 
-    local playerImage = gfx.imagetable.new('img/player')
+    local playerImage = playdate.graphics.imagetable.new('img/player')
     assert(playerImage)
 
     self:setZIndex(800)

@@ -1,13 +1,4 @@
-import 'CoreLibs/object'
-import 'CoreLibs/graphics'
-import 'CoreLibs/sprites'
-import 'CoreLibs/animation'
-
-local gfx <const> = playdate.graphics
-
-local CELL_SIZE <const> = 20
-
-local tilesImage = gfx.imagetable.new('img/tiles')
+local tilesImage = playdate.graphics.imagetable.new('img/tiles')
 assert(tilesImage)
 
 class('Cell').extends(playdate.graphics.sprite)
@@ -26,7 +17,6 @@ end
 
 function Cell:update(dt)
     Cell.super.update(self)
-    -- self.animationManager.update(dt)
 end
 
 function Cell:render(ctx)
@@ -38,13 +28,8 @@ function Cell:render(ctx)
     ctx.restore()
 end
 
--- Évènement : avant que le joueur n'entre dans la case
-function Cell:onBeforePlayerIn(_player)
-    -- À surcharger
-end
-
 -- Évènement : lorsque le joueur est entièrement dans la case
-function Cell:onAfterPlayerIn(_player, _game)
+function Cell:onAfterPlayerIn(player)
     return this
 end
 
@@ -54,12 +39,12 @@ function Cell:onAfterPlayerOut()
 end
 
 -- Est-ce qu'on peut rentrer sur la case ?
-function Cell:canEnter(_direction)
+function Cell:canEnter(direction)
     return true
 end
 
 -- Est-ce qu'on peut sortir de la case ?
-function Cell:canLeave(_direction)
+function Cell:canLeave(direction)
     return true
 end
 
@@ -113,7 +98,7 @@ function Button:onAfterPlayerOut()
     self:updateImage()
 end
 
-function Button:canEnter(_direction)
+function Button:canEnter(direction)
     return self.value ~= 0
 end
 
@@ -136,7 +121,7 @@ function Conveyor:init(position, direction)
     self.direction = direction
 end
 
-function Conveyor:onAfterPlayerIn(player, _game)
+function Conveyor:onAfterPlayerIn(player)
     player:move(self.direction)
 end
 
@@ -307,9 +292,9 @@ function End:init(position)
     self.active = false
 end
 
-function End:onAfterPlayerIn(player, game)
+function End:onAfterPlayerIn(player)
     if self.active then
-        -- Changer de niveau
+        loadLevel('Halley')
     end
 end
 
@@ -328,7 +313,7 @@ function Coin:init(position)
     self:setImage(tilesImage[11])
 end
 
-function Coin:onAfterPlayerIn(_player)
+function Coin:onAfterPlayerIn(player)
     self:remove()
 end
 

@@ -1,7 +1,3 @@
-import 'CoreLibs/object'
-import 'CoreLibs/graphics'
-import 'CoreLibs/sprites'
-
 class('ScreenButton').extends(Object)
 
 local font = playdate.graphics.font.new('img/fonts/whiteglove-stroked')
