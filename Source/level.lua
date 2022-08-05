@@ -8,7 +8,7 @@ local function splitLines(str)
     return result
 end
 
-function parseStringLevel(level)
+local function parseStringLevel(level)
     -- Retire les espaces au début de chaque ligne
     local levelWithoutSpace = level:gsub('/^ +/gm', '')
   
@@ -25,6 +25,7 @@ function parseStringLevel(level)
 
     for i,line in ipairs(lines) do
         local t = {}
+
         for w in line:gmatch('%S+') do
             table.insert(t, w)
         end
@@ -118,6 +119,16 @@ function Level:init(name)
     self.endCell = self:getEndCell()
 end
 
+function Level:remove()
+    for y,row in ipairs(self.grid) do
+        for x,cell in ipairs(row) do
+            if cell ~= 0 then
+                cell:remove()
+            end
+        end
+    end
+end
+
 function Level:update()
     if self.nbCoins == 0 then
         self.endCell:activate()
@@ -137,11 +148,7 @@ function Level:getCellAt(position)
 end
 
 function Level:setCellAt(position, newCell)
-    local row = self.grid[position.y]
-
-    if row then
-        row[position.x] = newCell
-    end
+    self.grid[position.y][position.x] = newCell
 end
 
 function Level:getStartPosition()

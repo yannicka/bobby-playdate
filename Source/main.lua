@@ -14,12 +14,36 @@ local playerSprite = nil
 local level = nil
 local player = nil
 
+local currentLevelName = nil
+
 function loadLevel(name)
-    player = nil
-    level = nil
+    if level then
+        level:remove()
+    end
+
+    if player then
+        player:remove()
+    end
+
+    currentLevelName = name
 
     level = Level(name)
     player = Player(level)
+
+    local startPosition = level:getStartPosition()
+
+    if startPosition then
+        player.position = startPosition:copy()
+        player:moveTo(player.position.x * CELL_SIZE, player.position.y * CELL_SIZE)
+    end
+end
+
+function goToNextLevel()
+    a = indexOf(levelsOrder, currentLevelName)
+    b = next(levelsOrder, a)
+    c = levelsOrder[b]
+
+    loadLevel(c)
 end
 
 local kGameState = {home, options, help, game, endgame, credits, chooselevel}
@@ -44,14 +68,7 @@ local function updateCamera()
 end
 
 local function myGameSetUp()
-    loadLevel('Test')
-
-    local startPosition = level:getStartPosition()
-
-    if startPosition then
-        player.position = startPosition:copy()
-        player:moveTo(player.position.x * CELL_SIZE, player.position.y * CELL_SIZE)
-    end
+    loadLevel('Halley')
 
     local backgroundImage = playdate.graphics.image.new('img/background')
     assert(backgroundImage)
@@ -59,8 +76,6 @@ local function myGameSetUp()
     playdate.graphics.sprite.setBackgroundDrawingCallback(function(x, y, width, height)
         backgroundImage:drawTiled(x, y, width, height)
     end)
-
-    updateCamera()
 
     playdate.graphics.setFont(font)
 end

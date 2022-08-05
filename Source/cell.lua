@@ -273,8 +273,7 @@ end
 
 function End:onAfterPlayerIn(player)
     if self.active then
-        -- @todo Changer de niveau
-        loadLevel('Halley')
+        goToNextLevel()
     end
 end
 
