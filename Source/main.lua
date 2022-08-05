@@ -26,6 +26,14 @@ function updateCamera()
     xOffset = math.clamp(xOffset, -level.width * CELL_SIZE + playdate.display.getWidth() - CELL_SIZE, -CELL_SIZE)
     yOffset = math.clamp(yOffset, -level.height * CELL_SIZE + playdate.display.getHeight() - CELL_SIZE, -CELL_SIZE)
 
+    if level.width * CELL_SIZE < playdate.display.getWidth() then
+        xOffset = (playdate.display.getWidth() / 2) - ((level.width * CELL_SIZE) / 2) - CELL_SIZE
+    end
+
+    if level.height * CELL_SIZE < playdate.display.getHeight() then
+        yOffset = (playdate.display.getHeight() / 2) - ((level.height * CELL_SIZE) / 2) - CELL_SIZE
+    end
+
     playdate.graphics.setDrawOffset(xOffset, yOffset)
 end
 
