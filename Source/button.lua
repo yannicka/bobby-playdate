@@ -2,11 +2,11 @@ import 'CoreLibs/object'
 import 'CoreLibs/graphics'
 import 'CoreLibs/sprites'
 
-class('Button').extends(Object)
+class('ScreenButton').extends(Object)
 
 local font = playdate.graphics.font.new('img/fonts/whiteglove-stroked')
 
-function Button:init(text, x, y, padding)
+function ScreenButton:init(text, x, y, padding)
     self.text = text
     self.x = x
     self.y = y
@@ -14,10 +14,10 @@ function Button:init(text, x, y, padding)
     self.selected = false
 end
 
-function Button:render()
+function ScreenButton:render()
     local width, height = playdate.graphics.getTextSize(self.text)
 
-    playdate.graphics.setDrawOffset(0, 0)
+    playdate.graphics.setColor(playdate.graphics.kColorBlack)
 
     if self.selected then
         playdate.graphics.setLineWidth(4)

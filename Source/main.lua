@@ -23,7 +23,7 @@ local level = Level()
 local player = Player(level)
 
 local kGameState = {home, options, help, game, endgame, credits, chooselevel}
-local currentState = 'home'
+local currentState = 'levelselector'
 
 function updateCamera()
     local xOffset = -player.x + (playdate.display.getWidth() / 2)
@@ -66,19 +66,51 @@ end
 myGameSetUp()
 
 function playdate.update()
+    gfx.setColor(gfx.kColorWhite)
+    gfx.fillRect(0, 0, playdate.display.getWidth(), playdate.display.getHeight())
+
     if currentState == 'home' then
-        local playButton = Button('Play', 20, 20, 10)
+        playdate.graphics.setDrawOffset(0, 0)
+    
+        local playButton = ScreenButton('Play', 20, 20, 10)
         playButton.selected = true
         playButton:render()
 
-        local helpButton = Button('Instructions', 20, 70, 10)
+        local helpButton = ScreenButton('Instructions', 20, 70, 10)
         helpButton:render()
 
-        local creditsButton = Button('Credits', 20, 120, 10)
+        local creditsButton = ScreenButton('Credits', 20, 120, 10)
         creditsButton:render()
 
-        local optionsButton = Button('Options', 20, 170, 10)
+        local optionsButton = ScreenButton('Options', 20, 170, 10)
         optionsButton:render()
+
+        if playdate.buttonIsPressed(playdate.kButtonA) then
+            currentState = 'levelselector'
+        end
+    elseif currentState == 'help' then
+        playdate.graphics.setDrawOffset(0, 0)
+    
+        local playButton = ScreenButton('Page d aide', 20, 20, 10)
+        playButton:render()
+
+        if playdate.buttonIsPressed(playdate.kButtonB) then
+            currentState = 'home'
+        end
+    elseif currentState == 'levelselector' then
+        playdate.graphics.setDrawOffset(0, 0)
+    
+        for i = 1, 50 do
+            local button = ScreenButton(i, i * 30, 20, 8)
+            if i == 1 then
+                button.selected = true
+            end
+            button:render()
+        end
+
+        if playdate.buttonIsPressed(playdate.kButtonB) then
+            currentState = 'home'
+        end
 
         if playdate.buttonIsPressed(playdate.kButtonA) then
             currentState = 'game'
