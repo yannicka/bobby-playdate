@@ -16,7 +16,13 @@ local player = nil
 
 local currentLevelName = nil
 
-local currentState = 'levelselector'
+local currentState = 'home'
+
+local finishedLevels = playdate.datastore.read()
+
+if finishedLevels == nil then
+    finishedLevels = {}
+end
 
 function loadLevel(name)
     currentState = 'game'
@@ -43,6 +49,10 @@ function loadLevel(name)
 end
 
 function goToNextLevel()
+    table.insert(finishedLevels, currentLevelName)
+
+    playdate.datastore.write(finishedLevels)
+
     a = indexOf(levelsOrder, currentLevelName)
     b = next(levelsOrder, a)
     c = levelsOrder[b]
@@ -81,6 +91,7 @@ end
 
 myGameSetUp()
 
+local searchLastFinishedLevel = true
 local currentSelected = 1
 local buttons = {}
 local rowNumber = 1
@@ -89,12 +100,14 @@ local colNumber = 1
 for i = 1,50 do
     local button = ScreenButton(i, colNumber * 36, rowNumber * 36, 6)
 
-    if i == 1 then
-        button.selected = true
-    end
+    local levelName = levelsOrder[i]
 
-    if i < 14 then
-        button.finished = true
+    button.finished = table.contains(finishedLevels, levelName)
+
+    if button.finished == false and searchLastFinishedLevel then
+        searchLastFinishedLevel = false
+        currentSelected = i
+        button.selected = true
     end
 
     table.insert(buttons, button)

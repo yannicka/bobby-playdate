@@ -14,6 +14,16 @@ function indexOf(array, value)
     return nil
 end
 
+function table.contains(array, value)
+    for i,v in ipairs(array) do
+        if value == v then
+            return true
+        end
+    end
+
+    return false
+end
+
 function string.trim(s)
     return (string.gsub(s, '^%s*(.-)%s*$', '%1'))
 end

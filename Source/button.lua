@@ -28,7 +28,7 @@ function ScreenButton:render()
 
     if self.selected then
         playdate.graphics.setLineWidth(2)
-        playdate.graphics.drawRoundRect(self.x-self.padding-2, self.y-self.padding-2, width+self.padding*2+4, height+self.padding*2+4, 8)
+        playdate.graphics.drawRoundRect(self.x-self.padding-2, self.y-self.padding-2, width+self.padding*2+4, height+self.padding*2+4, 10)
         playdate.graphics.setLineWidth(1)
     end
 
