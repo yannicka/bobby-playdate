@@ -302,6 +302,8 @@ class('End').extends(Cell)
 function End:init(position)
     End.super.init(self, position)
 
+    self:setImage(tilesImage[21])
+
     self.active = false
 end
 
@@ -312,7 +314,9 @@ function End:onAfterPlayerIn(player, game)
 end
 
 function End:activate(player, game)
-    self.active = tru
+    self.active = true
+
+    self:setImage(tilesImage[22])
 end
 
 -- Pièce

@@ -80,6 +80,7 @@ function Player:move(direction)
 
             if cellAtPosition:isa(Coin) then
                 self.level:setCellAt(self.position, nil)
+                self.level.nbCoins -= 1
             end
         end
 

@@ -81,6 +81,7 @@ function Level:init()
     self.grid = {}
     self.width = 0
     self.height = 0
+    self.nbCoins = 0
 
     for y,v in ipairs(grid) do
         self.grid[y] = {}
@@ -98,6 +99,8 @@ function Level:init()
                     cell = End({x, y})
                 elseif v2 == '$' then
                     cell = Coin({x, y})
+
+                    self.nbCoins += 1
                 elseif v2 == '^' then
                     cell = Conveyor({x, y}, 'up')
                 elseif v2 == 'v' then
@@ -144,6 +147,14 @@ function Level:init()
             end
         end
     end
+
+    self.endCell = self:getEndCell()
+end
+
+function Level:update()
+    if self.nbCoins == 0 then
+        self.endCell:activate()
+    end
 end
 
 function Level:getCellAt(position)
@@ -171,6 +182,16 @@ function Level:getStartPosition()
         for x,cell in ipairs(row) do
             if cell ~= 0 and cell:isa(Start) then
                 return {x, y}
+            end
+        end
+    end
+end
+
+function Level:getEndCell()
+    for y,row in ipairs(self.grid) do
+        for x,cell in ipairs(row) do
+            if cell ~= 0 and cell:isa(End) then
+                return cell
             end
         end
     end

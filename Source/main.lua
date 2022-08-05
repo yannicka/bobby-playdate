@@ -74,6 +74,8 @@ function playdate.update()
         player:move('left')
     end
 
+    level:update()
+
     playdate.graphics.sprite.redrawBackground()
     gfx.sprite.update()
     playdate.timer.updateTimers()
