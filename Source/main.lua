@@ -1,5 +1,3 @@
-import 'CoreLibs/object'
-import 'CoreLibs/graphics'
 import 'CoreLibs/sprites'
 import 'CoreLibs/timer'
 import 'utils'
@@ -9,9 +7,7 @@ import 'cell'
 import 'button'
 import 'levels'
 
-local gfx <const> = playdate.graphics
-
-local font = gfx.font.new('img/fonts/whiteglove-stroked')
+local font = playdate.graphics.font.new('img/fonts/whiteglove-stroked')
 
 local playerSprite = nil
 
@@ -29,7 +25,7 @@ end
 local kGameState = {home, options, help, game, endgame, credits, chooselevel}
 local currentState = 'game'
 
-function updateCamera()
+local function updateCamera()
     local xOffset = -player.x + (playdate.display.getWidth() / 2)
     local yOffset = -player.y + (playdate.display.getHeight() / 2)
 
@@ -47,7 +43,7 @@ function updateCamera()
     playdate.graphics.setDrawOffset(xOffset, yOffset)
 end
 
-function myGameSetUp()
+local function myGameSetUp()
     loadLevel('Test')
 
     local startPosition = level:getStartPosition()
@@ -57,23 +53,23 @@ function myGameSetUp()
         player:moveTo(player.position[1] * CELL_SIZE, player.position[2] * CELL_SIZE)
     end
 
-    local backgroundImage = gfx.image.new('img/background')
+    local backgroundImage = playdate.graphics.image.new('img/background')
     assert(backgroundImage)
 
-    gfx.sprite.setBackgroundDrawingCallback(function(x, y, width, height)
+    playdate.graphics.sprite.setBackgroundDrawingCallback(function(x, y, width, height)
         backgroundImage:drawTiled(x, y, width, height)
     end)
 
     updateCamera()
 
-    gfx.setFont(font)
+    playdate.graphics.setFont(font)
 end
 
 myGameSetUp()
 
 function playdate.update()
-    gfx.setColor(gfx.kColorWhite)
-    gfx.fillRect(0, 0, playdate.display.getWidth(), playdate.display.getHeight())
+    playdate.graphics.setColor(playdate.graphics.kColorWhite)
+    playdate.graphics.fillRect(0, 0, playdate.display.getWidth(), playdate.display.getHeight())
 
     if currentState == 'home' then
         playdate.graphics.setDrawOffset(0, 0)
@@ -141,7 +137,7 @@ function playdate.update()
         level:update()
     
         playdate.graphics.sprite.redrawBackground()
-        gfx.sprite.update()
+        playdate.graphics.sprite.update()
         playdate.timer.updateTimers()
         updateCamera()
     end

@@ -8,52 +8,31 @@ function Cell:init(position)
 
     self.position = position
 
+    self:setZIndex(100)
     self:setCenter(0, 0)
     self:setImage(tilesImage[1])
-    self:setZIndex(700)
     self:moveTo(position[1] * CELL_SIZE, position[2] * CELL_SIZE)
     self:add()
 end
 
-function Cell:update(dt)
-    Cell.super.update(self)
-end
-
-function Cell:render(ctx)
-    ctx.save()
-    ctx.translate(self.position.x * CELL_SIZE, self.position.y * CELL_SIZE)
-
-    self.animationManager.render(ctx)
-
-    ctx.restore()
-end
-
--- Évènement : lorsque le joueur est entièrement dans la case
+-- Évènement : lorsque le joueur est entièrement dans la case
 function Cell:onAfterPlayerIn(player)
     return this
 end
 
--- Évènement : lorsque le joueur a quitté la case
+-- Évènement : lorsque le joueur a quitté la case
 function Cell:onAfterPlayerOut()
     -- À surcharger
 end
 
--- Est-ce qu'on peut rentrer sur la case ?
+-- Est-ce qu'on peut rentrer sur la case ?
 function Cell:canEnter(direction)
     return true
 end
 
--- Est-ce qu'on peut sortir de la case ?
+-- Est-ce qu'on peut sortir de la case ?
 function Cell:canLeave(direction)
     return true
-end
-
-function Cell:getPosition()
-    return self.position
-end
-
-function Cell:getAnimationManager()
-    return self.animationManager
 end
 
 -- Rocher
@@ -80,6 +59,16 @@ function Button:init(position, value)
     self:updateImage()
 end
 
+function Button:onAfterPlayerOut()
+    self.value -= 1
+
+    self:updateImage()
+end
+
+function Button:canEnter(direction)
+    return self.value ~= 0
+end
+
 function Button:updateImage()
     if self.value == 0 then
         self:setImage(tilesImage[81])
@@ -90,16 +79,6 @@ function Button:updateImage()
     elseif self.value == 3 then
         self:setImage(tilesImage[84])
     end
-end
-
-function Button:onAfterPlayerOut()
-    self.value -= 1
-
-    self:updateImage()
-end
-
-function Button:canEnter(direction)
-    return self.value ~= 0
 end
 
 -- Tapis roulant
@@ -134,30 +113,6 @@ function Turnstile:init(position, angle)
     self.angle = angle
 
     self:updateImage()
-end
-
-function Turnstile:updateImage()
-    if self.angle == 'up-left' then
-        self:setImage(tilesImage[71])
-    elseif self.angle == 'up-right' then
-        self:setImage(tilesImage[72])
-    elseif self.angle == 'down-right' then
-        self:setImage(tilesImage[73])
-    elseif self.angle == 'down-left'then
-        self:setImage(tilesImage[74])
-    elseif self.angle == 'horizontal' then
-        self:setImage(tilesImage[75])
-    elseif self.angle == 'vertical' then
-        self:setImage(tilesImage[76])
-    elseif self.angle == 'up' then
-        self:setImage(tilesImage[77])
-    elseif self.angle == 'right' then
-        self:setImage(tilesImage[78])
-    elseif self.angle == 'down' then
-        self:setImage(tilesImage[79])
-    elseif self.angle == 'left' then
-        self:setImage(tilesImage[80])
-    end
 end
 
 function Turnstile:onAfterPlayerOut()
@@ -272,6 +227,30 @@ function Turnstile:canLeave(direction)
     end
 
     return false
+end
+
+function Turnstile:updateImage()
+    if self.angle == 'up-left' then
+        self:setImage(tilesImage[71])
+    elseif self.angle == 'up-right' then
+        self:setImage(tilesImage[72])
+    elseif self.angle == 'down-right' then
+        self:setImage(tilesImage[73])
+    elseif self.angle == 'down-left'then
+        self:setImage(tilesImage[74])
+    elseif self.angle == 'horizontal' then
+        self:setImage(tilesImage[75])
+    elseif self.angle == 'vertical' then
+        self:setImage(tilesImage[76])
+    elseif self.angle == 'up' then
+        self:setImage(tilesImage[77])
+    elseif self.angle == 'right' then
+        self:setImage(tilesImage[78])
+    elseif self.angle == 'down' then
+        self:setImage(tilesImage[79])
+    elseif self.angle == 'left' then
+        self:setImage(tilesImage[80])
+    end
 end
 
 -- Balise de début de niveau

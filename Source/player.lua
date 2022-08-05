@@ -13,7 +13,7 @@ function Player:init(level)
     local playerImage = playdate.graphics.imagetable.new('img/player')
     assert(playerImage)
 
-    self:setZIndex(800)
+    self:setZIndex(200)
     self:setCenter(0, 0)
     self:setImage(playerImage[1])
     self:moveTo(self.position[1] * CELL_SIZE, self.position[2] * CELL_SIZE)
