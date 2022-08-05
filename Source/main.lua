@@ -16,7 +16,11 @@ local player = nil
 
 local currentLevelName = nil
 
+local currentState = 'levelselector'
+
 function loadLevel(name)
+    currentState = 'game'
+
     if level then
         level:remove()
     end
@@ -46,15 +50,12 @@ function goToNextLevel()
     loadLevel(c)
 end
 
-local kGameState = {home, options, help, game, endgame, credits, chooselevel}
-local currentState = 'game'
-
 local function updateCamera()
     local xOffset = -player.x + (playdate.display.getWidth() / 2)
     local yOffset = -player.y + (playdate.display.getHeight() / 2)
 
     xOffset = math.clamp(xOffset, -level.width * CELL_SIZE + playdate.display.getWidth() - CELL_SIZE, -CELL_SIZE)
-    yOffset = math.clamp(yOffset, -level.height * CELL_SIZE + playdate.display.getHeight(), -CELL_SIZE)
+    yOffset = math.clamp(yOffset, -level.height * CELL_SIZE + playdate.display.getHeight() - CELL_SIZE, -CELL_SIZE)
 
     if level.width * CELL_SIZE < playdate.display.getWidth() then
         xOffset = (playdate.display.getWidth() / 2) - ((level.width * CELL_SIZE) / 2) - CELL_SIZE
@@ -68,8 +69,6 @@ local function updateCamera()
 end
 
 local function myGameSetUp()
-    loadLevel('Halley')
-
     local backgroundImage = playdate.graphics.image.new('img/background')
     assert(backgroundImage)
 
@@ -81,6 +80,19 @@ local function myGameSetUp()
 end
 
 myGameSetUp()
+
+local currentSelected = 1
+local buttons = {}
+
+for i = 1,50 do
+    local button = ScreenButton(i, i * 30, 20, 8)
+
+    if i == 1 then
+        button.selected = true
+    end
+
+    table.insert(buttons, button)
+end
 
 function playdate.update()
     playdate.graphics.setColor(playdate.graphics.kColorWhite)
@@ -102,35 +114,71 @@ function playdate.update()
         local optionsButton = ScreenButton('Options', 20, 170, 10)
         optionsButton:render()
 
-        if playdate.buttonIsPressed(playdate.kButtonA) then
+        if playdate.buttonJustPressed(playdate.kButtonA) then
             currentState = 'levelselector'
+        end
+    elseif currentState == 'options' then
+        playdate.graphics.setDrawOffset(0, 0)
+    
+        local playButton = ScreenButton('Options', 20, 20, 10)
+        playButton:render()
+
+        if playdate.buttonJustPressed(playdate.kButtonB) then
+            currentState = 'home'
         end
     elseif currentState == 'help' then
         playdate.graphics.setDrawOffset(0, 0)
     
-        local playButton = ScreenButton('Page d aide', 20, 20, 10)
+        local playButton = ScreenButton('Page d\'aide', 20, 20, 10)
         playButton:render()
 
-        if playdate.buttonIsPressed(playdate.kButtonB) then
+        if playdate.buttonJustPressed(playdate.kButtonB) then
+            currentState = 'home'
+        end
+    elseif currentState == 'credits' then
+        playdate.graphics.setDrawOffset(0, 0)
+    
+        local playButton = ScreenButton('Credits', 20, 20, 10)
+        playButton:render()
+
+        if playdate.buttonJustPressed(playdate.kButtonB) then
+            currentState = 'home'
+        end
+    elseif currentState == 'endgame' then
+        playdate.graphics.setDrawOffset(0, 0)
+    
+        local playButton = ScreenButton('Fin du jeu', 20, 20, 10)
+        playButton:render()
+
+        if playdate.buttonJustPressed(playdate.kButtonB) then
             currentState = 'home'
         end
     elseif currentState == 'levelselector' then
         playdate.graphics.setDrawOffset(0, 0)
-    
-        for i = 1, 50 do
-            local button = ScreenButton(i, i * 30, 20, 8)
-            if i == 1 then
-                button.selected = true
-            end
+
+        for i,button in ipairs(buttons) do
             button:render()
         end
 
-        if playdate.buttonIsPressed(playdate.kButtonB) then
-            currentState = 'home'
+        if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonRight) then
+            buttons[currentSelected].selected = false
+            buttons[currentSelected+1].selected = true
+            currentSelected += 1
         end
 
-        if playdate.buttonIsPressed(playdate.kButtonA) then
-            currentState = 'game'
+        if playdate.buttonJustPressed(playdate.kButtonDown) or playdate.buttonJustPressed(playdate.kButtonLeft) then
+            buttons[currentSelected].selected = false
+            buttons[currentSelected-1].selected = true
+            currentSelected -= 1
+        end
+    
+        if playdate.buttonJustPressed(playdate.kButtonA) then
+            local levelName = levelsOrder[currentSelected]
+            loadLevel(levelName)
+        end
+
+        if playdate.buttonJustPressed(playdate.kButtonB) then
+            currentState = 'home'
         end
     elseif currentState == 'game' then
         if playdate.buttonIsPressed(playdate.kButtonUp) then
