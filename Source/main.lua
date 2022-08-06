@@ -217,9 +217,9 @@ function playdate.update()
         elseif playdate.buttonJustPressed(playdate.kButtonDown) then
             gridview:selectNextRow(true)
         elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
-            gridview:selectPreviousColumn(false)
+            gridview:selectPreviousColumn(true)
         elseif playdate.buttonJustPressed(playdate.kButtonRight) then
-            gridview:selectNextColumn(false)
+            gridview:selectNextColumn(true)
         end
 
         local crankTicks = playdate.getCrankTicks(2)
