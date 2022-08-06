@@ -1,5 +1,7 @@
 class('GameScene').extends(Scene)
 
+local menu = playdate.getSystemMenu()
+
 function loadLevel(name)
     changeScene(GameScene)
 
@@ -43,6 +45,17 @@ end
 
 function GameScene:init()
     GameScene.super.init(self)
+
+    self.menuRestart, error = menu:addMenuItem('Restart Level', function()
+        loadLevel(currentLevelName)
+    end)
+
+    self.menuHome, error = menu:addMenuItem('Go Menu', function()
+        level:remove()
+        player:remove()
+
+        changeScene(LevelSelectorScene)
+    end)
 end
 
 function GameScene:update()
@@ -96,4 +109,6 @@ function GameScene:updateCamera()
 end
 
 function GameScene:destroy()
+    menu:removeMenuItem(self.menuRestart)
+    menu:removeMenuItem(self.menuHome)
 end
