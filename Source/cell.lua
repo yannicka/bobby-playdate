@@ -94,16 +94,16 @@ function Conveyor:init(position, direction)
     self.direction = direction
 
     if direction == 'up' then
-        self.animationManager:addAnimation('move', {31, 32, 33, 34}, 2)
+        self.animationManager:addAnimation('move', {31, 32, 33, 34, 35}, 2)
         self.animationManager:play('move')
     elseif direction == 'down' then
-        self.animationManager:addAnimation('move', {51, 52, 53, 54}, 2)
+        self.animationManager:addAnimation('move', {51, 52, 53, 54, 55}, 2)
         self.animationManager:play('move')
     elseif direction == 'right' then
-        self.animationManager:addAnimation('move', {41, 42, 43, 44}, 2)
+        self.animationManager:addAnimation('move', {41, 42, 43, 44, 45}, 2)
         self.animationManager:play('move')
     elseif direction == 'left' then
-        self.animationManager:addAnimation('move', {61, 62, 63, 64}, 2)
+        self.animationManager:addAnimation('move', {61, 62, 63, 64, 65}, 2)
         self.animationManager:play('move')
     end
 end
@@ -299,7 +299,17 @@ class('Coin').extends(Cell)
 function Coin:init(position)
     Coin.super.init(self, position)
 
-    self:setImage(tilesImage[11])
+    local frames = {}
+    for i = 0,math.random(12, 36) do
+        table.insert(frames, 11)
+    end
+
+    table.insert(frames, 12)
+    table.insert(frames, 13)
+    table.insert(frames, 12)
+
+    self.animationManager:addAnimation('turn', frames, 3)
+    self.animationManager:play('turn')
 end
 
 function Coin:onAfterPlayerIn(player)
