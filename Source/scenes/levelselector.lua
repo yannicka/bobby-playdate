@@ -88,9 +88,9 @@ function LevelSelectorScene:update()
     local crankTicks = playdate.getCrankTicks(2)
 
     if crankTicks == 1 then
-        self.gridview:selectNextRow(true)
+        self.gridview:selectNextColumn(true)
     elseif crankTicks == -1 then
-        self.gridview:selectPreviousRow(true)
+        self.gridview:selectPreviousColumn(true)
     end
 
     if self.gridview.needsDisplay then
