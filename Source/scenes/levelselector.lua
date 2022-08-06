@@ -13,6 +13,8 @@ end
 function LevelSelectorScene:init()
     LevelSelectorScene.super.init(self)
 
+    playdate.graphics.setDrawOffset(0, 0)
+
     finishedLevels = loadFinishedLevels()
 
     self.gridviewSprite = playdate.graphics.sprite.new()
@@ -73,8 +75,6 @@ function LevelSelectorScene:init()
 end
 
 function LevelSelectorScene:update()
-    playdate.graphics.setDrawOffset(0, 0)
-
     if playdate.buttonJustPressed(playdate.kButtonUp) then
         self.gridview:selectPreviousRow(true)
     elseif playdate.buttonJustPressed(playdate.kButtonDown) then

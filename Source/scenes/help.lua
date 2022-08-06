@@ -2,11 +2,11 @@ class('HelpScene').extends(Scene)
 
 function HelpScene:init()
     HelpScene.super.init(self)
+
+    playdate.graphics.setDrawOffset(0, 0)
 end
 
 function HelpScene:update()
-    playdate.graphics.setDrawOffset(0, 0)
-
     playdate.graphics.drawText('Keys', 20, 20)
     playdate.graphics.drawText('Move the character with the directional arrows.', 20, 40)
 

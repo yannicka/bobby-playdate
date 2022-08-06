@@ -2,11 +2,11 @@ class('OptionsScene').extends(Scene)
 
 function OptionsScene:init()
     OptionsScene.super.init(self)
+
+    playdate.graphics.setDrawOffset(0, 0)
 end
 
 function OptionsScene:update()
-    playdate.graphics.setDrawOffset(0, 0)
-    
     local playButton = ScreenButton('Options', 20, 20, 10)
     playButton:render()
 

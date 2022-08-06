@@ -2,11 +2,11 @@ class('EndGameScene').extends(Scene)
 
 function EndGameScene:init()
     EndGameScene.super.init(self)
+
+    playdate.graphics.setDrawOffset(0, 0)
 end
 
 function EndGameScene:update()
-    playdate.graphics.setDrawOffset(0, 0)
-    
     local playButton = ScreenButton('Fin du jeu', 20, 20, 10)
     playButton:render()
 
