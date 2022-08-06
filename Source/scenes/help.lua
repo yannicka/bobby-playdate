@@ -18,12 +18,12 @@ Turnstiles block you in certain directions and turn clockwise when you exit.
 Ice slides you to the next void or solid block you encounter.
 ]]
 
-local offset = 0
-
 function HelpScene:init()
     HelpScene.super.init(self)
 
     playdate.display.setOffset(0, 0)
+
+    self.offset = 0
 end
 
 function HelpScene:update()
@@ -31,21 +31,21 @@ function HelpScene:update()
     playdate.graphics.pushContext(gridviewImage)
     playdate.graphics.drawTextInRect(text, 10, 10, playdate.display.getWidth() - 20, 500, 5)
     playdate.graphics.popContext()
-    gridviewImage:draw(0, offset)
+    gridviewImage:draw(0, self.offset)
 
     if playdate.buttonIsPressed(playdate.kButtonUp) then
-        offset += 10
+        self.offset += 10
 
-        if offset > 0 then
-            offset = 0
+        if self.offset > 0 then
+            self.offset = 0
         end
     end
 
     if playdate.buttonIsPressed(playdate.kButtonDown) then
-        offset -= 10
+        self.offset -= 10
 
-        if offset < -140 then
-            offset = -140
+        if self.offset < -140 then
+            self.offset = -140
         end
     end
 
