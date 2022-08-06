@@ -29,11 +29,11 @@ function goToNextLevel()
 
     playdate.datastore.write(finishedLevels)
 
-    local a = table.indexOf(levelsOrder, currentLevelName)
-    local b = next(levelsOrder, a)
-    local c = levelsOrder[b]
+    local currentLevelIndex = table.indexOf(levelsOrder, currentLevelName)
+    local nextLevelIndex = next(levelsOrder, currentLevelIndex)
+    local nextLevelName = levelsOrder[nextLevelIndex]
 
-    loadLevel(c)
+    loadLevel(nextLevelName)
 end
 
 function GameScene:init()
