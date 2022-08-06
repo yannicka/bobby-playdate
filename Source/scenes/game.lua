@@ -5,6 +5,7 @@ local menu = playdate.getSystemMenu()
 local level = nil
 local player = nil
 local currentLevelName = nil
+local backgroundImage = playdate.graphics.image.new('img/background')
 
 function loadLevel(name)
     changeScene(GameScene)
@@ -56,11 +57,16 @@ end
 function GameScene:init()
     GameScene.super.init(self)
 
-    local backgroundImage = playdate.graphics.image.new('img/background')
+    self.background = playdate.graphics.sprite.new()
+    self.background:moveTo(0, 0)
+    self.background:setCenter(0, 0)
+    self.background:add()
 
-    playdate.graphics.sprite.setBackgroundDrawingCallback(function(x, y, width, height)
-        backgroundImage:drawTiled(x, y, width, height)
-    end)
+    local backgroundContext = playdate.graphics.image.new(playdate.display.getWidth() * 2, playdate.display.getHeight() * 2)
+    playdate.graphics.pushContext(backgroundContext)
+    backgroundImage:drawTiled(0, 0, playdate.display.getWidth() * 2, playdate.display.getHeight() * 2)
+    playdate.graphics.popContext()
+    self.background:setImage(backgroundContext)
 
     self.menuHome, error = menu:addMenuItem('go menu', function()
         changeScene(LevelSelectorScene)
@@ -118,12 +124,7 @@ function GameScene:destroy()
     menu:removeMenuItem(self.menuHome)
     menu:removeMenuItem(self.menuRestart)
 
+    background:remove()
     level:remove()
     player:remove()
-
-    playdate.graphics.sprite.setBackgroundDrawingCallback(function(x, y, width, height)
-        playdate.graphics.setColor(playdate.graphics.kColorWhite)
-        playdate.graphics.fillRect(0, 0, playdate.display.getWidth(), playdate.display.getHeight())
-        playdate.graphics.setColor(playdate.graphics.kColorBlack)
-    end)
 end
