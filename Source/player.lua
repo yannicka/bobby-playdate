@@ -35,6 +35,11 @@ function Player:init(level)
     self.animationManager:addAnimation('turn', {10, 1, 4, 7}, 2)
 
     self.animationManager:play('turn')
+
+    local timer = playdate.timer.new(300, 0, 300, playdate.easingFunctions.linear)
+    timer.timerEndedCallback = function()
+        self.animationManager:play('idle-up', true)
+    end
 end
 
 function Player:move(direction)
