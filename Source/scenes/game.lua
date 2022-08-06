@@ -58,13 +58,13 @@ function GameScene:init()
     GameScene.super.init(self)
 
     self.background = playdate.graphics.sprite.new()
-    self.background:moveTo(0, 0)
+    self.background:moveTo(-playdate.display.getWidth(), -playdate.display.getHeight())
     self.background:setCenter(0, 0)
     self.background:add()
 
-    local backgroundContext = playdate.graphics.image.new(playdate.display.getWidth() * 2, playdate.display.getHeight() * 2)
+    local backgroundContext = playdate.graphics.image.new(playdate.display.getWidth() * 4, playdate.display.getHeight() * 4)
     playdate.graphics.pushContext(backgroundContext)
-    backgroundImage:drawTiled(0, 0, playdate.display.getWidth() * 2, playdate.display.getHeight() * 2)
+    backgroundImage:drawTiled(0, 0, playdate.display.getWidth() * 4, playdate.display.getHeight() * 4)
     playdate.graphics.popContext()
     self.background:setImage(backgroundContext)
 
@@ -124,7 +124,7 @@ function GameScene:destroy()
     menu:removeMenuItem(self.menuHome)
     menu:removeMenuItem(self.menuRestart)
 
-    background:remove()
+    self.background:remove()
     level:remove()
     player:remove()
 end
