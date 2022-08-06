@@ -50,12 +50,12 @@ end
 function GameScene:init()
     GameScene.super.init(self)
 
-    self.menuRestart, error = menu:addMenuItem('restart level', function()
-        loadLevel(currentLevelName)
-    end)
-
     self.menuHome, error = menu:addMenuItem('go menu', function()
         changeScene(LevelSelectorScene)
+    end)
+
+    self.menuRestart, error = menu:addMenuItem('restart level', function()
+        loadLevel(currentLevelName)
     end)
 end
 
@@ -110,8 +110,8 @@ function GameScene:updateCamera()
 end
 
 function GameScene:destroy()
-    menu:removeMenuItem(self.menuRestart)
     menu:removeMenuItem(self.menuHome)
+    menu:removeMenuItem(self.menuRestart)
 
     level:remove()
     player:remove()
