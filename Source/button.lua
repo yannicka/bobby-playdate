@@ -17,17 +17,7 @@ function ScreenButton:render()
 
     local width, height = playdate.graphics.getTextSize(self.text)
 
-    if self.finished then
-        playdate.graphics.setColor(playdate.graphics.kColorBlack)
-    else
-        playdate.graphics.setColor(playdate.graphics.kColorBlack)
-    end
-
-    if self.finished then
-        playdate.graphics.fillRoundRect(self.x-self.padding, self.y-self.padding, width+self.padding*2, height+self.padding*2, 8)
-    else
-        playdate.graphics.drawRoundRect(self.x-self.padding, self.y-self.padding, width+self.padding*2, height+self.padding*2, 8)
-    end
+    playdate.graphics.drawRoundRect(self.x-self.padding, self.y-self.padding, width+self.padding*2, height+self.padding*2, 8)
 
     if self.selected then
         playdate.graphics.setLineWidth(2)
