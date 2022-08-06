@@ -118,5 +118,6 @@ function GameScene:destroy()
     playdate.graphics.sprite.setBackgroundDrawingCallback(function(x, y, width, height)
         playdate.graphics.setColor(playdate.graphics.kColorWhite)
         playdate.graphics.fillRect(0, 0, playdate.display.getWidth(), playdate.display.getHeight())
+        playdate.graphics.setColor(playdate.graphics.kColorBlack)
     end)
 end

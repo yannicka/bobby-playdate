@@ -33,6 +33,7 @@ end
 function playdate.update()
     playdate.graphics.setColor(playdate.graphics.kColorWhite)
     playdate.graphics.fillRect(0, 0, playdate.display.getWidth(), playdate.display.getHeight())
+    playdate.graphics.setColor(playdate.graphics.kColorBlack)
 
     scene:update()
 end

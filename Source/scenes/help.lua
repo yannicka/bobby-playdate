@@ -31,7 +31,6 @@ function HelpScene:update()
     playdate.graphics.pushContext(gridviewImage)
     playdate.graphics.drawTextInRect(text, 10, 10, playdate.display.getWidth() - 20, 500, 5)
     playdate.graphics.popContext()
-    -- self.gridviewSprite:setImage(gridviewImage)
     gridviewImage:draw(0, offset)
 
     if playdate.buttonIsPressed(playdate.kButtonUp) then
