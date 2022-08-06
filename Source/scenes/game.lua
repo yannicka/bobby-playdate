@@ -56,6 +56,12 @@ end
 function GameScene:init()
     GameScene.super.init(self)
 
+    local backgroundImage = playdate.graphics.image.new('img/background')
+
+    playdate.graphics.sprite.setBackgroundDrawingCallback(function(x, y, width, height)
+        backgroundImage:drawTiled(x, y, width, height)
+    end)
+
     self.menuHome, error = menu:addMenuItem('go menu', function()
         changeScene(LevelSelectorScene)
     end)
@@ -66,12 +72,6 @@ function GameScene:init()
 end
 
 function GameScene:update()
-    local backgroundImage = playdate.graphics.image.new('img/background')
-
-    playdate.graphics.sprite.setBackgroundDrawingCallback(function(x, y, width, height)
-        backgroundImage:drawTiled(x, y, width, height)
-    end)
-
     if playdate.buttonIsPressed(playdate.kButtonUp) then
         player:move('up')
     end
