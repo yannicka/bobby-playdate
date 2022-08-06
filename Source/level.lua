@@ -11,13 +11,13 @@ end
 local function parseStringLevel(level)
     -- Retire les espaces au début de chaque ligne
     local levelWithoutSpace = level:gsub('/^ +/gm', '')
-  
+
     -- Remplace les espaces consécutives par une seule espace
     levelWithoutSpace = levelWithoutSpace:gsub('/ +/g', ' ')
-  
+
     -- Coupe à chaque ligne
     local lines = splitLines(levelWithoutSpace)
-  
+
     -- Retire les lignes vides
     local finalLines = {}
 
@@ -26,7 +26,7 @@ local function parseStringLevel(level)
             table.insert(finalLines, line)
         end
     end
-  
+
     local map = {}
 
     for i,line in ipairs(finalLines) do

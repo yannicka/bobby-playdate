@@ -2,7 +2,7 @@ class('LevelSelectorScene').extends(Scene)
 
 function loadFinishedLevels()
     local finishedLevels = playdate.datastore.read()
-    
+
     if finishedLevels == nil then
         finishedLevels = {}
     end
@@ -68,7 +68,7 @@ function LevelSelectorScene:init()
             local column = i % 10
 
             self.gridview:setSelection(1, row, column)
-            
+
             break
         end
     end
