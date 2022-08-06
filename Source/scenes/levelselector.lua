@@ -120,4 +120,5 @@ function LevelSelectorScene:update()
 end
 
 function LevelSelectorScene:destroy()
+    self.gridviewSprite:remove()
 end
