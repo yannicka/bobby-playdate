@@ -17,6 +17,11 @@ function LevelSelectorScene:init()
 
     finishedLevels = loadFinishedLevels()
 
+    self.gridviewSprite = playdate.graphics.sprite.new()
+    self.gridviewSprite:setCenter(0, 0)
+    self.gridviewSprite:moveTo(0, 0)
+    self.gridviewSprite:add()
+
     self.gridview = playdate.ui.gridview.new(30, 30)
 
     self.gridview:setNumberOfColumns(10)
@@ -88,11 +93,13 @@ function LevelSelectorScene:update()
         self.gridview:selectPreviousColumn(true)
     end
 
-    local gridviewImage = playdate.graphics.image.new(playdate.display.getWidth(), playdate.display.getHeight())
-    playdate.graphics.pushContext(gridviewImage)
-    self.gridview:drawInRect(0, 0, playdate.display.getWidth(), playdate.display.getHeight())
-    playdate.graphics.popContext()
-    gridviewImage:draw(0, 0)
+    if self.gridview.needsDisplay then
+        local gridviewImage = playdate.graphics.image.new(playdate.display.getWidth(), playdate.display.getHeight())
+        playdate.graphics.pushContext(gridviewImage)
+        self.gridview:drawInRect(0, 0, playdate.display.getWidth(), playdate.display.getHeight())
+        playdate.graphics.popContext()
+        self.gridviewSprite:setImage(gridviewImage)
+    end
 
     if playdate.buttonJustPressed(playdate.kButtonA) then
         local section, row, column = self.gridview:getSelection()
@@ -111,4 +118,5 @@ function LevelSelectorScene:update()
 end
 
 function LevelSelectorScene:destroy()
+    self.gridviewSprite:remove()
 end

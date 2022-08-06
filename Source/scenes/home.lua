@@ -3,6 +3,8 @@ class('HomeScene').extends(Scene)
 function HomeScene:init()
     HomeScene.super.init(self)
 
+    playdate.graphics.setDrawOffset(0, 0)
+
     self.titleImage = playdate.graphics.image.new('img/title')
     self.buttonSelected = 'play'
 
@@ -15,8 +17,6 @@ function HomeScene:init()
 end
 
 function HomeScene:update()
-    playdate.graphics.setDrawOffset(0, 0)
-
     self.titleImage:draw(120, 16)
 
     self.playButton:render()
