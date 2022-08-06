@@ -6,6 +6,11 @@ function Cell:init(position)
     Cell.super.init(self)
 
     self.position = position
+    self.animationManager = AnimationManager(self, tilesImage)
+
+    self.update = function()
+        self.animationManager:update()
+    end
 
     self:setZIndex(100)
     self:setCenter(0, 0)
@@ -89,13 +94,17 @@ function Conveyor:init(position, direction)
     self.direction = direction
 
     if direction == 'up' then
-        self:setImage(tilesImage[31])
+        self.animationManager:addAnimation('move', {31, 32, 33, 34}, 2)
+        self.animationManager:play('move')
     elseif direction == 'down' then
-        self:setImage(tilesImage[51])
+        self.animationManager:addAnimation('move', {51, 52, 53, 54}, 2)
+        self.animationManager:play('move')
     elseif direction == 'right' then
-        self:setImage(tilesImage[41])
+        self.animationManager:addAnimation('move', {41, 42, 43, 44}, 2)
+        self.animationManager:play('move')
     elseif direction == 'left' then
-        self:setImage(tilesImage[61])
+        self.animationManager:addAnimation('move', {61, 62, 63, 64}, 2)
+        self.animationManager:play('move')
     end
 end
 
@@ -265,6 +274,8 @@ class('End').extends(Cell)
 function End:init(position)
     End.super.init(self, position)
 
+    self.animationManager:addAnimation('active', {22, 23, 24, 25}, 2)
+
     self:setImage(tilesImage[21])
 
     self.active = false
@@ -279,7 +290,7 @@ end
 function End:activate()
     self.active = true
 
-    self:setImage(tilesImage[22])
+    self.animationManager:play('active')
 end
 
 -- Pièce
