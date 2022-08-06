@@ -24,21 +24,23 @@ function Player:init(level)
         self.animationManager:update()
     end
 
-    self.animationManager:addAnimation('idle-up', {4}, 2)
-    self.animationManager:addAnimation('idle-down', {10}, 2)
-    self.animationManager:addAnimation('idle-right', {7}, 2)
-    self.animationManager:addAnimation('idle-left', {1}, 2)
-    self.animationManager:addAnimation('walk-up', {4, 5, 6, 4}, 4, false)
-    self.animationManager:addAnimation('walk-down', {10, 11, 12, 10}, 4, false)
-    self.animationManager:addAnimation('walk-right', {7, 8, 7}, 4, false)
-    self.animationManager:addAnimation('walk-left', {1, 2, 1}, 4, false)
+    self.animationManager:addAnimation('idle-up', {4}, 2, false)
+    self.animationManager:addAnimation('idle-down', {10}, 2, false)
+    self.animationManager:addAnimation('idle-right', {7}, 2, false)
+    self.animationManager:addAnimation('idle-left', {1}, 2, false)
+
+    self.animationManager:addAnimation('walk-up', {4, 5, 6, 4}, 2, false)
+    self.animationManager:addAnimation('walk-down', {10, 11, 12, 10}, 2, false)
+    self.animationManager:addAnimation('walk-right', {7, 8, 7}, 2, false)
+    self.animationManager:addAnimation('walk-left', {1, 2, 1}, 2, false)
+
     self.animationManager:addAnimation('turn', {10, 1, 4, 7}, 2)
 
     self.animationManager:play('turn')
 
-    local timer = playdate.timer.new(300, 0, 300, playdate.easingFunctions.linear)
+    local timer = playdate.timer.new(400, 0, 400, playdate.easingFunctions.linear)
     timer.timerEndedCallback = function()
-        self.animationManager:play('idle-up', true)
+        self.animationManager:play('idle-' .. self.direction, true)
     end
 end
 
@@ -46,6 +48,8 @@ function Player:move(direction)
     if not self.canMove then
         return
     end
+
+    self.animationManager:play('walk-' .. direction, true)
 
     local cellBefore = self.level:getCellAt(self.position)
 
@@ -74,8 +78,6 @@ function Player:move(direction)
             return
         end
     end
-
-    self.animationManager:play('walk-' .. direction, true)
 
     self.direction = direction
     self.canMove = false

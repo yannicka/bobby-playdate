@@ -45,7 +45,7 @@ function goToNextLevel()
         player.canMove = false
         player.animationManager:play('turn')
 
-        local timer = playdate.timer.new(300, 0, 300, playdate.easingFunctions.linear)
+        local timer = playdate.timer.new(400, 0, 400, playdate.easingFunctions.linear)
         timer.timerEndedCallback = function()
             loadLevel(nextLevelName)
         end
