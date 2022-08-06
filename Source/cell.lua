@@ -274,7 +274,7 @@ class('End').extends(Cell)
 function End:init(position)
     End.super.init(self, position)
 
-    self.animationManager:addAnimation('active', {22, 23, 24, 25}, 2)
+    self.animationManager:addAnimation('active', {22, 23, 24, 25}, 3)
 
     self:setImage(tilesImage[21])
 
