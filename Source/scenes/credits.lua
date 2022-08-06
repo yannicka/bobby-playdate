@@ -18,7 +18,7 @@ _Source code_
 
 Source code under the AGPLv3+ free license.
 
-https://gitlab.com/yannicka/bobby
+https://gitlab.com/yannicka/bobby-playdate
 ]]
 
 function CreditsScene:init()
