@@ -1,5 +1,4 @@
 local tilesImage = playdate.graphics.imagetable.new('img/tiles')
-assert(tilesImage)
 
 class('Cell').extends(playdate.graphics.sprite)
 

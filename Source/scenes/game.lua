@@ -61,7 +61,6 @@ end
 
 function GameScene:update()
     local backgroundImage = playdate.graphics.image.new('img/background')
-    assert(backgroundImage)
 
     playdate.graphics.sprite.setBackgroundDrawingCallback(function(x, y, width, height)
         backgroundImage:drawTiled(x, y, width, height)

@@ -11,7 +11,6 @@ function Player:init(level)
     self.direction = 'down'
 
     local playerImage = playdate.graphics.imagetable.new('img/player')
-    assert(playerImage)
 
     self:setZIndex(200)
     self:setCenter(0, 0)
