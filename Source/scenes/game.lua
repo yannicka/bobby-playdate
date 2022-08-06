@@ -46,14 +46,11 @@ end
 function GameScene:init()
     GameScene.super.init(self)
 
-    self.menuRestart, error = menu:addMenuItem('Restart Level', function()
+    self.menuRestart, error = menu:addMenuItem('restart level', function()
         loadLevel(currentLevelName)
     end)
 
-    self.menuHome, error = menu:addMenuItem('Go Menu', function()
-        level:remove()
-        player:remove()
-
+    self.menuHome, error = menu:addMenuItem('go menu', function()
         changeScene(LevelSelectorScene)
     end)
 end
@@ -111,4 +108,12 @@ end
 function GameScene:destroy()
     menu:removeMenuItem(self.menuRestart)
     menu:removeMenuItem(self.menuHome)
+
+    level:remove()
+    player:remove()
+
+    playdate.graphics.sprite.setBackgroundDrawingCallback(function(x, y, width, height)
+        playdate.graphics.setColor(playdate.graphics.kColorWhite)
+        playdate.graphics.fillRect(0, 0, playdate.display.getWidth(), playdate.display.getHeight())
+    end)
 end
