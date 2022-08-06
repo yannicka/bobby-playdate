@@ -1,6 +1,6 @@
 name=Bobby
 author=Yannick A.
 description=Bobby.
-bundleID=playdate.bobby.yannicka.fr
+bundleID=fr.yannicka.bobby.playdate
 version=0.1
 imagePath=SystemAssets/card.png
