@@ -2,6 +2,10 @@ class('GameScene').extends(Scene)
 
 local menu = playdate.getSystemMenu()
 
+local level = nil
+local player = nil
+local currentLevelName = nil
+
 function loadLevel(name)
     changeScene(GameScene)
 

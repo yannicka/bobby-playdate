@@ -21,18 +21,7 @@ import 'scenes/options'
 local font = playdate.graphics.font.new('img/fonts/whiteglove-stroked')
 playdate.graphics.setFont(font)
 
-local playerSprite = nil
-
-level = nil
-player = nil
-
-local currentLevelName = nil
-
-finishedLevels = playdate.datastore.read()
-
-if finishedLevels == nil then
-    finishedLevels = {}
-end
+finishedLevels = loadFinishedLevels()
 
 local scene = HomeScene()
 

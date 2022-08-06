@@ -1,7 +1,19 @@
 class('LevelSelectorScene').extends(Scene)
 
+function loadFinishedLevels()
+    local finishedLevels = playdate.datastore.read()
+    
+    if finishedLevels == nil then
+        finishedLevels = {}
+    end
+
+    return finishedLevels
+end
+
 function LevelSelectorScene:init()
     LevelSelectorScene.super.init(self)
+
+    finishedLevels = loadFinishedLevels()
 
     self.gridviewSprite = playdate.graphics.sprite.new()
     self.gridviewSprite:setCenter(0, 0)
