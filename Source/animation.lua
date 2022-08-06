@@ -27,7 +27,7 @@ function AnimationManager:play(name, force)
     if self.currentAnimation ~= nextAnimation or force then
         self.currentAnimation = nextAnimation
 
-        -- nextAnimation.restart()
+        nextAnimation:restart()
     end
 end
 
@@ -84,7 +84,7 @@ end
 
 function Animation:restart()
     self.timer = 0
-    self.currentIndex = 0
+    self.currentIndex = 1
     self.finished = false
 end
 

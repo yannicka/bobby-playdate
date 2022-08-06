@@ -17,6 +17,24 @@ function Player:init(level)
     self:setImage(playerImage[1])
     self:moveTo(self.position.x * CELL_SIZE, self.position.y * CELL_SIZE)
     self:add()
+
+    self.animationManager = AnimationManager(self, playerImage)
+
+    self.update = function()
+        self.animationManager:update()
+    end
+
+    self.animationManager:addAnimation('idle-up', {4}, 2)
+    self.animationManager:addAnimation('idle-down', {10}, 2)
+    self.animationManager:addAnimation('idle-right', {7}, 2)
+    self.animationManager:addAnimation('idle-left', {1}, 2)
+    self.animationManager:addAnimation('walk-up', {4, 5, 6, 4}, 4, false)
+    self.animationManager:addAnimation('walk-down', {10, 11, 12, 10}, 4, false)
+    self.animationManager:addAnimation('walk-right', {7, 8, 7}, 4, false)
+    self.animationManager:addAnimation('walk-left', {1, 2, 1}, 4, false)
+    self.animationManager:addAnimation('turn', {10, 1, 4, 7}, 2)
+
+    self.animationManager:play('turn')
 end
 
 function Player:move(direction)
@@ -51,6 +69,8 @@ function Player:move(direction)
             return
         end
     end
+
+    self.animationManager:play('walk-' .. direction, true)
 
     self.direction = direction
     self.canMove = false
