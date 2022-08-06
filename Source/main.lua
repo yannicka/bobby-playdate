@@ -23,7 +23,7 @@ playdate.graphics.setFont(font)
 
 finishedLevels = loadFinishedLevels()
 
-local scene = HelpScene()
+local scene = HomeScene()
 
 function changeScene(newScene)
     scene:destroy()
