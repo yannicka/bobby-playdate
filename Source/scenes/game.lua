@@ -31,9 +31,14 @@ function goToNextLevel()
 
     local currentLevelIndex = table.indexOf(levelsOrder, currentLevelName)
     local nextLevelIndex = next(levelsOrder, currentLevelIndex)
-    local nextLevelName = levelsOrder[nextLevelIndex]
 
-    loadLevel(nextLevelName)
+    if nextLevelIndex then
+        local nextLevelName = levelsOrder[nextLevelIndex]
+
+        loadLevel(nextLevelName)
+    else
+        changeScene(EndGameScene)
+    end
 end
 
 function GameScene:init()
