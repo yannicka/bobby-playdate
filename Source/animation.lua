@@ -24,9 +24,8 @@ end
 function AnimationManager:play(name, force)
     local nextAnimation = self.animations[name]
 
-    if self.currentAnimation ~= nextAnimation or force then
+    if nextAnimation ~= self.currentAnimation or force then
         self.currentAnimation = nextAnimation
-
         self.currentAnimation:restart()
     end
 end
@@ -57,7 +56,7 @@ function Animation:init(sprite, image, frames, frameDuration, loop)
 end
 
 function Animation:update()
-    if self.finished or self.nbFrames <= 1 then
+    if self.finished then
         return
     end
 
@@ -76,10 +75,10 @@ function Animation:update()
             end
         end
 
-        self.timer = self.timer - self.frameDuration
-    end
+        self.timer -= self.frameDuration
 
-    self.sprite:setImage(self.image[self:getCurrentFrame()])
+        self.sprite:setImage(self.image[self:getCurrentFrame()])
+    end
 end
 
 function Animation:restart()
