@@ -11,7 +11,7 @@ function EndGameScene:update()
     playButton:render()
 
     if playdate.buttonJustPressed(playdate.kButtonB) then
-        currentState = 'home'
+        changeScene(HomeScene)
     end
 end
 

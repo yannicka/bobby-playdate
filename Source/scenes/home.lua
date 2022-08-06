@@ -21,7 +21,7 @@ function HomeScene:update()
     optionsButton:render()
 
     if playdate.buttonJustPressed(playdate.kButtonA) then
-        currentState = 'levelselector'
+        changeScene(LevelSelectorScene)
     end
 end
 

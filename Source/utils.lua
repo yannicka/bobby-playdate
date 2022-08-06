@@ -4,7 +4,7 @@ function math.clamp(x, min, max)
     return math.max(math.min(x, max), min)
 end
 
-function indexOf(array, value)
+function table.indexOf(array, value)
     for i,v in ipairs(array) do
         if v == value then
             return i

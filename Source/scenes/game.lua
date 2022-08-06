@@ -1,5 +1,41 @@
 class('GameScene').extends(Scene)
 
+function loadLevel(name)
+    changeScene(GameScene)
+
+    if level then
+        level:remove()
+    end
+
+    if player then
+        player:remove()
+    end
+
+    currentLevelName = name
+
+    level = Level(name)
+    player = Player(level)
+
+    local startPosition = level:getStartPosition()
+
+    if startPosition then
+        player.position = startPosition:copy()
+        player:moveTo(player.position.x * CELL_SIZE, player.position.y * CELL_SIZE)
+    end
+end
+
+function goToNextLevel()
+    table.insert(finishedLevels, currentLevelName)
+
+    playdate.datastore.write(finishedLevels)
+
+    local a = table.indexOf(levelsOrder, currentLevelName)
+    local b = next(levelsOrder, a)
+    local c = levelsOrder[b]
+
+    loadLevel(c)
+end
+
 function GameScene:init()
     GameScene.super.init(self)
 end
@@ -33,7 +69,25 @@ function GameScene:update()
     playdate.graphics.sprite.redrawBackground()
     playdate.graphics.sprite.update()
     playdate.timer.updateTimers()
-    updateCamera()
+    self:updateCamera()
+end
+
+function GameScene:updateCamera()
+    local xOffset = -player.x + (playdate.display.getWidth() / 2)
+    local yOffset = -player.y + (playdate.display.getHeight() / 2)
+
+    xOffset = math.clamp(xOffset, -level.width * CELL_SIZE + playdate.display.getWidth() - CELL_SIZE, -CELL_SIZE)
+    yOffset = math.clamp(yOffset, -level.height * CELL_SIZE + playdate.display.getHeight() - CELL_SIZE, -CELL_SIZE)
+
+    if level.width * CELL_SIZE < playdate.display.getWidth() then
+        xOffset = (playdate.display.getWidth() / 2) - ((level.width * CELL_SIZE) / 2) - CELL_SIZE
+    end
+
+    if level.height * CELL_SIZE < playdate.display.getHeight() then
+        yOffset = (playdate.display.getHeight() / 2) - ((level.height * CELL_SIZE) / 2) - CELL_SIZE
+    end
+
+    playdate.graphics.setDrawOffset(xOffset, yOffset)
 end
 
 function GameScene:destroy()

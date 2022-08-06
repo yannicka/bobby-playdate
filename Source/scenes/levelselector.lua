@@ -37,7 +37,7 @@ function LevelSelectorScene:init()
 
         if selected then
             playdate.graphics.setLineWidth(2)
-            playdate.graphics.drawRoundRect(x - 2, y - 2, width + 4, height + 4, 10)
+            playdate.graphics.drawRoundRect(x - 3, y - 3, width + 6, height + 6, 11)
         end
 
         local fontHeight = playdate.graphics.getSystemFont():getHeight()
