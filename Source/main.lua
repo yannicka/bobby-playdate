@@ -11,6 +11,7 @@ import 'button'
 import 'levels'
 
 local font = playdate.graphics.font.new('img/fonts/whiteglove-stroked')
+playdate.graphics.setFont(font)
 
 local playerSprite = nil
 
@@ -80,19 +81,6 @@ local function updateCamera()
 
     playdate.graphics.setDrawOffset(xOffset, yOffset)
 end
-
-local function myGameSetUp()
-    local backgroundImage = playdate.graphics.image.new('img/background')
-    assert(backgroundImage)
-
-    playdate.graphics.sprite.setBackgroundDrawingCallback(function(x, y, width, height)
-        backgroundImage:drawTiled(x, y, width, height)
-    end)
-
-    playdate.graphics.setFont(font)
-end
-
-myGameSetUp()
 
 local gridviewSprite = playdate.graphics.sprite.new()
 gridviewSprite:setCenter(0, 0)
@@ -255,6 +243,13 @@ function playdate.update()
         playdate.graphics.sprite.update()
         playdate.timer.updateTimers()
     elseif currentState == 'game' then
+        local backgroundImage = playdate.graphics.image.new('img/background')
+        assert(backgroundImage)
+
+        playdate.graphics.sprite.setBackgroundDrawingCallback(function(x, y, width, height)
+            backgroundImage:drawTiled(x, y, width, height)
+        end)
+
         if playdate.buttonIsPressed(playdate.kButtonUp) then
             player:move('up')
         end
