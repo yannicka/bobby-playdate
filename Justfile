@@ -1,4 +1,4 @@
-version := `cat Source/pdxinfo | grep 'version' | sed 's/version=//'`
+version := `sed -n -e 's/^version=//p' Source/pdxinfo`
 
 run:
     pdc Source Bobby.pdx && PlaydateSimulator Bobby.pdx
