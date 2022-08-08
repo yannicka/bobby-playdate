@@ -59,7 +59,7 @@ function LevelSelectorScene:init()
         playdate.graphics.drawTextInRect(tostring(levelIndex), x, y + (height / 2 - fontHeight / 2) + 3, width, height, nil, nil, kTextAlignment.center)
     end
 
-    for i = 1,50 do
+    for i = 1,nbLevels do
         local levelName = levelsOrder[i]
         local finished = table.contains(finishedLevels, levelName)
 

@@ -3,20 +3,15 @@ class('GameScene').extends(Scene)
 local menu = playdate.getSystemMenu()
 
 local level = nil
+local levelIndex = nil
 local player = nil
 local currentLevelName = nil
 local backgroundImage = playdate.graphics.image.new('img/background')
 
 function loadLevel(name)
+    levelIndex = table.indexOf(levelsOrder, name)
+
     changeScene(GameScene)
-
-    if level then
-        level:remove()
-    end
-
-    if player then
-        player:remove()
-    end
 
     currentLevelName = name
 
@@ -67,6 +62,19 @@ function GameScene:init()
     backgroundImage:drawTiled(0, 0, playdate.display.getWidth() * 4, playdate.display.getHeight() * 4)
     playdate.graphics.popContext()
     self.background:setImage(backgroundContext)
+
+    self.levelCounter = playdate.graphics.sprite.new()
+    self.levelCounter:setIgnoresDrawOffset(true)
+    self.levelCounter:moveTo(4, 4)
+    self.levelCounter:setCenter(0, 0)
+    self.levelCounter:setZIndex(300)
+    self.levelCounter:add()
+
+    local levelCounterContext = playdate.graphics.image.new(60, 40)
+    playdate.graphics.pushContext(levelCounterContext)
+    playdate.graphics.drawText(levelIndex .. '/' .. nbLevels, 0, 0)
+    playdate.graphics.popContext()
+    self.levelCounter:setImage(levelCounterContext)
 
     self.menuHome, error = menu:addMenuItem('go menu', function()
         changeScene(LevelSelectorScene)
@@ -125,6 +133,7 @@ function GameScene:destroy()
     menu:removeMenuItem(self.menuRestart)
 
     self.background:remove()
+    self.levelCounter:remove()
     level:remove()
     player:remove()
 end
