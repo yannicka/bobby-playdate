@@ -17,7 +17,7 @@ function HomeScene:init()
 end
 
 function HomeScene:update()
-    self.titleImage:draw(120, 16)
+    self.titleImage:draw(0, 0)
 
     self.playButton:render()
     self.creditsButton:render()

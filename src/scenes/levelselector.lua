@@ -32,7 +32,7 @@ function LevelSelectorScene:init()
 
     function self.gridview:drawSectionHeader(section, x, y, width, height)
         local fontHeight = playdate.graphics.getSystemFont():getHeight()
-        playdate.graphics.drawTextAligned('Choix du niveau', x, y, kTextAlignment.left)
+        playdate.graphics.drawTextAligned('Select level', x, y, kTextAlignment.left)
     end
 
     function self.gridview:drawCell(section, row, column, selected, x, y, width, height)

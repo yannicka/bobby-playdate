@@ -7,7 +7,7 @@ function EndGameScene:init()
 end
 
 function EndGameScene:update()
-    local playButton = ScreenButton('Fin du jeu', 20, 20, 10)
+    local playButton = ScreenButton('End of the game', 20, 20, 10)
     playButton:render()
 
     if playdate.buttonJustPressed(playdate.kButtonB) then
