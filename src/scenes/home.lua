@@ -8,12 +8,12 @@ function HomeScene:init()
     self.titleImage = playdate.graphics.image.new('img/title')
     self.buttonSelected = 'play'
 
-    self.playButton = ScreenButton('*Play*', 200, 140, 10)
+    self.playButton = ScreenButton('*Play*', 185, 148, 10)
     self.playButton.selected = true
 
-    self.creditsButton = ScreenButton('Credits', 20, 202, 10)
-    self.helpButton = ScreenButton('Instructions', 170, 202, 10)
-    self.optionsButton = ScreenButton('Options', 328, 202, 10)
+    self.creditsButton = ScreenButton('Credits', 20, 208, 10)
+    self.helpButton = ScreenButton('Instructions', 157, 208, 10)
+    self.optionsButton = ScreenButton('Options', 328, 208, 10)
 end
 
 function HomeScene:update()
