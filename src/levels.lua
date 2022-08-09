@@ -712,7 +712,4 @@ levelsOrder = {
     'Hartley',
 }
 
-nbLevels = 0
-for _ in ipairs(levelsOrder) do
-    nbLevels += 1
-end
+nbLevels = table.count(levelsOrder)

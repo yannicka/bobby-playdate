@@ -39,17 +39,8 @@ function Animation:init(sprite, image, frames, frameDuration, loop)
     self.image = image
     self.frames = frames
     self.frameDuration = frameDuration
-    self.loop = loop
-
-    if self.loop == nil then
-        self.loop = true
-    end
-
-    self.nbFrames = 0
-    for _ in ipairs(self.frames) do
-        self.nbFrames += 1
-    end
-
+    self.loop = (loop == nil and true) or loop
+    self.nbFrames = table.count(frames)
     self.timer = 0
     self.currentIndex = 1
     self.finished = false
@@ -70,7 +61,6 @@ function Animation:update()
                 self.currentIndex = 1
             else
                 self.finished = true
-
                 self.currentIndex -= 1
             end
         end

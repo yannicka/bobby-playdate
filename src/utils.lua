@@ -24,6 +24,16 @@ function table.contains(array, value)
     return false
 end
 
+function table.count(array)
+    local size = 0
+
+    for _ in ipairs(array) do
+        size += 1
+    end
+
+    return size
+end
+
 function string.trim(s)
     return (string.gsub(s, '^%s*(.-)%s*$', '%1'))
 end
