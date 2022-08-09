@@ -1,13 +1,15 @@
+local gfx <const> = playdate.graphics
+
 class('OptionsScene').extends(Scene)
 
 function OptionsScene:init()
     OptionsScene.super.init(self)
 
-    playdate.graphics.setDrawOffset(0, 0)
+    gfx.setDrawOffset(0, 0)
 end
 
 function OptionsScene:update()
-    playdate.graphics.drawText('Options', 10, 10)
+    gfx.drawText('Options', 10, 10)
 
     local playButton = ScreenButton('Reset progress', 20, 50, 10)
     playButton.selected = true

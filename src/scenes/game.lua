@@ -1,3 +1,5 @@
+local gfx <const> = playdate.graphics
+
 class('GameScene').extends(Scene)
 
 local menu = playdate.getSystemMenu()
@@ -51,29 +53,29 @@ end
 function GameScene:init()
     GameScene.super.init(self)
 
-    self.background = playdate.graphics.sprite.new()
+    self.background = gfx.sprite.new()
     self.background:moveTo(-playdate.display.getWidth(), -playdate.display.getHeight())
     self.background:setCenter(0, 0)
     self.background:add()
 
-    local backgroundImage = playdate.graphics.image.new('img/background')
-    local backgroundContext = playdate.graphics.image.new(playdate.display.getWidth() * 4, playdate.display.getHeight() * 4)
-    playdate.graphics.pushContext(backgroundContext)
+    local backgroundImage = gfx.image.new('img/background')
+    local backgroundContext = gfx.image.new(playdate.display.getWidth() * 4, playdate.display.getHeight() * 4)
+    gfx.pushContext(backgroundContext)
     backgroundImage:drawTiled(0, 0, playdate.display.getWidth() * 4, playdate.display.getHeight() * 4)
-    playdate.graphics.popContext()
+    gfx.popContext()
     self.background:setImage(backgroundContext)
 
-    self.levelCounter = playdate.graphics.sprite.new()
+    self.levelCounter = gfx.sprite.new()
     self.levelCounter:setIgnoresDrawOffset(true)
     self.levelCounter:moveTo(4, 4)
     self.levelCounter:setCenter(0, 0)
     self.levelCounter:setZIndex(300)
     self.levelCounter:add()
 
-    local levelCounterContext = playdate.graphics.image.new(60, 40)
-    playdate.graphics.pushContext(levelCounterContext)
-    playdate.graphics.drawText(levelIndex .. '/' .. nbLevels, 0, 0)
-    playdate.graphics.popContext()
+    local levelCounterContext = gfx.image.new(60, 40)
+    gfx.pushContext(levelCounterContext)
+    gfx.drawText(levelIndex .. '/' .. nbLevels, 0, 0)
+    gfx.popContext()
     self.levelCounter:setImage(levelCounterContext)
 
     self.menuHome, error = menu:addMenuItem('go menu', function()
@@ -104,8 +106,8 @@ function GameScene:update()
 
     level:update()
 
-    playdate.graphics.sprite.redrawBackground()
-    playdate.graphics.sprite.update()
+    gfx.sprite.redrawBackground()
+    gfx.sprite.update()
     playdate.timer.updateTimers()
     self:updateCamera()
 end
@@ -125,7 +127,7 @@ function GameScene:updateCamera()
         yOffset = (playdate.display.getHeight() / 2) - ((level.height * CELL_SIZE) / 2) - CELL_SIZE
     end
 
-    playdate.graphics.setDrawOffset(xOffset, yOffset)
+    gfx.setDrawOffset(xOffset, yOffset)
 end
 
 function GameScene:destroy()

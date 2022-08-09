@@ -1,11 +1,13 @@
+local gfx <const> = playdate.graphics
+
 class('HomeScene').extends(Scene)
 
 function HomeScene:init()
     HomeScene.super.init(self)
 
-    playdate.graphics.setDrawOffset(0, 0)
+    gfx.setDrawOffset(0, 0)
 
-    self.titleImage = playdate.graphics.image.new('img/title')
+    self.titleImage = gfx.image.new('img/title')
     self.buttonSelected = 'play'
 
     self.playButton = ScreenButton('*Play*', 185, 148, 10)

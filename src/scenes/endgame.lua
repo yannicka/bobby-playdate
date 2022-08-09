@@ -1,9 +1,11 @@
+local gfx <const> = playdate.graphics
+
 class('EndGameScene').extends(Scene)
 
 function EndGameScene:init()
     EndGameScene.super.init(self)
 
-    playdate.graphics.setDrawOffset(0, 0)
+    gfx.setDrawOffset(0, 0)
 end
 
 function EndGameScene:update()

@@ -1,3 +1,5 @@
+local gfx <const> = playdate.graphics
+
 class('LevelSelectorScene').extends(Scene)
 
 function loadFinishedLevels()
@@ -13,11 +15,11 @@ end
 function LevelSelectorScene:init()
     LevelSelectorScene.super.init(self)
 
-    playdate.graphics.setDrawOffset(0, 0)
+    gfx.setDrawOffset(0, 0)
 
     finishedLevels = loadFinishedLevels()
 
-    self.gridviewSprite = playdate.graphics.sprite.new()
+    self.gridviewSprite = gfx.sprite.new()
     self.gridviewSprite:setCenter(0, 0)
     self.gridviewSprite:moveTo(0, 0)
     self.gridviewSprite:add()
@@ -31,32 +33,32 @@ function LevelSelectorScene:init()
     self.gridview:setSectionHeaderHeight(24)
 
     function self.gridview:drawSectionHeader(section, x, y, width, height)
-        local fontHeight = playdate.graphics.getSystemFont():getHeight()
-        playdate.graphics.drawTextAligned('Select level', x, y, kTextAlignment.left)
+        local fontHeight = gfx.getSystemFont():getHeight()
+        gfx.drawTextAligned('Select level', x, y, kTextAlignment.left)
     end
 
     function self.gridview:drawCell(section, row, column, selected, x, y, width, height)
-        playdate.graphics.setLineWidth(1)
-        playdate.graphics.setColor(playdate.graphics.kColorBlack)
+        gfx.setLineWidth(1)
+        gfx.setColor(gfx.kColorBlack)
 
         local levelIndex = tonumber((row - 1) * 10) + tonumber(column)
         local levelName = levelsOrder[levelIndex]
         local finished = table.contains(finishedLevels, levelName)
 
         if finished then
-            playdate.graphics.fillRoundRect(x, y, width, height, 8)
+            gfx.fillRoundRect(x, y, width, height, 8)
         else
-            playdate.graphics.drawRoundRect(x, y, width, height, 8)
+            gfx.drawRoundRect(x, y, width, height, 8)
         end
 
         if selected then
-            playdate.graphics.setLineWidth(2)
-            playdate.graphics.drawRoundRect(x - 3, y - 3, width + 6, height + 6, 11)
+            gfx.setLineWidth(2)
+            gfx.drawRoundRect(x - 3, y - 3, width + 6, height + 6, 11)
         end
 
-        local fontHeight = playdate.graphics.getSystemFont():getHeight()
+        local fontHeight = gfx.getSystemFont():getHeight()
 
-        playdate.graphics.drawTextInRect(tostring(levelIndex), x, y + (height / 2 - fontHeight / 2) + 3, width, height, nil, nil, kTextAlignment.center)
+        gfx.drawTextInRect(tostring(levelIndex), x, y + (height / 2 - fontHeight / 2) + 3, width, height, nil, nil, kTextAlignment.center)
     end
 
     for i = 1,nbLevels do
@@ -94,10 +96,10 @@ function LevelSelectorScene:update()
     end
 
     if self.gridview.needsDisplay then
-        local gridviewImage = playdate.graphics.image.new(playdate.display.getWidth(), playdate.display.getHeight())
-        playdate.graphics.pushContext(gridviewImage)
+        local gridviewImage = gfx.image.new(playdate.display.getWidth(), playdate.display.getHeight())
+        gfx.pushContext(gridviewImage)
         self.gridview:drawInRect(0, 0, playdate.display.getWidth(), playdate.display.getHeight())
-        playdate.graphics.popContext()
+        gfx.popContext()
         self.gridviewSprite:setImage(gridviewImage)
     end
 
@@ -113,7 +115,7 @@ function LevelSelectorScene:update()
         changeScene(HomeScene)
     end
 
-    playdate.graphics.sprite.update()
+    gfx.sprite.update()
     playdate.timer.updateTimers()
 end
 

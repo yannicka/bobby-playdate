@@ -1,3 +1,5 @@
+local gfx <const> = playdate.graphics
+
 class('CreditsScene').extends(Scene)
 
 local text = [[
@@ -24,23 +26,23 @@ https://gitlab.com/yannicka/bobby-playdate
 function CreditsScene:init()
     CreditsScene.super.init(self)
 
-    playdate.graphics.setDrawOffset(0, 0)
+    gfx.setDrawOffset(0, 0)
 
     self.offset = 0
 
-    self.gridviewSprite = playdate.graphics.sprite.new()
+    self.gridviewSprite = gfx.sprite.new()
     self.gridviewSprite:setCenter(0, 0)
     self.gridviewSprite:moveTo(0, 0)
     self.gridviewSprite:add()
 end
 
 function CreditsScene:update()
-    playdate.graphics.setDrawOffset(0, self.offset)
+    gfx.setDrawOffset(0, self.offset)
 
-    local gridviewImage = playdate.graphics.image.new(playdate.display.getWidth() - 20, 630)
-    playdate.graphics.pushContext(gridviewImage)
-    playdate.graphics.drawTextInRect(text, 10, 10, playdate.display.getWidth() - 20, 630, 5)
-    playdate.graphics.popContext()
+    local gridviewImage = gfx.image.new(playdate.display.getWidth() - 20, 630)
+    gfx.pushContext(gridviewImage)
+    gfx.drawTextInRect(text, 10, 10, playdate.display.getWidth() - 20, 630, 5)
+    gfx.popContext()
     self.gridviewSprite:setImage(gridviewImage)
 
     if playdate.buttonIsPressed(playdate.kButtonUp) then
@@ -63,7 +65,7 @@ function CreditsScene:update()
         changeScene(HomeScene)
     end
 
-    playdate.graphics.sprite.update()
+    gfx.sprite.update()
     playdate.timer.updateTimers()
 end
 

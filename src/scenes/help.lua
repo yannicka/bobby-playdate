@@ -1,3 +1,5 @@
+local gfx <const> = playdate.graphics
+
 class('HelpScene').extends(Scene)
 
 local text = [[
@@ -21,23 +23,23 @@ Ice slides you to the next void or solid block you encounter.
 function HelpScene:init()
     HelpScene.super.init(self)
 
-    playdate.graphics.setDrawOffset(0, 0)
+    gfx.setDrawOffset(0, 0)
 
     self.offset = 0
 
-    self.gridviewSprite = playdate.graphics.sprite.new()
+    self.gridviewSprite = gfx.sprite.new()
     self.gridviewSprite:setCenter(0, 0)
     self.gridviewSprite:moveTo(0, 0)
     self.gridviewSprite:add()
 end
 
 function HelpScene:update()
-    playdate.graphics.setDrawOffset(0, self.offset)
+    gfx.setDrawOffset(0, self.offset)
 
-    local gridviewImage = playdate.graphics.image.new(playdate.display.getWidth() - 20, 500)
-    playdate.graphics.pushContext(gridviewImage)
-    playdate.graphics.drawTextInRect(text, 10, 10, playdate.display.getWidth() - 20, 500, 5)
-    playdate.graphics.popContext()
+    local gridviewImage = gfx.image.new(playdate.display.getWidth() - 20, 500)
+    gfx.pushContext(gridviewImage)
+    gfx.drawTextInRect(text, 10, 10, playdate.display.getWidth() - 20, 500, 5)
+    gfx.popContext()
     -- gridviewImage:draw(0, self.offset)
     self.gridviewSprite:setImage(gridviewImage)
 
@@ -61,7 +63,7 @@ function HelpScene:update()
         changeScene(HomeScene)
     end
 
-    playdate.graphics.sprite.update()
+    gfx.sprite.update()
     playdate.timer.updateTimers()
 end
 

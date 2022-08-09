@@ -1,6 +1,8 @@
-local tilesImage = playdate.graphics.imagetable.new('img/tiles')
+local gfx <const> = playdate.graphics
 
-class('Cell').extends(playdate.graphics.sprite)
+local tilesImage = gfx.imagetable.new('img/tiles')
+
+class('Cell').extends(gfx.sprite)
 
 function Cell:init(position)
     Cell.super.init(self)

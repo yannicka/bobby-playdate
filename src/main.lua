@@ -19,8 +19,10 @@ import 'scenes/home'
 import 'scenes/levelselector'
 import 'scenes/options'
 
-local font = playdate.graphics.font.new('img/fonts/whiteglove-stroked')
-playdate.graphics.setFont(font)
+local gfx <const> = playdate.graphics
+
+local font = gfx.font.new('img/fonts/whiteglove-stroked')
+gfx.setFont(font)
 
 finishedLevels = loadFinishedLevels()
 
@@ -32,7 +34,7 @@ function changeScene(newScene)
 end
 
 function playdate.update()
-    playdate.graphics.clear(playdate.graphics.kColorWhite)
+    gfx.clear(gfx.kColorWhite)
 
     scene:update()
 end

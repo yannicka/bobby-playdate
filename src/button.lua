@@ -1,6 +1,8 @@
+local gfx <const> = playdate.graphics
+
 class('ScreenButton').extends(Object)
 
-local font = playdate.graphics.font.new('img/fonts/whiteglove-stroked')
+local font = gfx.font.new('img/fonts/whiteglove-stroked')
 
 function ScreenButton:init(text, x, y, padding)
     self.text = text
@@ -12,17 +14,17 @@ function ScreenButton:init(text, x, y, padding)
 end
 
 function ScreenButton:render()
-    playdate.graphics.setLineWidth(1)
-    playdate.graphics.setColor(playdate.graphics.kColorBlack)
+    gfx.setLineWidth(1)
+    gfx.setColor(gfx.kColorBlack)
 
-    local width, height = playdate.graphics.getTextSize(self.text)
+    local width, height = gfx.getTextSize(self.text)
 
-    playdate.graphics.drawRoundRect(self.x-self.padding, self.y-self.padding, width+self.padding*2, height+self.padding*2, 8)
+    gfx.drawRoundRect(self.x-self.padding, self.y-self.padding, width+self.padding*2, height+self.padding*2, 8)
 
     if self.selected then
-        playdate.graphics.setLineWidth(2)
-        playdate.graphics.drawRoundRect(self.x-self.padding-3, self.y-self.padding-3, width+self.padding*2+6, height+self.padding*2+6, 11)
+        gfx.setLineWidth(2)
+        gfx.drawRoundRect(self.x-self.padding-3, self.y-self.padding-3, width+self.padding*2+6, height+self.padding*2+6, 11)
     end
 
-    playdate.graphics.drawText(self.text, self.x, self.y)
+    gfx.drawText(self.text, self.x, self.y)
 end

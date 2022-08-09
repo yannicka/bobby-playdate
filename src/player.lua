@@ -1,4 +1,6 @@
-class('Player').extends(playdate.graphics.sprite)
+local gfx <const> = playdate.graphics
+
+class('Player').extends(gfx.sprite)
 
 function Player:init(level)
     Player.super.init(self)
@@ -10,7 +12,7 @@ function Player:init(level)
     self.timer = nil
     self.direction = 'down'
 
-    local playerImage = playdate.graphics.imagetable.new('img/player')
+    local playerImage = gfx.imagetable.new('img/player')
 
     self:setZIndex(300)
     self:setCenter(0, 0)
