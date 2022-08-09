@@ -7,8 +7,17 @@ function OptionsScene:init()
 end
 
 function OptionsScene:update()
-    local playButton = ScreenButton('Options', 20, 20, 10)
+    playdate.graphics.drawText('Options', 10, 10)
+
+    local playButton = ScreenButton('Reset progress', 20, 50, 10)
+    playButton.selected = true
     playButton:render()
+
+    if playdate.buttonJustPressed(playdate.kButtonA) then
+        finishedLevels = {}
+        playdate.datastore.write(finishedLevels)
+        changeScene(HomeScene)
+    end
 
     if playdate.buttonJustPressed(playdate.kButtonB) then
         changeScene(HomeScene)
