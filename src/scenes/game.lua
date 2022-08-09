@@ -6,7 +6,6 @@ local level = nil
 local levelIndex = nil
 local player = nil
 local currentLevelName = nil
-local backgroundImage = playdate.graphics.image.new('img/background')
 
 function loadLevel(name)
     levelIndex = table.indexOf(levelsOrder, name)
@@ -57,6 +56,7 @@ function GameScene:init()
     self.background:setCenter(0, 0)
     self.background:add()
 
+    local backgroundImage = playdate.graphics.image.new('img/background')
     local backgroundContext = playdate.graphics.image.new(playdate.display.getWidth() * 4, playdate.display.getHeight() * 4)
     playdate.graphics.pushContext(backgroundContext)
     backgroundImage:drawTiled(0, 0, playdate.display.getWidth() * 4, playdate.display.getHeight() * 4)

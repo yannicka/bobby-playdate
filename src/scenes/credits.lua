@@ -41,7 +41,6 @@ function CreditsScene:update()
     playdate.graphics.pushContext(gridviewImage)
     playdate.graphics.drawTextInRect(text, 10, 10, playdate.display.getWidth() - 20, 630, 5)
     playdate.graphics.popContext()
-    -- gridviewImage:draw(0, self.offset)
     self.gridviewSprite:setImage(gridviewImage)
 
     if playdate.buttonIsPressed(playdate.kButtonUp) then
