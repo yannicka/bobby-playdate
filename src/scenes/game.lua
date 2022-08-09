@@ -11,9 +11,9 @@ local backgroundImage = playdate.graphics.image.new('img/background')
 function loadLevel(name)
     levelIndex = table.indexOf(levelsOrder, name)
 
-    changeScene(GameScene)
-
     currentLevelName = name
+
+    changeScene(GameScene)
 
     level = Level(name)
     player = Player(level)
