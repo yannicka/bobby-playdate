@@ -52,6 +52,7 @@ function Player:move(direction)
     end
 
     self.animationManager:play('walk-' .. direction, true)
+    self.direction = direction
 
     local cellBefore = self.level:getCellAt(self.position)
 
@@ -73,7 +74,21 @@ function Player:move(direction)
         nextPosition.y += 1
     end
 
-    local cellAtPosition = self.level:getCellAt(nextPosition)
+    local realNextPosition = nextPosition:copy()
+
+    if realNextPosition.x > self.level.width then
+        realNextPosition.x = 1
+    elseif realNextPosition.x < 1 then
+        realNextPosition.x = self.level.width
+    end
+
+    if realNextPosition.y > self.level.height then
+        realNextPosition.y = 1
+    elseif realNextPosition.y < 1 then
+        realNextPosition.y = self.level.height
+    end
+
+    local cellAtPosition = self.level:getCellAt(realNextPosition)
 
     if cellAtPosition ~= nil then
         if not cellAtPosition:canEnter(direction) then
@@ -81,7 +96,6 @@ function Player:move(direction)
         end
     end
 
-    self.direction = direction
     self.canMove = false
     self.timer = playdate.timer.new(150, 0, 150, playdate.easingFunctions.linear)
 
