@@ -21,7 +21,7 @@ local function parseStringLevel(level)
     -- Retire les lignes vides
     local finalLines = {}
 
-    for i,line in ipairs(lines) do
+    for _, line in ipairs(lines) do
         if string.trim(line) ~= '' then
             table.insert(finalLines, line)
         end
@@ -29,14 +29,14 @@ local function parseStringLevel(level)
 
     local map = {}
 
-    for i,line in ipairs(finalLines) do
-        local t = {}
+    for _, line in ipairs(finalLines) do
+        local row = {}
 
-        for w in line:gmatch('%S+') do
-            table.insert(t, w)
+        for value in line:gmatch('%S+') do
+            table.insert(row, value)
         end
 
-        table.insert(map, t)
+        table.insert(map, row)
     end
 
     return map
@@ -56,60 +56,60 @@ function Level:init(name)
     self.height = 0
     self.nbCoins = 0
 
-    for y,v in ipairs(grid) do
+    for y, row in ipairs(grid) do
         self.grid[y] = {}
         self.height += 1
 
-        for x,v2 in ipairs(v) do
+        for x, value in ipairs(row) do
             local cell = 0
             local position = playdate.geometry.point.new(x, y)
 
-            if v2 ~= '.' then
-                if v2 == '#' then
+            if value ~= '.' then
+                if value == '#' then
                     cell = Stone(position)
-                elseif v2 == 'S' then
+                elseif value == 'S' then
                     cell = Start(position)
-                elseif v2 == 'E' then
+                elseif value == 'E' then
                     cell = End(position)
-                elseif v2 == '$' then
+                elseif value == '$' then
                     cell = Coin(position)
 
                     self.nbCoins += 1
-                elseif v2 == '^' then
+                elseif value == '^' then
                     cell = Conveyor(position, 'up')
-                elseif v2 == 'v' then
+                elseif value == 'v' then
                     cell = Conveyor(position, 'down')
-                elseif v2 == '<' then
+                elseif value == '<' then
                     cell = Conveyor(position, 'left')
-                elseif v2 == '>' then
+                elseif value == '>' then
                     cell = Conveyor(position, 'right')
-                elseif v2 == 'T' then
+                elseif value == 'T' then
                     cell = Turnstile(position, 'up-right')
-                elseif v2 == 'F' then
+                elseif value == 'F' then
                     cell = Turnstile(position, 'up-left')
-                elseif v2 == 'J' then
+                elseif value == 'J' then
                     cell = Turnstile(position, 'down-right')
-                elseif v2 == 'L' then
+                elseif value == 'L' then
                     cell = Turnstile(position, 'down-left')
-                elseif v2 == '=' then
+                elseif value == '=' then
                     cell = Turnstile(position, 'horizontal')
-                elseif v2 == 'H' then
+                elseif value == 'H' then
                     cell = Turnstile(position, 'vertical')
-                elseif v2 == '8' then
+                elseif value == '8' then
                     cell = Turnstile(position, 'up')
-                elseif v2 == '6' then
+                elseif value == '6' then
                     cell = Turnstile(position, 'right')
-                elseif v2 == '2' then
+                elseif value == '2' then
                     cell = Turnstile(position, 'down')
-                elseif v2 == '4' then
+                elseif value == '4' then
                     cell = Turnstile(position, 'left')
-                elseif v2 == 'B' then
+                elseif value == 'B' then
                     cell = Button(position, 1)
-                elseif v2 == 'B2' then
+                elseif value == 'B2' then
                     cell = Button(position, 2)
-                elseif v2 == 'B3' then
+                elseif value == 'B3' then
                     cell = Button(position, 3)
-                elseif v2 == '!' then
+                elseif value == '!' then
                     cell = Ice(position)
                 end
             end
@@ -126,8 +126,8 @@ function Level:init(name)
 end
 
 function Level:remove()
-    for y,row in ipairs(self.grid) do
-        for x,cell in ipairs(row) do
+    for y, row in ipairs(self.grid) do
+        for x, cell in ipairs(row) do
             if cell ~= 0 then
                 cell:remove()
             end
@@ -158,8 +158,8 @@ function Level:setCellAt(position, newCell)
 end
 
 function Level:getStartPosition()
-    for y,row in ipairs(self.grid) do
-        for x,cell in ipairs(row) do
+    for y, row in ipairs(self.grid) do
+        for x, cell in ipairs(row) do
             if cell ~= 0 and cell:isa(Start) then
                 return playdate.geometry.point.new(x, y)
             end
@@ -168,8 +168,8 @@ function Level:getStartPosition()
 end
 
 function Level:getEndCell()
-    for y,row in ipairs(self.grid) do
-        for x,cell in ipairs(row) do
+    for y, row in ipairs(self.grid) do
+        for x, cell in ipairs(row) do
             if cell ~= 0 and cell:isa(End) then
                 return cell
             end

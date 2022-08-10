@@ -302,7 +302,7 @@ function Coin:init(position)
     Coin.super.init(self, position)
 
     local frames = {}
-    for i = 0,math.random(45, 90) do
+    for _ = 0, math.random(45, 90) do
         table.insert(frames, 11)
     end
 

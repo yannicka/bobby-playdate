@@ -13,7 +13,6 @@ end
 
 function ScreenButton:render()
     gfx.setLineWidth(1)
-    gfx.setColor(gfx.kColorBlack)
 
     local width, height = gfx.getTextSize(self.text)
 

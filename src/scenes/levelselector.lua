@@ -39,7 +39,6 @@ function LevelSelectorScene:init()
 
     function self.gridview:drawCell(section, row, column, selected, x, y, width, height)
         gfx.setLineWidth(1)
-        gfx.setColor(gfx.kColorBlack)
 
         local levelIndex = tonumber((row - 1) * 10) + tonumber(column)
         local levelName = levelsOrder[levelIndex]
@@ -61,13 +60,13 @@ function LevelSelectorScene:init()
         gfx.drawTextInRect(tostring(levelIndex), x, y + (height / 2 - fontHeight / 2) + 3, width, height, nil, nil, kTextAlignment.center)
     end
 
-    for i = 1,nbLevels do
-        local levelName = levelsOrder[i]
+    for levelIndex = 1, nbLevels do
+        local levelName = levelsOrder[levelIndex]
         local finished = table.contains(finishedLevels, levelName)
 
         if not finished then
-            local row = math.ceil(i / 10)
-            local column = i % 10
+            local row = math.ceil(levelIndex / 10)
+            local column = levelIndex % 10
 
             self.gridview:setSelection(1, row, column)
 

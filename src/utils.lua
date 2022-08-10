@@ -4,8 +4,8 @@ function math.clamp(x, min, max)
     return math.max(math.min(x, max), min)
 end
 
-function table.indexOf(array, value)
-    for i,v in ipairs(array) do
+function table.indexof(array, value)
+    for i, v in ipairs(array) do
         if v == value then
             return i
         end
@@ -15,7 +15,7 @@ function table.indexOf(array, value)
 end
 
 function table.contains(array, value)
-    for i,v in ipairs(array) do
+    for _, v in ipairs(array) do
         if value == v then
             return true
         end
@@ -34,6 +34,6 @@ function table.count(array)
     return size
 end
 
-function string.trim(s)
-    return (string.gsub(s, '^%s*(.-)%s*$', '%1'))
+function string.trim(str)
+    return string.gsub(str, '^%s*(.-)%s*$', '%1')
 end
