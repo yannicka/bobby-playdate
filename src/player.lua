@@ -17,7 +17,7 @@ function Player:init(level)
     self:setZIndex(300)
     self:setCenter(0, 0)
     self:setImage(playerImage[1])
-    self:moveTo(self.position.x * CELL_SIZE + 2, self.position.y * CELL_SIZE - 2)
+    self:moveTo(0, 0)
     self:add()
 
     self.animationManager = AnimationManager(self, playerImage)
@@ -103,7 +103,7 @@ function Player:move(direction)
         self.position = nextPosition
         self.canMove = true
 
-        self:moveTo(nextPosition.x * CELL_SIZE + 2, nextPosition.y * CELL_SIZE - 2)
+        self:moveTo(nextPosition.x * CELL_SIZE + 2, nextPosition.y * CELL_SIZE - 5)
 
         if cellBefore then
             cellBefore:onAfterPlayerOut()
@@ -139,7 +139,7 @@ function Player:move(direction)
         self.timer.updateCallback = function(timer)
             local realPlayerPosition = playdate.geometry.point.new(
                 (self.position.x * CELL_SIZE) + (timer.value / 150 * CELL_SIZE) + 2,
-                self.position.y * CELL_SIZE - 2
+                self.position.y * CELL_SIZE - 5
             )
 
             self:moveTo(realPlayerPosition.x, realPlayerPosition.y)
@@ -148,7 +148,7 @@ function Player:move(direction)
         self.timer.updateCallback = function(timer)
             local realPlayerPosition = playdate.geometry.point.new(
                 (self.position.x * CELL_SIZE) - (timer.value / 150 * CELL_SIZE) + 2,
-                self.position.y * CELL_SIZE - 2
+                self.position.y * CELL_SIZE - 5
             )
 
             self:moveTo(realPlayerPosition.x, realPlayerPosition.y)
@@ -157,7 +157,7 @@ function Player:move(direction)
         self.timer.updateCallback = function(timer)
             local realPlayerPosition = playdate.geometry.point.new(
                 (self.position.x * CELL_SIZE) + 2,
-                self.position.y * CELL_SIZE - (timer.value / 150 * CELL_SIZE) - 2
+                self.position.y * CELL_SIZE - (timer.value / 150 * CELL_SIZE) - 5
             )
 
             self:moveTo(realPlayerPosition.x, realPlayerPosition.y)
@@ -166,7 +166,7 @@ function Player:move(direction)
         self.timer.updateCallback = function(timer)
             local realPlayerPosition = playdate.geometry.point.new(
                 (self.position.x * CELL_SIZE) + 2,
-                self.position.y * CELL_SIZE + (timer.value / 150 * CELL_SIZE) - 2
+                self.position.y * CELL_SIZE + (timer.value / 150 * CELL_SIZE) - 5
             )
 
             self:moveTo(realPlayerPosition.x, realPlayerPosition.y)

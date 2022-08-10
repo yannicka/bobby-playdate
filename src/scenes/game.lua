@@ -23,7 +23,7 @@ function loadLevel(name)
 
     if startPosition then
         player.position = startPosition:copy()
-        player:moveTo(player.position.x * CELL_SIZE, player.position.y * CELL_SIZE)
+        player:moveTo(player.position.x * CELL_SIZE + 2, player.position.y * CELL_SIZE - 5)
     end
 end
 
