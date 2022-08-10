@@ -27,7 +27,8 @@ local function parseStringLevel(level)
         end
     end
 
-    local map = {}
+    -- Construit la grille du niveau
+    local grid = {}
 
     for _, line in ipairs(finalLines) do
         local row = {}
@@ -36,19 +37,72 @@ local function parseStringLevel(level)
             table.insert(row, value)
         end
 
-        table.insert(map, row)
+        table.insert(grid, row)
     end
 
-    return map
+    return grid
+end
+
+local function computeCell(value, position)
+    local cell = 0
+
+    if value ~= '.' then
+        if value == '#' then
+            cell = Stone(position)
+        elseif value == 'S' then
+            cell = Start(position)
+        elseif value == 'E' then
+            cell = End(position)
+        elseif value == '$' then
+            cell = Coin(position)
+        elseif value == '^' then
+            cell = Conveyor(position, 'up')
+        elseif value == 'v' then
+            cell = Conveyor(position, 'down')
+        elseif value == '<' then
+            cell = Conveyor(position, 'left')
+        elseif value == '>' then
+            cell = Conveyor(position, 'right')
+        elseif value == 'T' then
+            cell = Turnstile(position, 'up-right')
+        elseif value == 'F' then
+            cell = Turnstile(position, 'up-left')
+        elseif value == 'J' then
+            cell = Turnstile(position, 'down-right')
+        elseif value == 'L' then
+            cell = Turnstile(position, 'down-left')
+        elseif value == '=' then
+            cell = Turnstile(position, 'horizontal')
+        elseif value == 'H' then
+            cell = Turnstile(position, 'vertical')
+        elseif value == '8' then
+            cell = Turnstile(position, 'up')
+        elseif value == '6' then
+            cell = Turnstile(position, 'right')
+        elseif value == '2' then
+            cell = Turnstile(position, 'down')
+        elseif value == '4' then
+            cell = Turnstile(position, 'left')
+        elseif value == 'B' then
+            cell = Button(position, 1)
+        elseif value == 'B2' then
+            cell = Button(position, 2)
+        elseif value == 'B3' then
+            cell = Button(position, 3)
+        elseif value == '!' then
+            cell = Ice(position)
+        end
+    end
+
+    return cell
 end
 
 class('Level').extends(Object)
 
 function Level:init(name)
-    local level = levels[name]
-
     Level.super.init(self)
 
+    local level = levels[name]
     local grid = parseStringLevel(level)
 
     self.grid = {}
@@ -61,57 +115,11 @@ function Level:init(name)
         self.height += 1
 
         for x, value in ipairs(row) do
-            local cell = 0
             local position = playdate.geometry.point.new(x, y)
+            local cell = computeCell(value, position)
 
-            if value ~= '.' then
-                if value == '#' then
-                    cell = Stone(position)
-                elseif value == 'S' then
-                    cell = Start(position)
-                elseif value == 'E' then
-                    cell = End(position)
-                elseif value == '$' then
-                    cell = Coin(position)
-
-                    self.nbCoins += 1
-                elseif value == '^' then
-                    cell = Conveyor(position, 'up')
-                elseif value == 'v' then
-                    cell = Conveyor(position, 'down')
-                elseif value == '<' then
-                    cell = Conveyor(position, 'left')
-                elseif value == '>' then
-                    cell = Conveyor(position, 'right')
-                elseif value == 'T' then
-                    cell = Turnstile(position, 'up-right')
-                elseif value == 'F' then
-                    cell = Turnstile(position, 'up-left')
-                elseif value == 'J' then
-                    cell = Turnstile(position, 'down-right')
-                elseif value == 'L' then
-                    cell = Turnstile(position, 'down-left')
-                elseif value == '=' then
-                    cell = Turnstile(position, 'horizontal')
-                elseif value == 'H' then
-                    cell = Turnstile(position, 'vertical')
-                elseif value == '8' then
-                    cell = Turnstile(position, 'up')
-                elseif value == '6' then
-                    cell = Turnstile(position, 'right')
-                elseif value == '2' then
-                    cell = Turnstile(position, 'down')
-                elseif value == '4' then
-                    cell = Turnstile(position, 'left')
-                elseif value == 'B' then
-                    cell = Button(position, 1)
-                elseif value == 'B2' then
-                    cell = Button(position, 2)
-                elseif value == 'B3' then
-                    cell = Button(position, 3)
-                elseif value == '!' then
-                    cell = Ice(position)
-                end
+            if cell ~= 0 and cell:isa(Coin) then
+                self.nbCoins += 1
             end
 
             self.grid[y][x] = cell
