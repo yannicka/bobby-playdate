@@ -19,8 +19,7 @@ Thanks to the members of the development group of which I am a part for their su
 _Source code_
 
 Source code under the AGPLv3+ free license.
-
-https://gitlab.com/yannicka/bobby-playdate
+> gitlab.com/yannicka/bobby-playdate
 ]]
 
 function CreditsScene:init()
@@ -32,16 +31,16 @@ function CreditsScene:init()
 
     self.gridviewSprite = gfx.sprite.new()
     self.gridviewSprite:setCenter(0, 0)
-    self.gridviewSprite:moveTo(0, 0)
+    self.gridviewSprite:moveTo(10, 14)
     self.gridviewSprite:add()
 end
 
 function CreditsScene:update()
     gfx.setDrawOffset(0, self.offset)
 
-    local gridviewImage = gfx.image.new(playdate.display.getWidth() - 20, 620)
+    local gridviewImage = gfx.image.new(playdate.display.getWidth() - 20, 750)
     gfx.pushContext(gridviewImage)
-    gfx.drawTextInRect(text, 10, 10, playdate.display.getWidth() - 20, 620, 5)
+    gfx.drawTextInRect(text, 0, 0, playdate.display.getWidth() - 20, 750, 5)
     gfx.popContext()
     self.gridviewSprite:setImage(gridviewImage)
 
@@ -56,8 +55,8 @@ function CreditsScene:update()
     if playdate.buttonIsPressed(playdate.kButtonDown) then
         self.offset -= 10
 
-        if self.offset < -260 then
-            self.offset = -260
+        if self.offset < -430 then
+            self.offset = -430
         end
     end
 

@@ -9,7 +9,7 @@ function OptionsScene:init()
 end
 
 function OptionsScene:update()
-    gfx.drawText('Options', 10, 10)
+    gfx.drawText('*Options*', 10, 14)
 
     local playButton = ScreenButton('Reset progress', 20, 50, 10)
     playButton.selected = true

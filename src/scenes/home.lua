@@ -10,12 +10,12 @@ function HomeScene:init()
     self.titleImage = gfx.image.new('img/title')
     self.buttonSelected = 'play'
 
-    self.playButton = ScreenButton('*Play*', 185, 148, 10)
+    self.playButton = ScreenButton('*Play*', 180, 148, 10)
     self.playButton.selected = true
 
-    self.creditsButton = ScreenButton('Credits', 20, 208, 10)
-    self.helpButton = ScreenButton('Instructions', 157, 208, 10)
-    self.optionsButton = ScreenButton('Options', 328, 208, 10)
+    self.creditsButton = ScreenButton('Credits', 20, 202, 10)
+    self.helpButton = ScreenButton('Instructions', 148, 202, 10)
+    self.optionsButton = ScreenButton('Options', 315, 202, 10)
 end
 
 function HomeScene:update()

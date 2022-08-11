@@ -21,8 +21,26 @@ import 'scenes/options'
 
 local gfx <const> = playdate.graphics
 
-local font = gfx.font.new('img/fonts/whiteglove-stroked')
-gfx.setFont(font)
+local fontPaths = {
+    [gfx.font.kVariantNormal] = 'img/fonts/Sasser-Slab',
+    [gfx.font.kVariantBold] = 'img/fonts/Sasser-Slab-Bold',
+    [gfx.font.kVariantItalic] = 'img/fonts/Sasser-Slab-Italic',
+}
+
+local baseFontFamily = gfx.font.newFamily(fontPaths)
+local outlinedFont = gfx.font.new('img/fonts/Pedallica')
+
+function setBaseFont()
+    gfx.setFont(baseFontFamily[gfx.font.kVariantNormal], gfx.font.kVariantNormal)
+    gfx.setFont(baseFontFamily[gfx.font.kVariantBold], gfx.font.kVariantBold)
+    gfx.setFont(baseFontFamily[gfx.font.kVariantItalic], gfx.font.kVariantItalic)
+end
+
+function setOutlinedFont()
+    gfx.setFont(outlinedFont)
+end
+
+setBaseFont()
 
 finishedLevels = loadFinishedLevels()
 

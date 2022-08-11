@@ -30,14 +30,16 @@ function LevelSelectorScene:init()
     self.gridview:setNumberOfRows(5)
     self.gridview:setCellPadding(4, 4, 4, 4)
     self.gridview:setContentInset(9, 0, 12, 0)
-    self.gridview:setSectionHeaderHeight(24)
+    self.gridview:setSectionHeaderHeight(28)
 
     function self.gridview:drawSectionHeader(section, x, y, width, height)
         local fontHeight = gfx.getSystemFont():getHeight()
-        gfx.drawTextAligned('Select level', x, y, kTextAlignment.left)
+        gfx.drawTextAligned('*Select level*', x + 4, y, kTextAlignment.left)
     end
 
     function self.gridview:drawCell(section, row, column, selected, x, y, width, height)
+        local initialDrawMode = gfx.getImageDrawMode()
+
         gfx.setLineWidth(1)
 
         local levelIndex = tonumber((row - 1) * 10) + tonumber(column)
@@ -57,7 +59,24 @@ function LevelSelectorScene:init()
 
         local fontHeight = gfx.getSystemFont():getHeight()
 
-        gfx.drawTextInRect(tostring(levelIndex), x, y + (height / 2 - fontHeight / 2) + 3, width, height, nil, nil, kTextAlignment.center)
+        if finished then
+            gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+        end
+
+        gfx.drawTextInRect(
+            '*' .. tostring(levelIndex) .. '*',
+            x,
+            y + (height / 2 - fontHeight / 2) + 2,
+            width,
+            height,
+            nil,
+            nil,
+            kTextAlignment.center
+        )
+
+        if finished then
+            gfx.setImageDrawMode(initialDrawMode)
+        end
     end
 
     for levelIndex = 1, nbLevels do

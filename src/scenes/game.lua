@@ -67,14 +67,16 @@ function GameScene:init()
 
     self.levelCounter = gfx.sprite.new()
     self.levelCounter:setIgnoresDrawOffset(true)
-    self.levelCounter:moveTo(4, 4)
+    self.levelCounter:moveTo(2, 2)
     self.levelCounter:setCenter(0, 0)
     self.levelCounter:setZIndex(300)
     self.levelCounter:add()
 
     local levelCounterContext = gfx.image.new(60, 40)
     gfx.pushContext(levelCounterContext)
+    setOutlinedFont()
     gfx.drawText(levelIndex .. '/' .. nbLevels, 0, 0)
+    setBaseFont()
     gfx.popContext()
     self.levelCounter:setImage(levelCounterContext)
 

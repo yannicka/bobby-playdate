@@ -29,18 +29,17 @@ function HelpScene:init()
 
     self.gridviewSprite = gfx.sprite.new()
     self.gridviewSprite:setCenter(0, 0)
-    self.gridviewSprite:moveTo(0, 0)
+    self.gridviewSprite:moveTo(10, 14)
     self.gridviewSprite:add()
 end
 
 function HelpScene:update()
     gfx.setDrawOffset(0, self.offset)
 
-    local gridviewImage = gfx.image.new(playdate.display.getWidth() - 20, 500)
+    local gridviewImage = gfx.image.new(playdate.display.getWidth() - 20, 600)
     gfx.pushContext(gridviewImage)
-    gfx.drawTextInRect(text, 10, 10, playdate.display.getWidth() - 20, 500, 5)
+    gfx.drawTextInRect(text, 0, 0, playdate.display.getWidth() - 20, 600, 5)
     gfx.popContext()
-    -- gridviewImage:draw(0, self.offset)
     self.gridviewSprite:setImage(gridviewImage)
 
     if playdate.buttonIsPressed(playdate.kButtonUp) then
@@ -54,8 +53,8 @@ function HelpScene:update()
     if playdate.buttonIsPressed(playdate.kButtonDown) then
         self.offset -= 10
 
-        if self.offset < -140 then
-            self.offset = -140
+        if self.offset < -290 then
+            self.offset = -290
         end
     end
 
