@@ -4,8 +4,7 @@ run:
     pdc src Bobby.pdx && PlaydateSimulator Bobby.pdx
 
 build:
-    pdc -s src Bobby.pdx
-    find Bobby.pdx -name "*.kra" -type f -delete
-    find Bobby.pdx -name "*~" -type f -delete
+    rm -rf Bobby.pdx Bobby-{{version}}.pdx
+    pdc --strip --skip-unknown src Bobby.pdx
     rm -r Bobby.pdx/scenes
     mv Bobby.pdx Bobby-{{version}}.pdx
