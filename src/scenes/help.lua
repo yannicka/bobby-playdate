@@ -6,18 +6,18 @@ local text = [[
 *Instructions*
 
 _Keys_
-Move the character with the directional arrows
+Move the character with the directional arrows.
 
 _Goal_
-Complete all levels
+Complete all levels.
 For each level, collect all the coins and then reach the exit.
 
 _Blocks_
-The rocks block you
-The treadmills take you in a given direction.
-Buttons only allow you a limited number of passages.
-Turnstiles block you in certain directions and turn clockwise when you exit.
-Ice slides you to the next void or solid block you encounter.
+- The rocks block you.
+- The conveyor belts take you in a one direction.
+- The buttons only allow a certain number of passes.
+- The turnstiles block you from certain directions and turn clockwise when you exit.
+- The ice makes you slide to the next void or solid block you encounter.
 ]]
 
 function HelpScene:init()
