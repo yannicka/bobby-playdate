@@ -9,10 +9,10 @@ Yannick A. "Pif": idea, code, graphics.
 
 _Acknowledgements_
 
-Thanks to Aur36 for his help with the levels, his numerous tests and feedbacks and his unlimited enthusiasm.
-Thanks to orakle - Ethan G. for his graphic assistance.
-Thanks to Alceste__ for his code improvements and global functioning.
-Thanks to Polyson for his proposal of open-ended levels and his various advices and feedbacks.
+- Thanks to Aur36 for his help on the levels, his numerous tests and feedbacks and his unlimited enthusiasm.
+- Thanks to orakle - Ethan G. for his graphic assistance.
+- Thanks to Alceste__ for his code and global improvements.
+- Thanks to Polyson for his proposal of open-ended levels and his various advices and feedbacks.
 
 Thanks to the members of the development group of which I am a part for their support in the development of the project, and for their various feedbacks.
 
@@ -39,9 +39,9 @@ end
 function CreditsScene:update()
     gfx.setDrawOffset(0, self.offset)
 
-    local gridviewImage = gfx.image.new(playdate.display.getWidth() - 20, 630)
+    local gridviewImage = gfx.image.new(playdate.display.getWidth() - 20, 620)
     gfx.pushContext(gridviewImage)
-    gfx.drawTextInRect(text, 10, 10, playdate.display.getWidth() - 20, 630, 5)
+    gfx.drawTextInRect(text, 10, 10, playdate.display.getWidth() - 20, 620, 5)
     gfx.popContext()
     self.gridviewSprite:setImage(gridviewImage)
 
@@ -56,8 +56,8 @@ function CreditsScene:update()
     if playdate.buttonIsPressed(playdate.kButtonDown) then
         self.offset -= 10
 
-        if self.offset < -270 then
-            self.offset = -270
+        if self.offset < -260 then
+            self.offset = -260
         end
     end
 
