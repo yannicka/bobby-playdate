@@ -8,3 +8,4 @@ build:
     pdc --strip --skip-unknown src Bobby.pdx
     rm -r Bobby.pdx/scenes
     mv Bobby.pdx Bobby-{{version}}.pdx
+    zip Bobby-{{version}}.pdx.zip -r Bobby-{{version}}.pdx
