@@ -2,6 +2,8 @@ local gfx <const> = playdate.graphics
 
 class('LevelSelectorScene').extends(Scene)
 
+local menu = playdate.getSystemMenu()
+
 function loadFinishedLevels()
     local finishedLevels = playdate.datastore.read()
 
@@ -91,6 +93,10 @@ function LevelSelectorScene:init()
             break
         end
     end
+
+    self.menuHome, error = menu:addMenuItem('go home', function()
+        changeScene(HomeScene)
+    end)
 end
 
 function LevelSelectorScene:update()
@@ -137,5 +143,7 @@ function LevelSelectorScene:update()
 end
 
 function LevelSelectorScene:destroy()
+    menu:removeMenuItem(self.menuHome)
+
     self.gridviewSprite:remove()
 end
