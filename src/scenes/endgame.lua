@@ -9,8 +9,19 @@ function EndGameScene:init()
 end
 
 function EndGameScene:update()
-    local playButton = ScreenButton('End of the game', 20, 20, 10)
-    playButton:render()
+    local text = '/o/ End of the game! Well done! /o/'
+
+    local fontHeight = gfx.getSystemFont():getHeight()
+
+    local screenWidth = playdate.display.getWidth()
+    local screenHeight = playdate.display.getHeight()
+
+    gfx.drawTextAligned(
+        text,
+        screenWidth / 2,
+        screenHeight / 2 - fontHeight / 2,
+        kTextAlignment.center
+    )
 
     if playdate.buttonJustPressed(playdate.kButtonB) then
         changeScene(HomeScene)
