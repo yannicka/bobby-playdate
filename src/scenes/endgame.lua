@@ -1,4 +1,5 @@
 local gfx <const> = playdate.graphics
+local menu = playdate.getSystemMenu()
 
 class('EndGameScene').extends(Scene)
 
@@ -6,6 +7,10 @@ function EndGameScene:init()
     EndGameScene.super.init(self)
 
     gfx.setDrawOffset(0, 0)
+
+    self.menuHome, error = menu:addMenuItem('go home', function()
+        changeScene(HomeScene)
+    end)
 end
 
 function EndGameScene:update()
@@ -29,4 +34,5 @@ function EndGameScene:update()
 end
 
 function EndGameScene:destroy()
+    menu:removeMenuItem(self.menuHome)
 end

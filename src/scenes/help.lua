@@ -1,4 +1,5 @@
 local gfx <const> = playdate.graphics
+local menu = playdate.getSystemMenu()
 
 class('HelpScene').extends(Scene)
 
@@ -31,6 +32,10 @@ function HelpScene:init()
     self.gridviewSprite:setCenter(0, 0)
     self.gridviewSprite:moveTo(10, 14)
     self.gridviewSprite:add()
+
+    self.menuHome, error = menu:addMenuItem('go home', function()
+        changeScene(HomeScene)
+    end)
 end
 
 function HelpScene:update()
@@ -67,5 +72,7 @@ function HelpScene:update()
 end
 
 function HelpScene:destroy()
+    menu:removeMenuItem(self.menuHome)
+
     self.gridviewSprite:remove()
 end

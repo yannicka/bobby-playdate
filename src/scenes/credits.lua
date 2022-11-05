@@ -1,4 +1,5 @@
 local gfx <const> = playdate.graphics
+local menu = playdate.getSystemMenu()
 
 class('CreditsScene').extends(Scene)
 
@@ -33,6 +34,10 @@ function CreditsScene:init()
     self.gridviewSprite:setCenter(0, 0)
     self.gridviewSprite:moveTo(10, 14)
     self.gridviewSprite:add()
+
+    self.menuHome, error = menu:addMenuItem('go home', function()
+        changeScene(HomeScene)
+    end)
 end
 
 function CreditsScene:update()
@@ -69,5 +74,7 @@ function CreditsScene:update()
 end
 
 function CreditsScene:destroy()
+    menu:removeMenuItem(self.menuHome)
+
     self.gridviewSprite:remove()
 end

@@ -1,8 +1,7 @@
 local gfx <const> = playdate.graphics
+local menu = playdate.getSystemMenu()
 
 class('GameScene').extends(Scene)
-
-local menu = playdate.getSystemMenu()
 
 local level = nil
 local levelIndex = nil

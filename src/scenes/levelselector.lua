@@ -1,8 +1,7 @@
 local gfx <const> = playdate.graphics
+local menu = playdate.getSystemMenu()
 
 class('LevelSelectorScene').extends(Scene)
-
-local menu = playdate.getSystemMenu()
 
 function loadFinishedLevels()
     local finishedLevels = playdate.datastore.read()
