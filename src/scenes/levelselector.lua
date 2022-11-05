@@ -33,7 +33,6 @@ function LevelSelectorScene:init()
     self.gridview:setSectionHeaderHeight(28)
 
     function self.gridview:drawSectionHeader(section, x, y, width, height)
-        local fontHeight = gfx.getSystemFont():getHeight()
         gfx.drawTextAligned('*Select level*', x + 4, y, kTextAlignment.left)
     end
 
@@ -57,11 +56,11 @@ function LevelSelectorScene:init()
             gfx.drawRoundRect(x - 3, y - 3, width + 6, height + 6, 11)
         end
 
-        local fontHeight = gfx.getSystemFont():getHeight()
-
         if finished then
             gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
         end
+
+        local fontHeight = gfx.getSystemFont():getHeight()
 
         gfx.drawTextInRect(
             '*' .. tostring(levelIndex) .. '*',
