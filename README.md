@@ -8,11 +8,10 @@ Le jeu est accessible sur itch.io :
 
 ## Compilation
 
-Voir le fichier [`Justfile`](https://just.systems/).
+Voir le fichier [`Justfile`](/Justfile) (voir [Just](https://just.systems/)).
 
 ## Licence
 
 ![Licence AGPLv3+](https://img.shields.io/badge/license-AGPLv3%2B-informational)
 
 Le projet est sous licence AGPLv3. Voir le fichier [`LICENSE.txt`](/LICENSE.txt).
-±
