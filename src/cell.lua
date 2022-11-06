@@ -47,7 +47,7 @@ class('Stone').extends(Cell)
 function Stone:init(position)
     Stone.super.init(self, position)
 
-    self:setImage(tilesImage[1])
+    self:setImage(tilesImage[2])
 end
 
 function Stone:canEnter()
@@ -324,7 +324,7 @@ class('Ice').extends(Cell)
 function Ice:init(position)
     Ice.super.init(self, position)
 
-    self:setImage(tilesImage[2])
+    self:setImage(tilesImage[3])
 end
 
 function Ice:onAfterPlayerIn(player)
