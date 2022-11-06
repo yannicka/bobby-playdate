@@ -4,7 +4,7 @@ local menu <const> = playdate.getSystemMenu()
 class('LevelSelectorScene').extends(Scene)
 
 function loadFinishedLevels()
-    local finishedLevels = playdate.datastore.read()
+    local finishedLevels = playdate.datastore.read('finished-levels')
 
     if finishedLevels == nil then
         finishedLevels = {}

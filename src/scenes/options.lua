@@ -22,7 +22,7 @@ function OptionsScene:update()
 
     if playdate.buttonJustPressed(playdate.kButtonA) then
         finishedLevels = {}
-        playdate.datastore.write(finishedLevels)
+        playdate.datastore.write(finishedLevels, 'finished-levels')
         changeScene(HomeScene)
     end
 

@@ -29,7 +29,7 @@ end
 function goToNextLevel()
     table.insert(finishedLevels, currentLevelName)
 
-    playdate.datastore.write(finishedLevels)
+    playdate.datastore.write(finishedLevels, 'finished-levels')
 
     local currentLevelIndex <const> = table.indexof(levelsOrder, currentLevelName)
     local nextLevelIndex <const> = next(levelsOrder, currentLevelIndex)
