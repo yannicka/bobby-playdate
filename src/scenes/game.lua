@@ -1,5 +1,5 @@
 local gfx <const> = playdate.graphics
-local menu = playdate.getSystemMenu()
+local menu <const> = playdate.getSystemMenu()
 
 class('GameScene').extends(Scene)
 
@@ -18,7 +18,7 @@ function loadLevel(name)
     level = Level(name)
     player = Player(level)
 
-    local startPosition = level:getStartPosition()
+    local startPosition <const> = level:getStartPosition()
 
     if startPosition then
         player.position = startPosition:copy()
@@ -31,16 +31,16 @@ function goToNextLevel()
 
     playdate.datastore.write(finishedLevels)
 
-    local currentLevelIndex = table.indexof(levelsOrder, currentLevelName)
-    local nextLevelIndex = next(levelsOrder, currentLevelIndex)
+    local currentLevelIndex <const> = table.indexof(levelsOrder, currentLevelName)
+    local nextLevelIndex <const> = next(levelsOrder, currentLevelIndex)
 
     if nextLevelIndex then
-        local nextLevelName = levelsOrder[nextLevelIndex]
+        local nextLevelName <const> = levelsOrder[nextLevelIndex]
 
         player.canMove = false
         player.animationManager:play('turn')
 
-        local timer = playdate.timer.new(400, 0, 400, playdate.easingFunctions.linear)
+        local timer <const> = playdate.timer.new(400, 0, 400, playdate.easingFunctions.linear)
         timer.timerEndedCallback = function()
             loadLevel(nextLevelName)
         end
@@ -52,13 +52,21 @@ end
 function GameScene:init()
     GameScene.super.init(self)
 
+    self.menuHome, error = menu:addMenuItem('go menu', function()
+        changeScene(LevelSelectorScene)
+    end)
+
+    self.menuRestart, error = menu:addMenuItem('restart level', function()
+        loadLevel(currentLevelName)
+    end)
+
     self.background = gfx.sprite.new()
     self.background:moveTo(-playdate.display.getWidth(), -playdate.display.getHeight())
     self.background:setCenter(0, 0)
     self.background:add()
 
-    local backgroundImage = gfx.image.new('img/background')
-    local backgroundContext = gfx.image.new(playdate.display.getWidth() * 4, playdate.display.getHeight() * 4)
+    local backgroundImage <const> = gfx.image.new('img/background')
+    local backgroundContext <const> = gfx.image.new(playdate.display.getWidth() * 4, playdate.display.getHeight() * 4)
     gfx.pushContext(backgroundContext)
     backgroundImage:drawTiled(0, 0, playdate.display.getWidth() * 4, playdate.display.getHeight() * 4)
     gfx.popContext()
@@ -71,21 +79,13 @@ function GameScene:init()
     self.levelCounter:setZIndex(300)
     self.levelCounter:add()
 
-    local levelCounterContext = gfx.image.new(60, 40)
+    local levelCounterContext <const> = gfx.image.new(60, 40)
     gfx.pushContext(levelCounterContext)
     setOutlinedFont()
     gfx.drawText(levelIndex .. '/' .. nbLevels, 0, 0)
     setBaseFont()
     gfx.popContext()
     self.levelCounter:setImage(levelCounterContext)
-
-    self.menuHome, error = menu:addMenuItem('go menu', function()
-        changeScene(LevelSelectorScene)
-    end)
-
-    self.menuRestart, error = menu:addMenuItem('restart level', function()
-        loadLevel(currentLevelName)
-    end)
 end
 
 function GameScene:update()
@@ -137,6 +137,7 @@ function GameScene:destroy()
 
     self.background:remove()
     self.levelCounter:remove()
+
     level:remove()
     player:remove()
 end

@@ -1,5 +1,5 @@
 local function splitLines(str)
-    local result = {}
+    local result <const> = {}
 
     for line in str:gmatch('[^\n]+') do
         table.insert(result, line)
@@ -16,10 +16,10 @@ local function parseStringLevel(level)
     levelWithoutSpace = levelWithoutSpace:gsub('/ +/g', ' ')
 
     -- Coupe à chaque ligne
-    local lines = splitLines(levelWithoutSpace)
+    local lines <const> = splitLines(levelWithoutSpace)
 
     -- Retire les lignes vides
-    local finalLines = {}
+    local finalLines <const> = {}
 
     for _, line in ipairs(lines) do
         if string.trim(line) ~= '' then
@@ -28,10 +28,10 @@ local function parseStringLevel(level)
     end
 
     -- Construit la grille du niveau
-    local grid = {}
+    local grid <const> = {}
 
     for _, line in ipairs(finalLines) do
-        local row = {}
+        local row <const> = {}
 
         for value in line:gmatch('%S+') do
             table.insert(row, value)
@@ -102,8 +102,8 @@ class('Level').extends(Object)
 function Level:init(name)
     Level.super.init(self)
 
-    local level = levels[name]
-    local grid = parseStringLevel(level)
+    local level <const> = levels[name]
+    local grid <const> = parseStringLevel(level)
 
     self.grid = {}
     self.width = 0
@@ -115,8 +115,8 @@ function Level:init(name)
         self.height += 1
 
         for x, value in ipairs(row) do
-            local position = playdate.geometry.point.new(x, y)
-            local cell = computeCell(value, position)
+            local position <const> = playdate.geometry.point.new(x, y)
+            local cell <const> = computeCell(value, position)
 
             if cell ~= 0 and cell:isa(Coin) then
                 self.nbCoins += 1
@@ -150,7 +150,7 @@ function Level:update()
 end
 
 function Level:getCellAt(position)
-    local row = self.grid[position.y]
+    local row <const> = self.grid[position.y]
 
     if row then
         if row[position.x] ~= 0 then

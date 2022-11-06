@@ -1,9 +1,9 @@
 local gfx <const> = playdate.graphics
-local menu = playdate.getSystemMenu()
+local menu <const> = playdate.getSystemMenu()
 
 class('HelpScene').extends(Scene)
 
-local text = [[
+local text <const> = [[
 *Instructions*
 
 _Keys_
@@ -24,6 +24,10 @@ _Blocks_
 function HelpScene:init()
     HelpScene.super.init(self)
 
+    self.menuHome, error = menu:addMenuItem('go home', function()
+        changeScene(HomeScene)
+    end)
+
     gfx.setDrawOffset(0, 0)
 
     self.offset = 0
@@ -32,16 +36,12 @@ function HelpScene:init()
     self.gridviewSprite:setCenter(0, 0)
     self.gridviewSprite:moveTo(10, 14)
     self.gridviewSprite:add()
-
-    self.menuHome, error = menu:addMenuItem('go home', function()
-        changeScene(HomeScene)
-    end)
 end
 
 function HelpScene:update()
     gfx.setDrawOffset(0, self.offset)
 
-    local gridviewImage = gfx.image.new(playdate.display.getWidth() - 20, 600)
+    local gridviewImage <const> = gfx.image.new(playdate.display.getWidth() - 20, 600)
     gfx.pushContext(gridviewImage)
     gfx.drawTextInRect(text, 0, 0, playdate.display.getWidth() - 20, 600, 5)
     gfx.popContext()

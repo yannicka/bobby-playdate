@@ -1,25 +1,25 @@
 local gfx <const> = playdate.graphics
-local menu = playdate.getSystemMenu()
+local menu <const> = playdate.getSystemMenu()
 
 class('EndGameScene').extends(Scene)
 
 function EndGameScene:init()
     EndGameScene.super.init(self)
 
-    gfx.setDrawOffset(0, 0)
-
     self.menuHome, error = menu:addMenuItem('go home', function()
         changeScene(HomeScene)
     end)
+
+    gfx.setDrawOffset(0, 0)
 end
 
 function EndGameScene:update()
-    local text = '/o/ End of the game! Well done! /o/'
+    local text <const> = '/o/ End of the game! Well done! /o/'
 
-    local fontHeight = gfx.getSystemFont():getHeight()
+    local fontHeight <const> = gfx.getSystemFont():getHeight()
 
-    local screenWidth = playdate.display.getWidth()
-    local screenHeight = playdate.display.getHeight()
+    local screenWidth <const> = playdate.display.getWidth()
+    local screenHeight <const> = playdate.display.getHeight()
 
     gfx.drawTextAligned(
         text,

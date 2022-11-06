@@ -1,6 +1,6 @@
 local gfx <const> = playdate.graphics
 
-local tilesImage = gfx.imagetable.new('img/tiles')
+local tilesImage <const> = gfx.imagetable.new('img/tiles')
 
 class('Cell').extends(gfx.sprite)
 
@@ -301,7 +301,7 @@ class('Coin').extends(Cell)
 function Coin:init(position)
     Coin.super.init(self, position)
 
-    local frames = {}
+    local frames <const> = {}
     for _ = 0, math.random(45, 90) do
         table.insert(frames, 11)
     end

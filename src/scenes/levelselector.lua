@@ -1,5 +1,5 @@
 local gfx <const> = playdate.graphics
-local menu = playdate.getSystemMenu()
+local menu <const> = playdate.getSystemMenu()
 
 class('LevelSelectorScene').extends(Scene)
 
@@ -16,6 +16,10 @@ end
 function LevelSelectorScene:init()
     LevelSelectorScene.super.init(self)
 
+    self.menuHome, error = menu:addMenuItem('go home', function()
+        changeScene(HomeScene)
+    end)
+
     gfx.setDrawOffset(0, 0)
 
     finishedLevels = loadFinishedLevels()
@@ -26,7 +30,6 @@ function LevelSelectorScene:init()
     self.gridviewSprite:add()
 
     self.gridview = playdate.ui.gridview.new(30, 30)
-
     self.gridview:setNumberOfColumns(10)
     self.gridview:setNumberOfRows(5)
     self.gridview:setCellPadding(4, 4, 4, 4)
@@ -38,13 +41,13 @@ function LevelSelectorScene:init()
     end
 
     function self.gridview:drawCell(section, row, column, selected, x, y, width, height)
-        local initialDrawMode = gfx.getImageDrawMode()
+        local initialDrawMode <const> = gfx.getImageDrawMode()
 
         gfx.setLineWidth(1)
 
-        local levelIndex = tonumber((row - 1) * 10) + tonumber(column)
-        local levelName = levelsOrder[levelIndex]
-        local finished = table.contains(finishedLevels, levelName)
+        local levelIndex <const> = tonumber((row - 1) * 10) + tonumber(column)
+        local levelName <const> = levelsOrder[levelIndex]
+        local finished <const> = table.contains(finishedLevels, levelName)
 
         if finished then
             gfx.fillRoundRect(x, y, width, height, 8)
@@ -61,7 +64,7 @@ function LevelSelectorScene:init()
             gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
         end
 
-        local fontHeight = gfx.getSystemFont():getHeight()
+        local fontHeight <const> = gfx.getSystemFont():getHeight()
 
         gfx.drawTextInRect(
             '*' .. tostring(levelIndex) .. '*',
@@ -80,22 +83,18 @@ function LevelSelectorScene:init()
     end
 
     for levelIndex = 1, nbLevels do
-        local levelName = levelsOrder[levelIndex]
-        local finished = table.contains(finishedLevels, levelName)
+        local levelName <const> = levelsOrder[levelIndex]
+        local finished <const> = table.contains(finishedLevels, levelName)
 
         if not finished then
-            local row = math.ceil(levelIndex / 10)
-            local column = levelIndex % 10
+            local row <const> = math.ceil(levelIndex / 10)
+            local column <const> = levelIndex % 10
 
             self.gridview:setSelection(1, row, column)
 
             break
         end
     end
-
-    self.menuHome, error = menu:addMenuItem('go home', function()
-        changeScene(HomeScene)
-    end)
 end
 
 function LevelSelectorScene:update()
@@ -109,7 +108,7 @@ function LevelSelectorScene:update()
         self.gridview:selectNextColumn(true)
     end
 
-    local crankTicks = playdate.getCrankTicks(2)
+    local crankTicks <const> = playdate.getCrankTicks(2)
 
     if crankTicks == 1 then
         self.gridview:selectNextColumn(true)
@@ -118,7 +117,7 @@ function LevelSelectorScene:update()
     end
 
     if self.gridview.needsDisplay then
-        local gridviewImage = gfx.image.new(playdate.display.getWidth(), playdate.display.getHeight())
+        local gridviewImage <const> = gfx.image.new(playdate.display.getWidth(), playdate.display.getHeight())
         gfx.pushContext(gridviewImage)
         self.gridview:drawInRect(0, 0, playdate.display.getWidth(), playdate.display.getHeight())
         gfx.popContext()
@@ -126,10 +125,10 @@ function LevelSelectorScene:update()
     end
 
     if playdate.buttonJustPressed(playdate.kButtonA) then
-        local section, row, column = self.gridview:getSelection()
-        local levelIndex = tonumber((row - 1) * 10) + tonumber(column)
+        local section <const>, row <const>, column <const> = self.gridview:getSelection()
+        local levelIndex <const> = tonumber((row - 1) * 10) + tonumber(column)
 
-        local levelName = levelsOrder[levelIndex]
+        local levelName <const> = levelsOrder[levelIndex]
         loadLevel(levelName)
     end
 

@@ -16,13 +16,13 @@ function AnimationManager:update()
 end
 
 function AnimationManager:addAnimation(name, frames, frameDuration, loop)
-    local animation = Animation(self.sprite, self.image, frames, frameDuration, loop)
+    local animation <const> = Animation(self.sprite, self.image, frames, frameDuration, loop)
 
     self.animations[name] = animation
 end
 
 function AnimationManager:play(name, force)
-    local nextAnimation = self.animations[name]
+    local nextAnimation <const> = self.animations[name]
 
     if nextAnimation ~= self.currentAnimation or force then
         self.currentAnimation = nextAnimation

@@ -21,14 +21,14 @@ import 'scenes/options'
 
 local gfx <const> = playdate.graphics
 
-local fontPaths = {
+local fontPaths <const> = {
     [gfx.font.kVariantNormal] = 'img/fonts/Sasser-Slab',
     [gfx.font.kVariantBold] = 'img/fonts/Sasser-Slab-Bold',
     [gfx.font.kVariantItalic] = 'img/fonts/Sasser-Slab-Italic',
 }
 
-local baseFontFamily = gfx.font.newFamily(fontPaths)
-local outlinedFont = gfx.font.new('img/fonts/Pedallica')
+local baseFontFamily <const> = gfx.font.newFamily(fontPaths)
+local outlinedFont <const> = gfx.font.new('img/fonts/Pedallica')
 
 function setBaseFont()
     gfx.setFont(baseFontFamily[gfx.font.kVariantNormal], gfx.font.kVariantNormal)

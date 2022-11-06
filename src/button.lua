@@ -14,7 +14,7 @@ end
 function ScreenButton:render()
     gfx.setLineWidth(1)
 
-    local width, height = gfx.getTextSize(self.text)
+    local width <const>, height <const> = gfx.getTextSize(self.text)
 
     gfx.drawRoundRect(
         self.x - self.padding,

@@ -1,9 +1,9 @@
 local gfx <const> = playdate.graphics
-local menu = playdate.getSystemMenu()
+local menu <const> = playdate.getSystemMenu()
 
 class('CreditsScene').extends(Scene)
 
-local text = [[
+local text <const> = [[
 *Credits*
 
 Yannick A. "Pif": idea, code, graphics.
@@ -26,6 +26,10 @@ Source code under the AGPLv3+ free license.
 function CreditsScene:init()
     CreditsScene.super.init(self)
 
+    self.menuHome, error = menu:addMenuItem('go home', function()
+        changeScene(HomeScene)
+    end)
+
     gfx.setDrawOffset(0, 0)
 
     self.offset = 0
@@ -34,16 +38,12 @@ function CreditsScene:init()
     self.gridviewSprite:setCenter(0, 0)
     self.gridviewSprite:moveTo(10, 14)
     self.gridviewSprite:add()
-
-    self.menuHome, error = menu:addMenuItem('go home', function()
-        changeScene(HomeScene)
-    end)
 end
 
 function CreditsScene:update()
     gfx.setDrawOffset(0, self.offset)
 
-    local gridviewImage = gfx.image.new(playdate.display.getWidth() - 20, 750)
+    local gridviewImage <const> = gfx.image.new(playdate.display.getWidth() - 20, 750)
     gfx.pushContext(gridviewImage)
     gfx.drawTextInRect(text, 0, 0, playdate.display.getWidth() - 20, 750, 5)
     gfx.popContext()

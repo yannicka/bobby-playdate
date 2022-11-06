@@ -1,22 +1,22 @@
 local gfx <const> = playdate.graphics
-local menu = playdate.getSystemMenu()
+local menu <const> = playdate.getSystemMenu()
 
 class('OptionsScene').extends(Scene)
 
 function OptionsScene:init()
     OptionsScene.super.init(self)
 
-    gfx.setDrawOffset(0, 0)
-
     self.menuHome, error = menu:addMenuItem('go home', function()
         changeScene(HomeScene)
     end)
+
+    gfx.setDrawOffset(0, 0)
 end
 
 function OptionsScene:update()
     gfx.drawText('*Options*', 10, 14)
 
-    local playButton = ScreenButton('Reset progress', 20, 50, 10)
+    local playButton <const> = ScreenButton('Reset progress', 20, 50, 10)
     playButton.selected = true
     playButton:render()
 

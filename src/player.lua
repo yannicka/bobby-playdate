@@ -12,7 +12,7 @@ function Player:init(level)
     self.timer = nil
     self.direction = 'down'
 
-    local playerImage = gfx.imagetable.new('img/player')
+    local playerImage <const> = gfx.imagetable.new('img/player')
 
     self:setZIndex(300)
     self:setCenter(0, 0)
@@ -40,7 +40,7 @@ function Player:init(level)
 
     self.animationManager:play('turn')
 
-    local timer = playdate.timer.new(400, 0, 400, playdate.easingFunctions.linear)
+    local timer <const> = playdate.timer.new(400, 0, 400, playdate.easingFunctions.linear)
     timer.timerEndedCallback = function()
         self.animationManager:play('idle-' .. self.direction, true)
     end
@@ -54,7 +54,7 @@ function Player:move(direction)
     self.animationManager:play('walk-' .. direction, true)
     self.direction = direction
 
-    local cellBefore = self.level:getCellAt(self.position)
+    local cellBefore <const> = self.level:getCellAt(self.position)
 
     if cellBefore ~= nil then
         if not cellBefore:canLeave(direction) then
@@ -88,7 +88,7 @@ function Player:move(direction)
         realNextPosition.y = self.level.height
     end
 
-    local cellAtPosition = self.level:getCellAt(realNextPosition)
+    local cellAtPosition <const> = self.level:getCellAt(realNextPosition)
 
     if cellAtPosition ~= nil then
         if not cellAtPosition:canEnter(direction) then
@@ -137,7 +137,7 @@ function Player:move(direction)
 
     if direction == 'right' then
         self.timer.updateCallback = function(timer)
-            local realPlayerPosition = playdate.geometry.point.new(
+            local realPlayerPosition <const> = playdate.geometry.point.new(
                 (self.position.x * CELL_SIZE) + (timer.value / 150 * CELL_SIZE) + 2,
                 self.position.y * CELL_SIZE - 5
             )
@@ -146,7 +146,7 @@ function Player:move(direction)
         end
     elseif direction == 'left' then
         self.timer.updateCallback = function(timer)
-            local realPlayerPosition = playdate.geometry.point.new(
+            local realPlayerPosition <const> = playdate.geometry.point.new(
                 (self.position.x * CELL_SIZE) - (timer.value / 150 * CELL_SIZE) + 2,
                 self.position.y * CELL_SIZE - 5
             )
@@ -155,7 +155,7 @@ function Player:move(direction)
         end
     elseif direction == 'up' then
         self.timer.updateCallback = function(timer)
-            local realPlayerPosition = playdate.geometry.point.new(
+            local realPlayerPosition <const> = playdate.geometry.point.new(
                 (self.position.x * CELL_SIZE) + 2,
                 self.position.y * CELL_SIZE - (timer.value / 150 * CELL_SIZE) - 5
             )
@@ -164,7 +164,7 @@ function Player:move(direction)
         end
     elseif direction == 'down' then
         self.timer.updateCallback = function(timer)
-            local realPlayerPosition = playdate.geometry.point.new(
+            local realPlayerPosition <const> = playdate.geometry.point.new(
                 (self.position.x * CELL_SIZE) + 2,
                 self.position.y * CELL_SIZE + (timer.value / 150 * CELL_SIZE) - 5
             )
