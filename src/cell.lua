@@ -111,7 +111,7 @@ function Conveyor:init(position, direction)
 end
 
 function Conveyor:onAfterPlayerIn(player)
-    player:move(self.direction)
+    player:move(self.direction, false)
 end
 
 -- Tourniquet
@@ -328,5 +328,5 @@ function Ice:init(position)
 end
 
 function Ice:onAfterPlayerIn(player)
-    player:move(player.direction)
+    player:move(player.direction, false)
 end

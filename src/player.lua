@@ -46,12 +46,17 @@ function Player:init(level)
     end
 end
 
-function Player:move(direction)
+function Player:move(direction, animate)
     if not self.canMove then
         return
     end
 
-    self.animationManager:play('walk-' .. direction, true)
+    if animate then
+        self.animationManager:play('walk-' .. direction, true)
+    else
+        self.animationManager:play('idle-' .. direction, true)
+    end
+
     self.direction = direction
 
     local cellBefore <const> = self.level:getCellAt(self.position)
@@ -120,18 +125,18 @@ function Player:move(direction)
 
         if self.position.x > self.level.width then
             self.position.x = 0
-            self:move('right')
+            self:move('right', true)
         elseif self.position.x < 1 then
             self.position.x = self.level.width + 1
-            self:move('left')
+            self:move('left', true)
         end
 
         if self.position.y > self.level.height then
             self.position.y = 0
-            self:move('down')
+            self:move('down', true)
         elseif self.position.y < 1 then
             self.position.y = self.level.height + 1
-            self:move('up')
+            self:move('up', true)
         end
     end
 

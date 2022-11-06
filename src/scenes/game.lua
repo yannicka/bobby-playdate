@@ -90,19 +90,19 @@ end
 
 function GameScene:update()
     if playdate.buttonIsPressed(playdate.kButtonUp) then
-        player:move('up')
+        player:move('up', true)
     end
 
     if playdate.buttonIsPressed(playdate.kButtonRight) then
-        player:move('right')
+        player:move('right', true)
     end
 
     if playdate.buttonIsPressed(playdate.kButtonDown) then
-        player:move('down')
+        player:move('down', true)
     end
 
     if playdate.buttonIsPressed(playdate.kButtonLeft) then
-        player:move('left')
+        player:move('left', true)
     end
 
     level:update()
