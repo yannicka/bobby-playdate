@@ -10,6 +10,8 @@ Le jeu est accessible sur itch.io :
 
 Voir le fichier [`Justfile`](/Justfile) (voir [Just](https://just.systems/)).
 
+Nécessite le [SDK Playdate](https://play.date/dev/).
+
 ## Licence
 
 ![Licence AGPLv3+](https://img.shields.io/badge/license-AGPLv3%2B-informational)
