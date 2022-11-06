@@ -8,7 +8,6 @@ function ScreenButton:init(text, x, y, padding)
     self.y = y
     self.padding = padding
     self.selected = false
-    self.finished = false
 end
 
 function ScreenButton:render()
