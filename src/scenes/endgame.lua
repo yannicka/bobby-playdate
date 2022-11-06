@@ -9,15 +9,13 @@ function EndGameScene:init()
     self.menuHome, error = menu:addMenuItem('go home', function()
         changeScene(HomeScene)
     end)
-
-    gfx.setDrawOffset(0, 0)
 end
 
 function EndGameScene:update()
+    gfx.setDrawOffset(0, 0)
+
     local text <const> = '/o/ End of the game! Well done! /o/'
-
     local fontHeight <const> = gfx.getSystemFont():getHeight()
-
     local screenWidth <const> = playdate.display.getWidth()
     local screenHeight <const> = playdate.display.getHeight()
 
