@@ -70,7 +70,6 @@ function CreditsScene:update()
     end
 
     gfx.sprite.update()
-    playdate.timer.updateTimers()
 end
 
 function CreditsScene:destroy()

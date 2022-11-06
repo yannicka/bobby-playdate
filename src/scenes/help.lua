@@ -68,7 +68,6 @@ function HelpScene:update()
     end
 
     gfx.sprite.update()
-    playdate.timer.updateTimers()
 end
 
 function HelpScene:destroy()

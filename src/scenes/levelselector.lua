@@ -137,7 +137,6 @@ function LevelSelectorScene:update()
     end
 
     gfx.sprite.update()
-    playdate.timer.updateTimers()
 end
 
 function LevelSelectorScene:destroy()
