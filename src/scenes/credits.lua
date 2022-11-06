@@ -10,12 +10,12 @@ Yannick A. "Pif": idea, code, graphics.
 
 _Acknowledgements_
 
-- Thanks to Aur36 for his help on the levels, his numerous tests and feedbacks and his unlimited enthusiasm.
+- Thanks to Aur36 for his help on the levels, his numerous tests and feedback and his unlimited enthusiasm.
 - Thanks to orakle - Ethan G. for his graphic assistance.
 - Thanks to Alceste__ for his code and global improvements.
-- Thanks to Polyson for his proposal of open-ended levels and his various advices and feedbacks.
+- Thanks to Polyson for his proposal of open-ended levels and his various advices and feedback.
 
-Thanks to the members of the development group of which I am a part for their support in the development of the project, and for their various feedbacks.
+Thanks to the members of the development group of which I am a part for their support in the development of the project, and for their various feedback.
 
 _Source code_
 

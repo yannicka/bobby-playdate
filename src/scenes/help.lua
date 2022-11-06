@@ -7,18 +7,18 @@ local text <const> = [[
 *Instructions*
 
 _Keys_
-Move the character with the directional arrows.
+Move the character with the arrow keys.
 
 _Goal_
-Complete all levels.
 For each level, collect all the coins and then reach the exit.
+Complete all levels.
 
 _Blocks_
-- The rocks block you.
-- The conveyor belts take you in a one direction.
-- The buttons only allow a certain number of passes.
-- The turnstiles block you from certain directions and turn clockwise when you exit.
-- The ice makes you slide to the next void or solid block you encounter.
+- Rocks block you.
+- Conveyor belts let you move in only one direction.
+- Buttons only allow a certain number of passes.
+- Turnstiles block you from certain directions and turn clockwise when you exit.
+- Ice makes you slide to the next grass or solid block you encounter.
 ]]
 
 function HelpScene:init()
@@ -58,8 +58,8 @@ function HelpScene:update()
     if playdate.buttonIsPressed(playdate.kButtonDown) then
         self.offset -= 10
 
-        if self.offset < -290 then
-            self.offset = -290
+        if self.offset < -266 then
+            self.offset = -266
         end
     end
 
