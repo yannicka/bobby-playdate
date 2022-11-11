@@ -2,5 +2,6 @@ name=Bobby
 author=Yannick A.
 description=A puzzle game with few levels.
 bundleID=fr.yannicka.bobby.playdate
-version=1.0.0
+version=1.0.1
+buildNumber=2
 imagePath=img/card.png
