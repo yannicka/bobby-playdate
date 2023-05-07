@@ -16,6 +16,7 @@ build:
 
     # Compilation
     - /opt/playdate/bin/pdc -sdkpath /opt/playdate --strip --skip-unknown src Bobby.pdx
+    - rm -r Bobby.pdx/scenes
   artifacts:
     paths:
       - Bobby.pdx
