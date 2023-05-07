@@ -2,7 +2,7 @@ stages:
   - build
 
 build:
-  image: node:latest
+  image: debian:latest
   stage: build
   script:
     # Installation des dépendances
