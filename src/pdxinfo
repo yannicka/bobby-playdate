@@ -4,4 +4,4 @@ description=A puzzle game with few levels.
 bundleID=fr.yannicka.bobby.playdate
 version=1.0.2
 buildNumber=3
-imagePath=img/card.png
+imagePath=img/
