@@ -1,0 +1,22 @@
+stages:
+  - build
+
+build:
+  image: node:latest
+  stage: build
+  script:
+    # Installation des dépendances
+    - apt update -y && apt install -y zip
+
+    # Installation du SDK Playdate
+    - wget --quiet --output-document=/tmp/PlaydateSDK.tar.gz "https://download-keycdn.panic.com/playdate_sdk/Linux/PlaydateSDK-latest.tar.gz"
+    - tar -zxf /tmp/PlaydateSDK.tar.gz --directory /opt/
+    - mv /opt/PlaydateSDK-* /opt/playdate
+    - /opt/playdate/bin/pdc --version
+
+    # Compilation
+    - /opt/playdate/bin/pdc -sdkpath /opt/playdate --strip --skip-unknown src Bobby.pdx
+    - zip Bobby.pdx.zip -r Bobby.pdx
+  artifacts:
+    paths:
+      - Bobby.pdx.zip
