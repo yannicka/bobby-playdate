@@ -6,7 +6,7 @@ build:
   stage: build
   script:
     # Installation des dépendances
-    - apk add --update-cache gcompat libpng
+    - apk add --update-cache gcompat libpng libstdc++
 
     # Installation du SDK Playdate
     - wget --quiet --output-document=/tmp/PlaydateSDK.tar.gz "https://download-keycdn.panic.com/playdate_sdk/Linux/PlaydateSDK-latest.tar.gz"
