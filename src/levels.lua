@@ -699,4 +699,4 @@ levelsOrder = {
     'Hartley',
 }
 
-nbLevels = table.count(levelsOrder)
+nbLevels = table.getsize(levelsOrder)

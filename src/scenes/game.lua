@@ -9,7 +9,7 @@ local player = nil
 local currentLevelName = nil
 
 function loadLevel(name)
-    levelIndex = table.indexof(levelsOrder, name)
+    levelIndex = table.indexOfElement(levelsOrder, name)
 
     currentLevelName = name
 
@@ -31,7 +31,7 @@ function goToNextLevel()
 
     playdate.datastore.write(finishedLevels, 'finished-levels')
 
-    local currentLevelIndex <const> = table.indexof(levelsOrder, currentLevelName)
+    local currentLevelIndex <const> = table.indexOfElement(levelsOrder, currentLevelName)
     local nextLevelIndex <const> = next(levelsOrder, currentLevelIndex)
 
     if nextLevelIndex then

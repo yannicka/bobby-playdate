@@ -21,6 +21,8 @@ import 'scenes/home'
 import 'scenes/levelselector'
 import 'scenes/options'
 
+CELL_SIZE = 20
+
 local gfx <const> = playdate.graphics
 
 local fontPaths <const> = {

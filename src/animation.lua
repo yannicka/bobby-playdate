@@ -40,7 +40,7 @@ function Animation:init(sprite, image, frames, frameDuration, loop)
     self.frames = frames
     self.frameDuration = frameDuration
     self.loop = (loop == nil and true) or loop
-    self.nbFrames = table.count(frames)
+    self.nbFrames = table.getsize(frames)
     self.timer = 0
     self.currentIndex = 1
     self.finished = false

@@ -22,7 +22,7 @@ local function parseStringLevel(level)
     local finalLines <const> = {}
 
     for _, line in ipairs(lines) do
-        if string.trim(line) ~= '' then
+        if playdate.string.trimWhitespace(line) ~= '' then
             table.insert(finalLines, line)
         end
     end
